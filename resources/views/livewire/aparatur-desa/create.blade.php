@@ -1,9 +1,4 @@
 <form wire:submit.prevent="submit" class="pt-3">
-    <div class="form-group">
-       <x-rating wire:model="rating"/>
-    </div>
-
-    {{$rating}}
 
     <div class="form-group {{ $errors->has('aparaturDesa.nama') ? 'invalid' : '' }}">
         <label class="form-label required" for="nama">{{ trans('cruds.aparaturDesa.fields.nama') }}</label>

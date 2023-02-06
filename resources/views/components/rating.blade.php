@@ -1,5 +1,5 @@
     <div class="rate">
-        <input type="radio" id="star5" name="rate" value="5" {{$attributes->wire('model')}} />
+        <input type="radio" id="star5" name="rate" value="5" {{$attributes->wire('model')}}/>
         <label for="star5" title="text">5 stars</label>
         <input type="radio" id="star4" name="rate" value="4" {{$attributes->wire('model')}}/>
         <label for="star4" title="text">4 stars</label>

@@ -77,9 +77,7 @@
     </div>
     <div class="form-group {{ $errors->has('pelayanan.rating') ? 'invalid' : '' }}">
         <label class="form-label">{{ trans('cruds.pelayanan.fields.rating') }}</label>
-        @foreach($this->listsForFields['rating'] as $key => $value)
-            <label class="radio-label"><input type="radio" name="rating" wire:model="pelayanan.rating" value="{{ $key }}">{{ $value }}</label>
-        @endforeach
+        <x-rating wire:model="pelayanan.rating"/>
         <div class="validation-message">
             {{ $errors->first('pelayanan.rating') }}
         </div>
@@ -87,6 +85,7 @@
             {{ trans('cruds.pelayanan.fields.rating_helper') }}
         </div>
     </div>
+    <br>
     <div class="form-group {{ $errors->has('pelayanan.penilaian_pemohon') ? 'invalid' : '' }}">
         <label class="form-label" for="penilaian_pemohon">{{ trans('cruds.pelayanan.fields.penilaian_pemohon') }}</label>
         <textarea class="form-control" name="penilaian_pemohon" id="penilaian_pemohon" wire:model.defer="pelayanan.penilaian_pemohon" rows="4"></textarea>
