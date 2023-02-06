@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('aparatur-desa.create')
+            @livewire('admin.aparatur-desa.create')
         </div>
     </div>
 </div>

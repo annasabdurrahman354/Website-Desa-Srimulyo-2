@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('kota.index')
+        @livewire('admin.kota.index')
 
     </div>
 </div>

@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('produk-hukum.index')
+        @livewire('admin.produk-hukum.index')
 
     </div>
 </div>

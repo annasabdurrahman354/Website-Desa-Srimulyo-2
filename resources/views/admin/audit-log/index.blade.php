@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('audit-log.index')
+        @livewire('admin.audit-log.index')
 
     </div>
 </div>

@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('kotak-saran.create')
+            @livewire('admin.kotak-saran.create')
         </div>
     </div>
 </div>

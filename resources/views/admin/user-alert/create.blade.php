@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('user-alert.create')
+            @livewire('admin.user-alert.create')
         </div>
     </div>
 </div>

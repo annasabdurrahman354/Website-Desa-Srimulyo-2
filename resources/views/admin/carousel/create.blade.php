@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('carousel.create')
+            @livewire('admin.carousel.create')
         </div>
     </div>
 </div>

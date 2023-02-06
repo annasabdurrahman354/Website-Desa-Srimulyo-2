@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('carousel.index')
+        @livewire('admin.carousel.index')
 
     </div>
 </div>

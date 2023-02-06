@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('kategori-produk.index')
+        @livewire('admin.kategori-produk.index')
 
     </div>
 </div>

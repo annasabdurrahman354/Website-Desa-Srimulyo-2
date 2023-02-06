@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('role.index')
+        @livewire('admin.role.index')
 
     </div>
 </div>

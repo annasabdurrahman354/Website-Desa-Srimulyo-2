@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('dokumen-umum.index')
+        @livewire('admin.dokumen-umum.index')
 
     </div>
 </div>

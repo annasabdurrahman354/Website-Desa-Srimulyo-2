@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('dokumen-umum.create')
+            @livewire('admin.dokumen-umum.create')
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('user-alert.edit', [$userAlert])
+            @livewire('admin.user-alert.edit', [$userAlert])
         </div>
     </div>
 </div>

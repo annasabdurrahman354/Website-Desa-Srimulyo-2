@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('kategori-umkm.edit', [$kategoriUmkm])
+            @livewire('admin.kategori-umkm.edit', [$kategoriUmkm])
         </div>
     </div>
 </div>

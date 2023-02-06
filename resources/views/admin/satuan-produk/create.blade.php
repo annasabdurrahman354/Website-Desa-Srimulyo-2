@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('satuan-produk.create')
+            @livewire('admin.satuan-produk.create')
         </div>
     </div>
 </div>

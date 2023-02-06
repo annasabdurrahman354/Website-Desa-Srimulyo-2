@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('kota.create')
+            @livewire('admin.kota.create')
         </div>
     </div>
 </div>

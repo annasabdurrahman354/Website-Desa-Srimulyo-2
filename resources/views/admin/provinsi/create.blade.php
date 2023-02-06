@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('provinsi.create')
+            @livewire('admin.provinsi.create')
         </div>
     </div>
 </div>

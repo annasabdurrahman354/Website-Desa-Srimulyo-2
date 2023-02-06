@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('berkas-pelayanan.create')
+            @livewire('admin.berkas-pelayanan.create')
         </div>
     </div>
 </div>

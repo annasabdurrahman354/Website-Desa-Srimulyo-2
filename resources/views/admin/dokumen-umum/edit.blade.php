@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('dokumen-umum.edit', [$dokumenUmum])
+            @livewire('admin.dokumen-umum.edit', [$dokumenUmum])
         </div>
     </div>
 </div>

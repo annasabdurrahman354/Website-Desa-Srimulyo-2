@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('kota.edit', [$kota])
+            @livewire('admin.kota.edit', [$kota])
         </div>
     </div>
 </div>

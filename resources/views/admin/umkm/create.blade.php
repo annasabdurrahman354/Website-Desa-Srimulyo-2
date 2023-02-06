@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('umkm.create')
+            @livewire('admin.umkm.create')
         </div>
     </div>
 </div>

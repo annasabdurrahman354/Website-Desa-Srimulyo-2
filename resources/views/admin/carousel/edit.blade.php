@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('carousel.edit', [$carousel])
+            @livewire('admin.carousel.edit', [$carousel])
         </div>
     </div>
 </div>

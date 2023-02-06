@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('role.edit', [$role])
+            @livewire('admin.role.edit', [$role])
         </div>
     </div>
 </div>

@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('permission.index')
+        @livewire('admin.permission.index')
 
     </div>
 </div>

@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('aparatur-desa.index')
+        @livewire('admin.aparatur-desa.index')
 
     </div>
 </div>

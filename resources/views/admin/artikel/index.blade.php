@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('artikel.index')
+        @livewire('admin.artikel.index')
 
     </div>
 </div>

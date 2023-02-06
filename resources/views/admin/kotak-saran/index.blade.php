@@ -16,7 +16,7 @@
                 @endcan
             </div>
         </div>
-        @livewire('kotak-saran.index')
+        @livewire('admin.kotak-saran.index')
 
     </div>
 </div>

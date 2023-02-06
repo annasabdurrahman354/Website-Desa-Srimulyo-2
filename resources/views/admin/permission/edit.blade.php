@@ -14,7 +14,7 @@
         </div>
 
         <div class="card-body">
-            @livewire('permission.edit', [$permission])
+            @livewire('admin.permission.edit', [$permission])
         </div>
     </div>
 </div>
