@@ -113,18 +113,10 @@ class Edit extends Component
     
     public function generateSlug($judul)
     {
-        if (ProdukHukum::where('slug', $slug = Str::slug($judul))->exists()) {
-            $max = ProdukHukum::where('judul', $judul)->latest('id')->value('slug');
-            $parts = explode("-", $max);
-            $last = end($parts);
-            $number = intval($last) + 1;
-            if($number == 1){
-                $number = $number+1;
-            }
-            $parts[count($parts) - 1] = strval($number);
-            $new_slug = implode("-", $parts);
-            return $new_slug; 
-        }
+        $baseSlug = Str::slug($judul);
+        // Check if the base slug exists in the database
+        $counter = 0;
+        while (ProdukHukum::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
         return $slug;
     }
 

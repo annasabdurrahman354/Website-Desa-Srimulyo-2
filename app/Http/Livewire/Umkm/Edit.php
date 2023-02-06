@@ -142,18 +142,10 @@ class Edit extends Component
     
     public function generateSlug($nama)
     {
-        if (Umkm::where('slug', $slug = Str::slug($nama))->exists()) {
-            $max = Umkm::where('nama', $nama)->latest('id')->value('slug');
-            $parts = explode("-", $max);
-            $last = end($parts);
-            $number = intval($last) + 1;
-            if($number == 1){
-                $number = $number+1;
-            }
-            $parts[count($parts) - 1] = strval($number);
-            $new_slug = implode("-", $parts);
-            return $new_slug; 
-        }
+        $baseSlug = Str::slug($nama);
+        // Check if the base slug exists in the database
+        $counter = 0;
+        while (Umkm::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
         return $slug;
     }
 
