@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\UmkmController;
 use App\Http\Controllers\Admin\UserAlertController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\UserProfileController;
+use App\Http\Controllers\User\TesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -130,4 +131,8 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
     if (file_exists(app_path('Http/Controllers/Auth/UserProfileController.php'))) {
         Route::get('/', [UserProfileController::class, 'show'])->name('show');
     }
+});
+
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
+    Route::get('/', [TesController::class, 'index'])->name('home');
 });
