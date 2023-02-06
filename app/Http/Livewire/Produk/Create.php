@@ -8,6 +8,7 @@ use App\Models\SatuanProduk;
 use App\Models\Umkm;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Create extends Component
 {
@@ -122,5 +123,30 @@ class Create extends Component
         $this->listsForFields['umkm']     = Umkm::pluck('nama_umkm', 'id')->toArray();
         $this->listsForFields['satuan']   = SatuanProduk::pluck('satuan', 'id')->toArray();
         $this->listsForFields['kategori'] = KategoriProduk::pluck('kategori', 'id')->toArray();
+    }
+
+    public function generateSlug($nama)
+    {
+        if (Produk::where('slug', $slug = Str::slug($nama))->exists()) {
+            $max = Produk::where('nama', $nama)->latest('id')->value('slug');
+            $parts = explode("-", $max);
+            $last = end($parts);
+            $number = intval($last) + 1;
+            if($number == 1){
+                $number = $number+1;
+            }
+            $parts[count($parts) - 1] = strval($number);
+            $new_slug = implode("-", $parts);
+            return $new_slug; 
+        }
+        return $slug;
+    }
+
+    public $nama;
+
+    public function updatedNama($value)
+    {
+        $this->produk->nama = $value;
+        $this->produk->slug = $this->generateSlug($value);
     }
 }

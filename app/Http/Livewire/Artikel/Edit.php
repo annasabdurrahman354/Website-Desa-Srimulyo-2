@@ -7,6 +7,7 @@ use App\Models\KategoriArtikel;
 use App\Models\User;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Edit extends Component
 {
@@ -128,5 +129,31 @@ class Edit extends Component
     {
         $this->listsForFields['penulis']  = User::pluck('name', 'id')->toArray();
         $this->listsForFields['kategori'] = KategoriArtikel::pluck('kategori', 'id')->toArray();
+    }
+
+    
+    public function generateSlug($judul)
+    {
+        if (Artikel::where('slug', $slug = Str::slug($judul))->exists()) {
+            $max = Artikel::where('judul', $judul)->latest('id')->value('slug');
+            $parts = explode("-", $max);
+            $last = end($parts);
+            $number = intval($last) + 1;
+            if($number == 1){
+                $number = $number+1;
+            }
+            $parts[count($parts) - 1] = strval($number);
+            $new_slug = implode("-", $parts);
+            return $new_slug; 
+        }
+        return $slug;
+    }
+
+    public $judul;
+
+    public function updatedJudul($value)
+    {
+        $this->artikel->judul = $value;
+        $this->artikel->slug = $this->generateSlug($value);
     }
 }

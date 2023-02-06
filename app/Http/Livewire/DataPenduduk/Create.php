@@ -5,6 +5,7 @@ namespace App\Http\Livewire\DataPenduduk;
 use App\Models\DataPenduduk;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Create extends Component
 {
@@ -101,5 +102,30 @@ class Create extends Component
                 'boolean',
             ],
         ];
+    }
+    
+    public function generateSlug($judul)
+    {
+        if (DataPenduduk::where('slug', $slug = Str::slug($judul))->exists()) {
+            $max = DataPenduduk::where('judul', $judul)->latest('id')->value('slug');
+            $parts = explode("-", $max);
+            $last = end($parts);
+            $number = intval($last) + 1;
+            if($number == 1){
+                $number = $number+1;
+            }
+            $parts[count($parts) - 1] = strval($number);
+            $new_slug = implode("-", $parts);
+            return $new_slug; 
+        }
+        return $slug;
+    }
+
+    public $judul;
+
+    public function updatedJudul($value)
+    {
+        $this->dataPenduduk->judul = $value;
+        $this->dataPenduduk->slug = $this->generateSlug($value);
     }
 }

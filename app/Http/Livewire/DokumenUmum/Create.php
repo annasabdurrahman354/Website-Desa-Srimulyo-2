@@ -5,6 +5,7 @@ namespace App\Http\Livewire\DokumenUmum;
 use App\Models\DokumenUmum;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Create extends Component
 {
@@ -93,5 +94,30 @@ class Create extends Component
                 'boolean',
             ],
         ];
+    }
+     
+    public function generateSlug($judul)
+    {
+        if (DokumenUmum::where('slug', $slug = Str::slug($judul))->exists()) {
+            $max = DokumenUmum::where('judul', $judul)->latest('id')->value('slug');
+            $parts = explode("-", $max);
+            $last = end($parts);
+            $number = intval($last) + 1;
+            if($number == 1){
+                $number = $number+1;
+            }
+            $parts[count($parts) - 1] = strval($number);
+            $new_slug = implode("-", $parts);
+            return $new_slug; 
+        }
+        return $slug;
+    }
+
+    public $judul;
+
+    public function updatedJudul($value)
+    {
+        $this->dokumenUmum->judul = $value;
+        $this->dokumenUmum->slug = $this->generateSlug($value);
     }
 }

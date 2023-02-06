@@ -5,6 +5,7 @@ namespace App\Http\Livewire\ProdukHukum;
 use App\Models\ProdukHukum;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Create extends Component
 {
@@ -101,5 +102,30 @@ class Create extends Component
     protected function initListsForFields(): void
     {
         $this->listsForFields['jenis'] = $this->produkHukum::JENIS_SELECT;
+    }
+
+    public function generateSlug($judul)
+    {
+        if (ProdukHukum::where('slug', $slug = Str::slug($judul))->exists()) {
+            $max = ProdukHukum::where('judul', $judul)->latest('id')->value('slug');
+            $parts = explode("-", $max);
+            $last = end($parts);
+            $number = intval($last) + 1;
+            if($number == 1){
+                $number = $number+1;
+            }
+            $parts[count($parts) - 1] = strval($number);
+            $new_slug = implode("-", $parts);
+            return $new_slug; 
+        }
+        return $slug;
+    }
+
+    public $judul;
+
+    public function updatedJudul($value)
+    {
+        $this->produkHukum->judul = $value;
+        $this->produkHukum->slug = $this->generateSlug($value);
     }
 }

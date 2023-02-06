@@ -2,7 +2,7 @@
 
     <div class="form-group {{ $errors->has('dokumenUmum.judul') ? 'invalid' : '' }}">
         <label class="form-label required" for="judul">{{ trans('cruds.dokumenUmum.fields.judul') }}</label>
-        <input class="form-control" type="text" name="judul" id="judul" required wire:model.defer="dokumenUmum.judul">
+        <input class="form-control" type="text" name="judul" id="judul" required wire:model="judul">
         <div class="validation-message">
             {{ $errors->first('dokumenUmum.judul') }}
         </div>
@@ -12,7 +12,7 @@
     </div>
     <div class="form-group {{ $errors->has('dokumenUmum.slug') ? 'invalid' : '' }}">
         <label class="form-label required" for="slug">{{ trans('cruds.dokumenUmum.fields.slug') }}</label>
-        <input class="form-control" type="text" name="slug" id="slug" required wire:model.defer="dokumenUmum.slug">
+        <input class="form-control" type="text" name="slug" id="slug" required wire:model="dokumenUmum.slug" disabled>
         <div class="validation-message">
             {{ $errors->first('dokumenUmum.slug') }}
         </div>
