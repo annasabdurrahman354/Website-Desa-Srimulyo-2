@@ -108,9 +108,12 @@ class Create extends Component
     {
         $baseSlug = Str::slug($judul);
         // Check if the base slug exists in the database
-        $counter = 0;
-        while (ProdukHukum::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
-        return $slug;
+        if(ProdukHukum::where('judul', $judul)->exists()){
+            $counter = 1;
+            while (ProdukHukum::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
+            return $slug;
+        }
+        return $baseSlug;
     }
 
     public $judul;

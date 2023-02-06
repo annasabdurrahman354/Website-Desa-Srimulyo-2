@@ -107,9 +107,12 @@ class Edit extends Component
     {
         $baseSlug = Str::slug($judul);
         // Check if the base slug exists in the database
-        $counter = 0;
-        while (DokumenUmum::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
-        return $slug;
+        if(DokumenUmum::where('judul', $judul)->exists()){
+            $counter = 1;
+            while (DokumenUmum::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
+            return $slug;
+        }
+        return $baseSlug;
     }
 
     public $judul;
