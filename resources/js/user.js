@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap')
+import 'flowbite';
 
 /* Sidebar - Side navigation menu on mobile/responsive mode */
 window.toggleNavbar = function (collapseID) {

@@ -28,5 +28,8 @@
         "resolve-url-loader": "^3.1.2",
         "select2": "^4.0.13",
         "tailwindcss": "^3.2.4"
+    },
+    "dependencies": {
+        "flowbite": "^1.6.3"
     }
 }

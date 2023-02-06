@@ -3,7 +3,13 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  content: ['./resources/views/**/*.blade.php', './safelist.txt'],
+  content: ['./resources/views/**/*.blade.php', 
+            './safelist.txt',
+            "./resources/**/*.blade.php",
+            "./resources/**/*.js",
+            "./resources/**/*.vue",
+            "./node_modules/flowbite/**/*.js"
+          ],
   theme: {
     extend: {
       colors: {
@@ -83,6 +89,7 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
+    require('flowbite/plugin'),
     plugin(function ({ addComponents, theme }) {
       const screens = theme("screens", {});
       addComponents([

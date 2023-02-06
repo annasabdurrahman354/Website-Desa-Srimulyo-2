@@ -12,6 +12,10 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/admin.js', 'public/js/admin.js')
+    .js('resources/js/user.js', 'public/js/user.js')
     .postCss('resources/css/admin.css', 'public/css/admin.css', [
+        require("tailwindcss")
+    ])
+    .postCss('resources/css/user.css', 'public/css/user.css', [
         require("tailwindcss")
     ]);
