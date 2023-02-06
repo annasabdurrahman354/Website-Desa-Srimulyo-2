@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\UserAlertController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\UserProfileController;
 use App\Http\Controllers\User\TesController;
+use App\Http\Livewire\User\Pelayanan\PelayananIndex;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,7 @@ Route::redirect('/', '/login');
 
 Auth::routes(['register' => false]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Permissions
@@ -135,4 +136,5 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
     Route::get('/', [TesController::class, 'index'])->name('home');
+    Route::get('/pelayanan', PelayananIndex::class)->name('pelayanan');
 });

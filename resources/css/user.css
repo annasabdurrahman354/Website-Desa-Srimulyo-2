@@ -7,3 +7,12 @@
 @import "select.css";
 @import "~dropzone/dist/dropzone.css";
 @import "~flatpickr/dist/flatpickr.min.css";
+
+
+.sidebar {
+    @apply flex items-center p-2 text-base font-normal text-gray-500 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 
+}
+
+.sidebar-active {
+    @apply flex items-center p-2 text-base font-normal text-white rounded-lg dark:text-white dark:hover:bg-gray-700 bg-blue-500
+}

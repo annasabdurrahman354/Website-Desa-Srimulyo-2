@@ -69,6 +69,13 @@ class Pelayanan extends Model implements HasMedia
         'penilaian_pemohon',
     ];
 
+    public $filterable_user = [
+        'jenis_layanan.nama',
+        'kode',
+        'catatan_pemohon',
+        'catatan_reviewer',
+    ];
+
     protected $appends = [
         'berkas_pelayanan',
     ];

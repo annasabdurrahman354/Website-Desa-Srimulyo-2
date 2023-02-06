@@ -140,7 +140,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="10">No entries found.</td>
+                            <td colspan="10">Tidak ada data ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>
