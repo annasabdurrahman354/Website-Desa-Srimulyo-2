@@ -45,7 +45,7 @@ class StoreUmkmRequest extends FormRequest
             ],
             'nomor_telepon' => [
                 'string',
-                'required',
+                'numeric',
             ],
             'alamat' => [
                 'string',

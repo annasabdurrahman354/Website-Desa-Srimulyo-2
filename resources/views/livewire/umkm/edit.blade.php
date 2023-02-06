@@ -51,8 +51,8 @@
         </div>
     </div>
     <div class="form-group {{ $errors->has('umkm.nomor_telepon') ? 'invalid' : '' }}">
-        <label class="form-label required" for="nomor_telepon">{{ trans('cruds.umkm.fields.nomor_telepon') }}</label>
-        <input class="form-control" type="text" name="nomor_telepon" id="nomor_telepon" required wire:model.defer="umkm.nomor_telepon">
+        <label class="form-label" for="nomor_telepon">{{ trans('cruds.umkm.fields.nomor_telepon') }}</label>
+        <input class="form-control" type="text" name="nomor_telepon" id="nomor_telepon" wire:model.defer="umkm.nomor_telepon">
         <div class="validation-message">
             {{ $errors->first('umkm.nomor_telepon') }}
         </div>

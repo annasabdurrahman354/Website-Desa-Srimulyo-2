@@ -13,7 +13,7 @@ class CreateUmkmsTable extends Migration
             $table->string('nama_umkm');
             $table->string('slug')->unique();
             $table->longText('deskripsi');
-            $table->string('nomor_telepon');
+            $table->string('nomor_telepon')->nullable();
             $table->string('alamat');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();

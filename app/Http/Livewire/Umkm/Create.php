@@ -84,7 +84,6 @@ class Create extends Component
             ],
             'mediaCollections.umkm_carousel' => [
                 'array',
-                'required',
             ],
             'mediaCollections.umkm_carousel.*.id' => [
                 'integer',
@@ -96,7 +95,7 @@ class Create extends Component
             ],
             'umkm.nomor_telepon' => [
                 'string',
-                'required',
+                'numeric',
             ],
             'umkm.alamat' => [
                 'string',
