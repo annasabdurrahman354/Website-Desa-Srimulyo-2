@@ -108,6 +108,11 @@ class Pelayanan extends Model implements HasMedia
         return $this->belongsTo(JenisLayanan::class);
     }
 
+    public function berkasPelayanan()
+    {
+        return $this->hasMany(BerkasPelayanan::class);
+    }
+    
     public function getStatusLabelAttribute($value)
     {
         return static::STATUS_SELECT[$this->status] ?? null;

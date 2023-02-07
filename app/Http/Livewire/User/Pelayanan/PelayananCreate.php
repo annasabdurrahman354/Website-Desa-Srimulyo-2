@@ -2,35 +2,21 @@
 
 namespace App\Http\Livewire\User\Pelayanan;
 
+use App\Models\BerkasPelayanan;
 use App\Models\JenisLayanan;
 use App\Models\Pelayanan;
-use App\Models\User;
 use Livewire\Component;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+use function PHPUnit\Framework\isEmpty;
 
 class PelayananCreate extends Component
 {
     public Pelayanan $pelayanan;
-
-    public array $mediaToRemove = [];
+    public $jenis;
+    public array $semuaBerkas = [];
+    public array $semuaError = [];
 
     public array $listsForFields = [];
-
-    public array $mediaCollections = [];
-
-    public function addMedia($media): void
-    {
-        $this->mediaCollections[$media['collection_name']][] = $media;
-    }
-
-    public function removeMedia($media): void
-    {
-        $collection = collect($this->mediaCollections[$media['collection_name']]);
-
-        $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
-
-        $this->mediaToRemove[] = $media['uuid'];
-    }
 
     public function mount(Pelayanan $pelayanan)
     {
@@ -46,49 +32,36 @@ class PelayananCreate extends Component
 
     public function submit()
     {
-        $this->validate();
-        $this->pelayanan->pemohon_id = auth()->user()->id;
-        $this->pelayanan->status = "Terkirim";
-        $this->pelayanan->save();
-        $this->syncMedia();
-
-        return redirect()->route('user.pelayanan.index');
-    }
-
-    protected function syncMedia(): void
-    {
-        collect($this->mediaCollections)->flatten(1)
-            ->each(fn ($item) => Media::where('uuid', $item['uuid'])
-            ->update(['model_id' => $this->pelayanan->id]));
-
-        Media::whereIn('uuid', $this->mediaToRemove)->delete();
-    }
-
-    protected function rules(): array
-    {
-        return [
-            'pelayanan.jenis_layanan_id' => [
-                'integer',
-                'exists:jenis_layanans,id',
-                'required',
-            ],
-            'pelayanan.kode' => [
-                'string',
-                'required',
-                'unique:pelayanans,kode',
-            ],
-            'pelayanan.catatan_pemohon' => [
-                'string',
-                'nullable',
-            ],
-        ];
+        if(isEmpty($this->semuaError)){
+            $this->validate([
+                'files.*' => 'image|max:1024',
+                'pelayanan.jenis_layanan_id' => 'integer|exists:jenis_layanans,id|required',
+                'pelayanan.kode' => 'string|required|unique:pelayanans,kode',
+                'pelayanan.catatan_pemohon' => 'string|nullable'
+            ]);
+            $this->pelayanan->pemohon_id = auth()->user()->id;
+            $this->pelayanan->status = "Terkirim";
+            $this->pelayanan->save();
+    
+            return redirect()->route('user.pelayanan.index');
+        }
     }
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['pemohon']       = User::pluck('name', 'id')->toArray();
         $this->listsForFields['jenis_layanan'] = JenisLayanan::pluck('nama', 'id')->toArray();
-        $this->listsForFields['status']        = $this->pelayanan::STATUS_SELECT;
-        $this->listsForFields['rating']        = $this->pelayanan::RATING_RADIO;
+    }
+    
+    public function updatedJenis($value)
+    {
+        $this->pelayanan->jenis_layanan_id = $value;
+        $this->semuaBerkas = array();
+        $this->semuaError = array();
+        foreach ($this->pelayanan->jenisLayanan->syaratLayanan as $syarat) {
+            $berkas_pelayanan = new BerkasPelayanan();
+            $berkas_pelayanan->pelayanan_id = $this->pelayanan->id;
+            $berkas_pelayanan->syarat_layanan_id = $syarat->id;
+            array_push($this->semuaBerkas, $berkas_pelayanan);
+        }
     }
 }

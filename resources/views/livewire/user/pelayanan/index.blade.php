@@ -1,4 +1,4 @@
-<div>
+<div class="relative">
     <div class="card-controls sm:flex sm:justify-between">
         <div class="flex items-center grow ">   
             <label for="simple-search" class="sr-only">Cari</label>
