@@ -73,6 +73,11 @@ class SyaratLayanan extends Model implements HasMedia
         });
     }
 
+    public function jenisLayanan()
+    {
+        return $this->belongsToMany(JenisLayanan::class);
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

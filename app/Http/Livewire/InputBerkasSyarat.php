@@ -40,7 +40,6 @@ class InputBerkasSyarat extends Component
 
         $this->validateOnly('berkas', [
                 'berkas.teks_syarat' => 'string|required',
-                'file' => 'nullable',
         ]);
         $this->berkas = $berkas;
     }

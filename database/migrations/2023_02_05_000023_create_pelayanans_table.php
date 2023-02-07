@@ -10,7 +10,7 @@ class CreatePelayanansTable extends Migration
     {
         Schema::create('pelayanans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode')->unique();
+            $table->string('kode');
             $table->string('catatan_pemohon')->nullable();
             $table->string('catatan_reviewer')->nullable();
             $table->string('status');

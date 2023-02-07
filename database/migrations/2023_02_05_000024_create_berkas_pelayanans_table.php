@@ -12,7 +12,7 @@ class CreateBerkasPelayanansTable extends Migration
             $table->bigIncrements('id');
             $table->string('teks_syarat')->nullable();
             $table->string('status');
-            $table->string('catatan_reviewer');
+            $table->string('catatan_reviewer')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

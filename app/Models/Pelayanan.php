@@ -138,19 +138,9 @@ class Pelayanan extends Model implements HasMedia
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
 
-    public function setCreatedAtAttribute($value)
-    {
-        $this->attributes['created_at'] = $value ? Carbon::createFromFormat(config('project.datetime_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
-
     public function getUpdatedAtAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
-    }
-
-    public function setUpdatedAtAttribute($value)
-    {
-        $this->attributes['updated_at'] = $value ? Carbon::createFromFormat(config('project.datetime_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
     public function getDeletedAtAttribute($value)
@@ -158,13 +148,24 @@ class Pelayanan extends Model implements HasMedia
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
 
-    public function setDeletedAtAttribute($value)
-    {
-        $this->attributes['deleted_at'] = $value ? Carbon::createFromFormat(config('project.datetime_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
-
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    function generateCode() {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = 'PM-';
+    
+        for ($i = 0; $i < 3; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $randomString .= '-';
+    
+        for ($i = 0; $i < 3; $i++) {
+            $randomString .= rand(0, 9);
+        }
+    
+        $this->kode = $randomString;
+    }    
 }
