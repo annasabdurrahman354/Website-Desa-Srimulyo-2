@@ -33,6 +33,7 @@ class Pelayanan extends Model implements HasMedia
         'Verifikasi' => 'Verifikasi',
         'Revisi'     => 'Revisi',
         'Selesai'    => 'Selesai',
+        'Dibatalkan'    => 'Dibatalkan',
     ];
 
     public $table = 'pelayanans';

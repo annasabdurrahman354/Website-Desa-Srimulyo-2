@@ -20,8 +20,8 @@
 
     <div id="app">
         <x-user-sidebar />
-        <div class="pt-4 sm:ml-56">
-            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 mx-4">
+        <div class="pt-6 md:pt-4 sm:ml-56 bg-gray-50 h-screen">
+            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 mx-4 bg-white">
                 @yield('content')
             </div>
         </div>

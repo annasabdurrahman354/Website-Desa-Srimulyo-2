@@ -8,7 +8,7 @@ use App\Models\User;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class UserCreate extends Component
+class PelayananCreate extends Component
 {
     public Pelayanan $pelayanan;
 
@@ -41,13 +41,14 @@ class UserCreate extends Component
 
     public function render()
     {
-        return view('livewire.admin.pelayanan.create')->extends('layouts.user');
+        return view('livewire.user.pelayanan.create')->extends('layouts.user');
     }
 
     public function submit()
     {
         $this->validate();
-
+        $this->pelayanan->pemohon_id = auth()->user()->id;
+        $this->pelayanan->status = "Terkirim";
         $this->pelayanan->save();
         $this->syncMedia();
 
@@ -66,11 +67,6 @@ class UserCreate extends Component
     protected function rules(): array
     {
         return [
-            'pelayanan.pemohon_id' => [
-                'integer',
-                'exists:users,id',
-                'required',
-            ],
             'pelayanan.jenis_layanan_id' => [
                 'integer',
                 'exists:jenis_layanans,id',
@@ -82,30 +78,6 @@ class UserCreate extends Component
                 'unique:pelayanans,kode',
             ],
             'pelayanan.catatan_pemohon' => [
-                'string',
-                'nullable',
-            ],
-            'pelayanan.catatan_reviewer' => [
-                'string',
-                'nullable',
-            ],
-            'pelayanan.status' => [
-                'required',
-                'in:' . implode(',', array_keys($this->listsForFields['status'])),
-            ],
-            'mediaCollections.pelayanan_berkas_pelayanan' => [
-                'array',
-                'nullable',
-            ],
-            'mediaCollections.pelayanan_berkas_pelayanan.*.id' => [
-                'integer',
-                'exists:media,id',
-            ],
-            'pelayanan.rating' => [
-                'nullable',
-                'in:' . implode(',', array_keys($this->listsForFields['rating'])),
-            ],
-            'pelayanan.penilaian_pemohon' => [
                 'string',
                 'nullable',
             ],

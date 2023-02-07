@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-info btn-sm deselect-all-button">{{ trans('global.deselect_all') }}</button>
             </div>
         @endif
-        <select class="select2 form-control" data-placeholder="{{ __('Select your option') }}" {{ $attributes }}>
+        <select class="select2 form-control" data-placeholder="{{ __('Pilih opsi yang tersedia') }}" {{ $attributes }}>
             @if(!isset($attributes['multiple']))
                 <option></option>
             @endif
@@ -38,7 +38,7 @@
             function initSelect () {
                 initButtons()
                 el.select2({
-                    placeholder: '{{ __('Select your option') }}',
+                    placeholder: '{{ __('Pilih opsi yang tersedia') }}',
                     allowClear: !el.attr('required')
                 })
             }
