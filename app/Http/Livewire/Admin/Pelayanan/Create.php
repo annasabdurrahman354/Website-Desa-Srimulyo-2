@@ -93,11 +93,11 @@ class Create extends Component
                 'required',
                 'in:' . implode(',', array_keys($this->listsForFields['status'])),
             ],
-            'mediaCollections.pelayanan_berkas_pelayanan' => [
+            'mediaCollections.pelayanan_berkas_hasil' => [
                 'array',
                 'nullable',
             ],
-            'mediaCollections.pelayanan_berkas_pelayanan.*.id' => [
+            'mediaCollections.pelayanan_berkas_hasil.*.id' => [
                 'integer',
                 'exists:media,id',
             ],

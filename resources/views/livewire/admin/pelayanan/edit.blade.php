@@ -65,14 +65,14 @@
             {{ trans('cruds.pelayanan.fields.status_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('mediaCollections.pelayanan_berkas_pelayanan') ? 'invalid' : '' }}">
-        <label class="form-label" for="berkas_pelayanan">{{ trans('cruds.pelayanan.fields.berkas_pelayanan') }}</label>
-        <x-dropzone id="berkas_pelayanan" name="berkas_pelayanan" action="{{ route('admin.pelayanans.storeMedia') }}" collection-name="pelayanan_berkas_pelayanan" max-file-size="5" />
+    <div class="form-group {{ $errors->has('mediaCollections.pelayanan_berkas_hasil') ? 'invalid' : '' }}">
+        <label class="form-label" for="berkas_hasil">{{ trans('cruds.pelayanan.fields.berkas_hasil') }}</label>
+        <x-dropzone id="berkas_hasil" name="berkas_hasil" action="{{ route('admin.pelayanans.storeMedia') }}" collection-name="pelayanan_berkas_hasil" max-file-size="5" />
         <div class="validation-message">
-            {{ $errors->first('mediaCollections.pelayanan_berkas_pelayanan') }}
+            {{ $errors->first('mediaCollections.pelayanan_berkas_hasil') }}
         </div>
         <div class="help-block">
-            {{ trans('cruds.pelayanan.fields.berkas_pelayanan_helper') }}
+            {{ trans('cruds.pelayanan.fields.berkas_hasil_helper') }}
         </div>
     </div>
     <div class="form-group {{ $errors->has('pelayanan.rating') ? 'invalid' : '' }}">

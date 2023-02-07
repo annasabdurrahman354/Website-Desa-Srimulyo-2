@@ -27,8 +27,8 @@ class PelayananApiController extends Controller
     {
         $pelayanan = Pelayanan::create($request->validated());
 
-        foreach ($request->input('pelayanan_berkas_pelayanan', []) as $file) {
-            $pelayanan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pelayanan_berkas_pelayanan');
+        foreach ($request->input('pelayanan_berkas_hasil', []) as $file) {
+            $pelayanan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pelayanan_berkas_hasil');
         }
 
         return (new PelayananResource($pelayanan))
@@ -47,17 +47,17 @@ class PelayananApiController extends Controller
     {
         $pelayanan->update($request->validated());
 
-        if (count($pelayanan->pelayanan_berkas_pelayanan) > 0) {
-            foreach ($pelayanan->pelayanan_berkas_pelayanan as $media) {
-                if (!in_array($media->file_name, $request->input('pelayanan_berkas_pelayanan', []))) {
+        if (count($pelayanan->pelayanan_berkas_hasil) > 0) {
+            foreach ($pelayanan->pelayanan_berkas_hasil as $media) {
+                if (!in_array($media->file_name, $request->input('pelayanan_berkas_hasil', []))) {
                     $media->delete();
                 }
             }
         }
-        $media = $pelayanan->pelayanan_berkas_pelayanan->pluck('file_name')->toArray();
-        foreach ($request->input('pelayanan_berkas_pelayanan', []) as $file) {
+        $media = $pelayanan->pelayanan_berkas_hasil->pluck('file_name')->toArray();
+        foreach ($request->input('pelayanan_berkas_hasil', []) as $file) {
             if (count($media) === 0 || !in_array($file, $media)) {
-                $pelayanan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pelayanan_berkas_pelayanan');
+                $pelayanan->addMedia(storage_path('tmp/uploads/' . basename($file)))->toMediaCollection('pelayanan_berkas_hasil');
             }
         }
 

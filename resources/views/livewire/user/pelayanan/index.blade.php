@@ -43,7 +43,7 @@
                             @include('components.table.sort', ['field' => 'catatan_reviewer'])
                         </th>
                         <th>
-                            {{ trans('cruds.pelayanan.fields.berkas_pelayanan') }}
+                            {{ trans('cruds.pelayanan.fields.berkas_hasil') }}
                         </th>
                         <th>
                             Tanggal Pengajuan
@@ -83,7 +83,7 @@
                                 {{ $pelayanan->catatan_reviewer }}
                             </td>
                             <td>
-                                @foreach($pelayanan->berkas_pelayanan as $key => $entry)
+                                @foreach($pelayanan->berkas_hasil as $key => $entry)
                                     <a class="link-light-blue" href="{{ $entry['url'] }}">
                                         <i class="far fa-file">
                                         </i>

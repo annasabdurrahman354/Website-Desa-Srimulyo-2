@@ -77,7 +77,7 @@
                             @include('components.table.sort', ['field' => 'status'])
                         </th>
                         <th>
-                            {{ trans('cruds.pelayanan.fields.berkas_pelayanan') }}
+                            {{ trans('cruds.pelayanan.fields.berkas_hasil') }}
                         </th>
                         <th>
                             {{ trans('cruds.pelayanan.fields.rating') }}
@@ -133,7 +133,7 @@
                                 {{ $pelayanan->status_label }}
                             </td>
                             <td>
-                                @foreach($pelayanan->berkas_pelayanan as $key => $entry)
+                                @foreach($pelayanan->berkas_hasil as $key => $entry)
                                     <a class="link-light-blue" href="{{ $entry['url'] }}">
                                         <i class="far fa-file">
                                         </i>

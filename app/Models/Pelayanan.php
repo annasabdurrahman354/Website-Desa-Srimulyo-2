@@ -78,7 +78,7 @@ class Pelayanan extends Model implements HasMedia
     ];
 
     protected $appends = [
-        'berkas_pelayanan',
+        'berkas_hasil',
     ];
 
     protected $dates = [
@@ -113,9 +113,9 @@ class Pelayanan extends Model implements HasMedia
         return static::STATUS_SELECT[$this->status] ?? null;
     }
 
-    public function getBerkasPelayananAttribute()
+    public function getBerkasHasilAttribute()
     {
-        return $this->getMedia('pelayanan_berkas_pelayanan')->map(function ($item) {
+        return $this->getMedia('pelayanan_berkas_hasil')->map(function ($item) {
             $media = $item->toArray();
             $media['url'] = $item->getUrl();
 
