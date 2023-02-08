@@ -9,6 +9,7 @@ use App\Models\SyaratLayanan;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 class PelayananCreate extends Component
 {
@@ -16,12 +17,20 @@ class PelayananCreate extends Component
     
     public Pelayanan $pelayanan;
     public $jenis;
-    public $jumlah = 0;
     public $syarats;
 
     public $inputs = [];
     public array $listsForFields = [];
-    public $semuaError;
+
+    public $validatorPelayanan;
+    public $validatorInputs;
+
+    public $rulesPelayanan = [
+        'pelayanan.jenis_layanan_id' => 'required|integer|exists:jenis_layanans,id',
+        'pelayanan.kode' => 'required|string',
+        'pelayanan.catatan_pemohon' => 'string|nullable'
+    ];
+    public $rulesInputs = [];
 
     public function rules() 
     {
@@ -30,9 +39,9 @@ class PelayananCreate extends Component
         ];
     }
 
-    public function mount(Pelayanan $pelayanan)
+    public function mount()
     {
-        $this->pelayanan         = $pelayanan;
+        $this->pelayanan         = new Pelayanan();
         $this->pelayanan->status = 'Terkirim';
         $this->initListsForFields();
     }
@@ -45,59 +54,40 @@ class PelayananCreate extends Component
     public function submit()
     {
         $this->pelayanan->jenis_layanan_id = $this->jenis;
-        $rules = [];
-        $arr = $this->syarats;
-        foreach ($arr as $index => $a){
-            if ( $a['nama'] === 'Foto') 
-            {
-                $rules[$index] = 'image|mimes:jpg,png|required';
-            } 
-            elseif ($a['nama'] === 'Dokumen') 
-            {
-                $rules[$index] = 'file|required|mimetypes:application/msword,application/pdf,application/vnd.ms-excel';
-            } 
-            elseif ($a['nama'] === 'Teks') 
-            {
-                $rules[$index] = 'string|required';
-            }
-        }
-        $validatorA = Validator::make($this->inputs, $rules);
-        if ($validatorA->fails()) {
-            $this->semuaError = implode('', $validatorA->errors()->all());
+        $this->validatorInputs = Validator::make($this->inputs, $this->rulesInputs);
+        
+        if ($this->validatorInputs->fails()) {
+            
         } 
         else {
-            $rulesB = [
-                'pelayanan.jenis_layanan_id' => 'required|integer|exists:jenis_layanans,id',
-                'pelayanan.kode' => 'required|string',
-                'pelayanan.catatan_pemohon' => 'string|nullable'
-            ];
-            $validatorB = Validator::make($this->pelayanan->toArray(), $rulesB);
-            if ($validatorB->fails()) {
-                $this->semuaError = implode('', $validatorB->errors()->all());
+            $this->validatorPelayanan = Validator::make($this->pelayanan->toArray(), $this->rulesPelayanan);
+            if ($this->validatorPelayanan->fails()) {
+            
             } 
-            $this->pelayanan->generateCode();
-            $this->pelayanan->pemohon_id = auth()->user()->id;
-            $this->pelayanan->status = "Terkirim";
-            $this->pelayanan->save();
-
-            foreach ($this->syarats as $index => $syarat){
-                $berkas_pelayanan = new BerkasPelayanan();
-                $berkas_pelayanan->pelayanan_id = $this->pelayanan->id;
-                $berkas_pelayanan->syarat_layanan_id = $syarat->id;
-                $berkas_pelayanan->status = "Verifikasi";
-                if ($syarat->jenis_berkas == 'Teks') 
-                {
-                    $berkas_pelayanan->teks_syarat = $this->inputs[$index];
-                } 
-                else 
-                {
-                    $berkas_pelayanan->addMedia($this->inputs[$index]->getRealPath())
-                                    ->usingName($this->inputs[$index]->getClientOriginalName())
-                                    ->toMediaCollection("berkas_pelayanan_berkas_syarat");
-                } 
-                $berkas_pelayanan->save();
+            else{
+                $this->pelayanan->generateCode();
+                $this->pelayanan->pemohon_id = auth()->user()->id;
+                $this->pelayanan->status = "Terkirim";
+                foreach ($this->syarats as $index => $syarat){
+                    $berkas_pelayanan = new BerkasPelayanan();
+                    $berkas_pelayanan->pelayanan_id = $this->pelayanan->id;
+                    $berkas_pelayanan->syarat_layanan_id = $syarat->id;
+                    $berkas_pelayanan->status = "Verifikasi";
+                    if ($syarat->jenis_berkas == 'Teks') 
+                    {
+                        $berkas_pelayanan->teks_syarat = $this->inputs[$index];
+                    } 
+                    else 
+                    {
+                        $berkas_pelayanan->addMedia($this->inputs[$index]->getRealPath())
+                                        ->usingName(Str::slug($this->pelayanan->id."-".$berkas_pelayanan->id."-".$syarat->nama, '-'))
+                                        ->toMediaCollection("berkas_pelayanan_berkas_syarat");
+                    } 
+                    $berkas_pelayanan->save();
+                }
+                $this->pelayanan->save();
+                return redirect()->route('user.pelayanan');
             }
-            return redirect()->route('user.pelayanan');
         }
     }
 
@@ -117,6 +107,19 @@ class PelayananCreate extends Component
         foreach ($this->syarats as $i) {
             array_push($this->inputs, "");
         }
-        $this->jumlah = count($this->syarats);
+        foreach ($this->syarats as $index => $syarat){
+            if ( $syarat['jenis_berkas'] === 'Foto') 
+            {
+                $this->rulesInputs[$index] = 'image|mimes:jpg,png|required';
+            } 
+            elseif ($syarat['jenis_berkas'] === 'Dokumen') 
+            {
+                $this->rulesInputs[$index] = 'file|required|mimetypes:application/msword,application/pdf,application/vnd.ms-excel';
+            } 
+            elseif ($syarat['jenis_berkas'] === 'Teks') 
+            {
+                $this->rulesInputs[$index] = 'string|required';
+            }
+        }
     }
 }

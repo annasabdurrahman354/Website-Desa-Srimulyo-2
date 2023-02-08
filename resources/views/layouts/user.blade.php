@@ -14,13 +14,13 @@
     @stack('styles')
 </head>
 
-<body class="text-blueGray-800 antialiased">
+<body class="text-blueGray-800 antialiased h-full">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <div id="app">
         <x-user-sidebar />
-        <div class="pt-6 md:pt-4 sm:ml-56 bg-gray-50 h-screen">
+        <div class="pt-6 md:pt-4 sm:ml-56 bg-gray-50 h-full mb-6">
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 mx-4 bg-white">
                 @yield('content')
             </div>

@@ -12,18 +12,18 @@
         </div>
         <div class="form-group {{ $errors->has('pelayanan.catatan_pemohon') ? 'invalid' : '' }}">
             <label class="form-label" for="catatan_pemohon">Sisipkan Catatan</label>
-            <input type="text" name="catatan_pemohon" id="catatan_pemohon" class="user-input-text" placeholder="Tuliskan catatan Anda untuk petugas" wire:model.defer="pelayanan.catatan_pemohon">
+            <input type="text" name="catatan_pemohon" id="catatan_pemohon" class="user-input-text" placeholder="Tuliskan catatan Anda untuk petugas" wire:model="pelayanan.catatan_pemohon">
             <div class="validation-message">
                 {{ $errors->first('pelayanan.catatan_pemohon') }}
             </div>
             <div class="help-block">
                 {{ trans('cruds.pelayanan.fields.catatan_pemohon_helper') }}
             </div>
+            {{$pelayanan->catatan_pemohon}}
         </div>
         @if ($jenis)
         <div class="form-group {{ $errors->has('pelayanan.berkas_syarat') ? 'invalid' : '' }}">
             <label class="form-label" for="pelayanan.berkas_syarat">Unggah Persyaratan</label>
-            {{ $semuaError }}
             @foreach ( $this->syarats as $index => $syarat)
             <div :key="syarat_{{ $index }}">
                 <h2>
@@ -52,19 +52,20 @@
                         <div class="form-group">
                             @if($syarat['jenis_berkas'] === 'Teks')
                                 <label class="form-label" for="teks_syarat_{{$index}}">{{ trans('cruds.berkasPelayanan.fields.teks_syarat') }}</label>
-                                <input model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="form-control" type="text" name="teks" id="teks">
+                                <input wire:model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="form-control" type="text" name="teks" id="teks">
                                 <div class="help-block">
                                     {{ trans('cruds.berkasPelayanan.fields.teks_syarat_helper') }}
                                 </div>
+                                 {{$this->inputs[$index]}}
                             @elseif($syarat['jenis_berkas'] === 'Dokumen')
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file">Pilih Berkas</label>
-                                <input model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
+                                <input wire:model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
                             @elseif($syarat['jenis_berkas'] === 'Foto')
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file">Pilih Foto</label>
-                                <input model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept="image/png, image/jpeg">
+                                <input wire:model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept="image/png, image/jpeg">
                             @endif
                         <div class="validation-message">
-                            {{ $errors->first($index) }}
+                            {{ $validatorB->errors() ? $validatorB->errors()->first('inputs'.$index): ""}}
                         </div>
                         </div>
                     </div>
@@ -74,12 +75,17 @@
 
         </div>
         @endif
-    
+        
         <div class="form-group">
-            <button type="button" wire:click="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ajukan</button>
-            <a href="{{ route('user.pelayanan') }}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Batal</a>
-            <div wire:loading wire:target="submit"><x-loading/></div>
-        </div>
+            <div wire:loading.inline-flex >
+                <x-loading/> 
+                <p>Loading</p> 
+            </div>
+            <div wire:loading.remove>
+                <button type="button" wire:click="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ajukan</button>
+                <a href="{{ route('user.pelayanan') }}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Batal</a>
+            </div>
+        </div>        
     </div>
     
 </div>
