@@ -22,8 +22,6 @@ class PelayananIndex extends Component
 
     public string $search = '';
 
-    public array $selected = [];
-
     public array $paginationOptions;
 
     protected $queryString = [
@@ -38,11 +36,6 @@ class PelayananIndex extends Component
         ],
     ];
 
-    public function getSelectedCountProperty()
-    {
-        return count($this->selected);
-    }
-
     public function updatingSearch()
     {
         $this->resetPage();
@@ -51,11 +44,6 @@ class PelayananIndex extends Component
     public function updatingPerPage()
     {
         $this->resetPage();
-    }
-
-    public function resetSelected()
-    {
-        $this->selected = [];
     }
 
     public function mount()
@@ -69,24 +57,14 @@ class PelayananIndex extends Component
 
     public function render()
     {
-        $query = Pelayanan::with(['pemohon', 'jenisLayanan'])->where('pemohon_id', auth()->user()->id)->advancedFilter([
+        $query = Pelayanan::with(['pemohon', 'jenisLayanan'])->advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
         ]);
 
-        $pelayanans = $query->paginate($this->perPage);
-
+        $pelayanans = $query->where('pemohon_id', auth()->user()->id)->paginate($this->perPage);
         return view('livewire.user.pelayanan.index', compact('pelayanans', 'query'))->extends('layouts.user');
-    }
-
-    public function deleteSelected()
-    {
-        abort_if(Gate::denies('pelayanan_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        Pelayanan::whereIn('id', $this->selected)->delete();
-
-        $this->resetSelected();
     }
 
     public function delete(Pelayanan $pelayanan)

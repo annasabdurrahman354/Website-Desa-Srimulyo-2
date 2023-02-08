@@ -20,8 +20,6 @@
             <table class="table table-index w-full">
                 <thead>
                     <tr>
-                        <th class="w-9">
-                        </th>
                         <th>
                             {{ trans('cruds.pelayanan.fields.kode') }}
                             @include('components.table.sort', ['field' => 'kode'])
@@ -60,11 +58,8 @@
                 <tbody>
                     @forelse($pelayanans as $pelayanan)
                         <tr>
-                            <td>
-                                <input type="checkbox" value="{{ $pelayanan->id }}" wire:model="selected">
-                            </td>
-                            <td>
-                                {{ $pelayanan->kode }}
+                            <td class="w-fit whitespace-nowrap">
+                                <p>{{ $pelayanan->kode }}</p>
                             </td>
                             <td>
                                 @if($pelayanan->jenisLayanan)
@@ -129,14 +124,6 @@
 
     <div class="card-body">
         <div class="pt-2">
-            @if($this->selectedCount)
-                <p class="text-sm leading-5">
-                    <span class="font-medium">
-                        {{ $this->selectedCount }}
-                    </span>
-                    {{ __('Entries selected') }}
-                </p>
-            @endif
             {{ $pelayanans->links() }}
         </div>
     </div>

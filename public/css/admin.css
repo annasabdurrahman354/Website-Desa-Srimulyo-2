@@ -2618,6 +2618,9 @@ input:checked + .toggle-bg {
 .w-64 {
   width: 16rem;
 }
+.w-80 {
+  width: 20rem;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -2653,6 +2656,9 @@ input:checked + .toggle-bg {
 }
 .grow {
   flex-grow: 1;
+}
+.table-auto {
+  table-layout: auto;
 }
 .-translate-x-full {
   --tw-translate-x: -100%;
