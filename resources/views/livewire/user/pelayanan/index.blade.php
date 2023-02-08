@@ -20,34 +20,27 @@
             <table class="table table-index w-full">
                 <thead>
                     <tr>
-                        <th>
+                        <th style="text-align:center">
                             {{ trans('cruds.pelayanan.fields.kode') }}
                             @include('components.table.sort', ['field' => 'kode'])
                         </th>
-                        <th>
+                        <th style="text-align:center">
                             {{ trans('cruds.pelayanan.fields.jenis_layanan') }}
                             @include('components.table.sort', ['field' => 'jenis_layanan.nama'])
                         </th>
-                        <th>
-                            {{ trans('cruds.jenisLayanan.fields.pelayanan_online') }}
+                        <th style="text-align:center">
+                            Layanan Digital
                             @include('components.table.sort', ['field' => 'jenis_layanan.pelayanan_online'])
                         </th>
-                        <th>
-                            Catatan Anda
-                            @include('components.table.sort', ['field' => 'catatan_pemohon'])
-                        </th>
-                        <th>
+                        <th style="text-align:center">
                             {{ trans('cruds.pelayanan.fields.catatan_reviewer') }}
                             @include('components.table.sort', ['field' => 'catatan_reviewer'])
                         </th>
-                        <th>
-                            {{ trans('cruds.pelayanan.fields.berkas_hasil') }}
-                        </th>
-                        <th>
+                        <th style="text-align:center">
                             Tanggal Pengajuan
                         </th>
-                        <th>
-                            {{ trans('cruds.pelayanan.fields.status') }}
+                        <th style="text-align:center">
+                            Status
                             @include('components.table.sort', ['field' => 'status'])
                         </th>
                         
@@ -58,57 +51,61 @@
                 <tbody>
                     @forelse($pelayanans as $pelayanan)
                         <tr>
-                            <td class="w-fit whitespace-nowrap">
+                            <td class="w-fit whitespace-nowrap text-center justify-center">
                                 <p>{{ $pelayanan->kode }}</p>
                             </td>
-                            <td>
+                            <td class="text-center justify-center">
                                 @if($pelayanan->jenisLayanan)
-                                    <span class="badge badge-relationship">{{ $pelayanan->jenisLayanan->nama ?? '' }}</span>
+                                    <span class="badge-blue">{{ $pelayanan->jenisLayanan->nama ?? '' }}</span>
                                 @endif
                             </td>
-                            <td>
+                            <td class="text-center flex justify-center">
                                 @if($pelayanan->jenisLayanan)
-                                    <input class="disabled:opacity-50 disabled:cursor-not-allowed" type="checkbox" disabled {{ $pelayanan->jenisLayanan->pelayanan_online ? 'checked' : '' }}>
+                                    @if($pelayanan->berkas_hasil->isNotEmpty())
+                                        @foreach($pelayanan->berkas_hasil as $key => $entry)
+                                            <a class="link-light-blue mx-auto " href="{{ $entry['url'] }}">
+                                                <i class="far fa-file">
+                                                </i>
+                                                {{ $entry['file_name'] }}
+                                            </a>
+                                        @endforeach
+                                    @else
+                                        <input class="disabled:opacity-50 disabled:cursor-not-allowed mx-auto block" type="checkbox" disabled {{ $pelayanan->jenisLayanan->pelayanan_online ? 'checked' : '' }}>
+                                    @endif
                                 @endif
                             </td>
-                            <td>
-                                {{ $pelayanan->catatan_pemohon }}
-                            </td>
-                            <td>
+                            <td class="text-center justify-center">
                                 {{ $pelayanan->catatan_reviewer }}
                             </td>
-                            <td>
-                                @foreach($pelayanan->berkas_hasil as $key => $entry)
-                                    <a class="link-light-blue" href="{{ $entry['url'] }}">
-                                        <i class="far fa-file">
-                                        </i>
-                                        {{ $entry['file_name'] }}
-                                    </a>
-                                @endforeach
+                            <td class="text-center justify-center">
+                              {{\Carbon\Carbon::parse($pelayanan->created_at)->format('d-m-Y')}}
                             </td>
-                             <td>
-                                {{ $pelayanan->created_at }}
+                            <td class="text-center justify-center">
+                                @if($pelayanan->status_label == "Terkirim" || $pelayanan->status_label == "Verifikasi")
+                                    <span class="badge-blue">{{ $pelayanan->status_label }}</span>
+                                @endif
+                                @if($pelayanan->status_label == "Revisi")
+                                    <span class="badge-red">{{ $pelayanan->status_label }}</span>
+                                @endif
+                                @if($pelayanan->status_label == "Selesai")
+                                    <span class="badge-green">{{ $pelayanan->status_label->nama }}</span>
+                                @endif
                             </td>
                             <td>
-                                {{ $pelayanan->status_label }}
-                            </td>
-                            <td>
-                                <div class="flex justify-end">
-                                    @can('pelayanan_show')
-                                        <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.pelayanans.show', $pelayanan) }}">
-                                            {{ trans('global.view') }}
-                                        </a>
-                                    @endcan
-                                    @can('pelayanan_edit')
-                                        <a class="btn btn-sm btn-success mr-2" href="{{ route('admin.pelayanans.edit', $pelayanan) }}">
-                                            {{ trans('global.edit') }}
-                                        </a>
-                                    @endcan
-                                    @can('pelayanan_delete')
-                                        <button class="btn btn-sm btn-rose mr-2" type="button" wire:click="confirm('delete', {{ $pelayanan->id }})" wire:loading.attr="disabled">
-                                            {{ trans('global.delete') }}
-                                        </button>
-                                    @endcan
+                                <div class="flex justify-center">
+                                        @if ($pelayanan->isBerkasRevisi())
+                                            <a class="button-red-small my-auto block" href="{{ route('user.pelayanan.show', $pelayanan) }}">
+                                                Revisi
+                                            </a>
+                                        @elseif($pelayanan->isBerkasMenunggu() && !$pelayanan->isPelayananSelesai())
+                                            <a class="button-blue-small my-auto block" href="{{ route('user.pelayanan.show', $pelayanan) }}">
+                                                Lihat
+                                            </a>
+                                        @elseif($pelayanan->isPelayananSelesai())
+                                            <a class="button-green-small my-auto block" href="{{ route('user.pelayanan.show', $pelayanan) }}">
+                                                Lihat
+                                            </a>
+                                        @endif
                                 </div>
                             </td>
                         </tr>

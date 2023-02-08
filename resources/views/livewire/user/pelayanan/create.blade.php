@@ -10,6 +10,16 @@
                 {{ trans('cruds.pelayanan.fields.jenis_layanan_helper') }}
             </div>
         </div>
+        @if ($jenis)
+        <div class="form-group">
+            <label class="form-label" for="catatan_pemohon">Deskripsi Layanan</label>
+            <div class="border-2 border-gray-300 border-dashed w-full h-fit p-2 rounded-md">
+                <p>
+                    {{$pelayanan->jenisLayanan->deskripsi}}
+                </p>
+            </div>
+        </div>
+         @endif
         <div class="form-group {{ $errors->has('pelayanan.catatan_pemohon') ? 'invalid' : '' }}">
             <label class="form-label" for="catatan_pemohon">Sisipkan Catatan</label>
             <input type="text" name="catatan_pemohon" id="catatan_pemohon" class="input-textarea" placeholder="Tuliskan catatan Anda untuk petugas" wire:model="pelayanan.catatan_pemohon">

@@ -10,11 +10,11 @@ class HomeController
     {
         $settings1 = [
             'chart_title'           => 'Grafik Pelayanan Online',
-            'chart_type'            => 'line',
+            'chart_type'            => 'bar',
             'report_type'           => 'group_by_date',
             'model'                 => 'App\Models\Pelayanan',
             'group_by_field'        => 'created_at',
-            'group_by_period'       => 'month',
+            'group_by_period'       => 'day',
             'aggregate_function'    => 'count',
             'filter_field'          => 'created_at',
             'group_by_field_format' => 'd/m/Y H:i:s',

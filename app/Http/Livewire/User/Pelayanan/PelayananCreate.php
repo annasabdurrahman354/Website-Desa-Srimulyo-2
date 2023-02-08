@@ -6,7 +6,6 @@ use App\Models\BerkasPelayanan;
 use App\Models\JenisLayanan;
 use App\Models\Pelayanan;
 use App\Models\SyaratLayanan;
-use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -23,6 +22,12 @@ class PelayananCreate extends Component
     public array $listsForFields = [];
 
     protected $rules = [
+        'pelayanan.jenis_layanan_id' => 'required|integer|exists:jenis_layanans,id',
+        'pelayanan.kode' => 'required|string',
+        'pelayanan.catatan_pemohon' => 'string|nullable'
+    ];
+
+    public $r = [
         'pelayanan.jenis_layanan_id' => 'required|integer|exists:jenis_layanans,id',
         'pelayanan.kode' => 'required|string',
         'pelayanan.catatan_pemohon' => 'string|nullable'
@@ -48,11 +53,7 @@ class PelayananCreate extends Component
         $this->pelayanan->pemohon_id = auth()->user()->id;
         $this->pelayanan->status = "Terkirim";
         
-        $r = [
-            'pelayanan.jenis_layanan_id' => 'required|integer|exists:jenis_layanans,id',
-            'pelayanan.kode' => 'required|string',
-            'pelayanan.catatan_pemohon' => 'string|nullable'
-        ];
+       
 
         $rules = [];
         foreach ($this->syarats as $index => $syarat){
@@ -70,27 +71,26 @@ class PelayananCreate extends Component
             }
         }
 
-        $this->validate(array_merge($r, $rules));
-
+        $this->validate(array_merge($this->r, $rules));
+        $this->pelayanan->save();
         foreach ($this->syarats as $index => $syarat){
             $berkas_pelayanan = new BerkasPelayanan();
             $berkas_pelayanan->pelayanan_id = $this->pelayanan->id;
             $berkas_pelayanan->syarat_layanan_id = $syarat->id;
             $berkas_pelayanan->status = "Verifikasi";
-            
+            $berkas_pelayanan->save();
             if ($syarat->jenis_berkas == 'Teks') 
             {
                 $berkas_pelayanan->teks_syarat = $this->inputs[$index];
             } 
             else 
-            {
+            {   $file_name = Str::slug("p".$this->pelayanan->id."-m".$berkas_pelayanan->id."-".$syarat->nama, '-').".".pathinfo($this->inputs[$index]->getRealPath(), PATHINFO_EXTENSION);
                 $berkas_pelayanan->addMedia($this->inputs[$index]->getRealPath())
-                                ->usingName(Str::slug($this->pelayanan->id."-".$berkas_pelayanan->id."-".$syarat->nama, '-'))
+                                ->usingFileName($file_name)
                                 ->toMediaCollection("berkas_pelayanan_berkas_syarat");
             } 
             $berkas_pelayanan->save();
         }
-        $this->pelayanan->save();
         return redirect()->route('user.pelayanan');
     }
 

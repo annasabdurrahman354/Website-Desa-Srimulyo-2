@@ -26,7 +26,14 @@ class PelayananIndex extends Component
 
     protected $queryString = [
         'search' => [
-            'except' => '',
+            'except' => [
+                'id',
+                'pemohon.name',
+                'pemohon.nomor_telepon',
+                'catatan_pemohon',
+                'rating',
+                'penilaian_pemohon'
+            ],
         ],
         'sortBy' => [
             'except' => 'id',

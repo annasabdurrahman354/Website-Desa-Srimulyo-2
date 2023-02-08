@@ -327,6 +327,13 @@
                 @endif
 
                 <li class="items-center">
+                    <a class="{{ request()->is("user*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("user.home") }}">
+                        <i class="fa-fw c-sidebar-nav-icon fas fa-user">
+                        </i>
+                        Dashboard User
+                    </a>
+                </li>
+                <li class="items-center">
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();" class="sidebar-nav">
                         <i class="fa-fw fas fa-sign-out-alt"></i>
                         {{ trans('global.logout') }}

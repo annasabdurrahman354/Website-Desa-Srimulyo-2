@@ -30,6 +30,8 @@ use App\Http\Controllers\Auth\UserProfileController;
 use App\Http\Controllers\User\TesController;
 use App\Http\Livewire\User\Pelayanan\PelayananIndex;
 use App\Http\Livewire\User\Pelayanan\PelayananCreate;
+use App\Http\Livewire\User\Pelayanan\PelayananRevisi;
+use App\Http\Livewire\User\Pelayanan\PelayananShow;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -138,5 +140,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
     Route::get('/', [TesController::class, 'index'])->name('home');
     Route::get('/pelayanan', PelayananIndex::class)->name('pelayanan');
-    Route::get('/pelayanan/create', PelayananCreate::class)->name('pelayanan.create');
+    Route::get('/pelayanan/buat', PelayananCreate::class)->name('pelayanan.create');
+    Route::get('/pelayanan/lihat/{pelayanan}', PelayananShow::class)->name('pelayanan.show');
+    Route::get('/pelayanan/revisi/{pelayanan}/{syaratLayanan}', PelayananRevisi::class)->name('pelayanan.revisi');
 });

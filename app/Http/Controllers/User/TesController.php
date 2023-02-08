@@ -6,6 +6,6 @@ class TesController
 {
     public function index()
     {
-        return view('layouts.user');
+        return view('layouts.home');
     }
 }
