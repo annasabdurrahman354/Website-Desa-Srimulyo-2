@@ -59,18 +59,26 @@
                                     <span class="badge-blue">{{ $pelayanan->jenisLayanan->nama ?? '' }}</span>
                                 @endif
                             </td>
-                            <td class="text-center flex justify-center">
+                            <td class="text-center ">
                                 @if($pelayanan->jenisLayanan)
                                     @if($pelayanan->berkas_hasil->isNotEmpty())
+                                    <div class="mx-auto flex justify-center">
                                         @foreach($pelayanan->berkas_hasil as $key => $entry)
-                                            <a class="link-light-blue mx-auto " href="{{ $entry['url'] }}">
+                                            <a class="link-light-blue" href="{{ $entry['url'] }}">
                                                 <i class="far fa-file">
                                                 </i>
                                                 {{ $entry['file_name'] }}
                                             </a>
                                         @endforeach
+                                    </div>
+                                    @elseif($pelayanan->status_label == "Selesai" && $pelayanan->berkas_hasil->isEmpty())
+                                    <div class="mx-auto flex justify-center">
+                                        <p class="link-light-blue">
+                                            Ambil Berkas di Kantor
+                                        </p>                                     
+                                    </div>
                                     @else
-                                        <input class="disabled:opacity-50 disabled:cursor-not-allowed mx-auto block" type="checkbox" disabled {{ $pelayanan->jenisLayanan->pelayanan_online ? 'checked' : '' }}>
+                                    <input class="disabled:opacity-50 disabled:cursor-not-allowed" type="checkbox" disabled {{ $pelayanan->jenisLayanan->pelayanan_online ? 'checked' : '' }}>
                                     @endif
                                 @endif
                             </td>
@@ -87,17 +95,17 @@
                                 @if($pelayanan->status_label == "Revisi")
                                     <span class="badge-red">{{ $pelayanan->status_label }}</span>
                                 @endif
-                                @if($pelayanan->status_label == "Selesai")
-                                    <span class="badge-green">{{ $pelayanan->status_label->nama }}</span>
+                                @if($pelayanan->status_label == "Selesai" || $pelayanan->status_label == "Dibatalkan")
+                                    <span class="badge-green">{{ $pelayanan->status_label }}</span>
                                 @endif
                             </td>
                             <td>
                                 <div class="flex justify-center">
-                                        @if ($pelayanan->isBerkasRevisi())
+                                        @if ($pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai())
                                             <a class="button-red-small my-auto block" href="{{ route('user.pelayanan.show', $pelayanan) }}">
                                                 Revisi
                                             </a>
-                                        @elseif($pelayanan->isBerkasMenunggu() && !$pelayanan->isPelayananSelesai())
+                                        @elseif(!$pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai())
                                             <a class="button-blue-small my-auto block" href="{{ route('user.pelayanan.show', $pelayanan) }}">
                                                 Lihat
                                             </a>

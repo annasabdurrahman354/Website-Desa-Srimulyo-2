@@ -57,7 +57,7 @@
             <div class="p-5 font-light border border border-gray-200 dark:border-gray-700">
                 <div class="form-group">
                     @if($syaratLayanan['jenis_berkas'] === 'Teks')
-                        <label class="form-label" for="teks_syarat_{{$index}}">{{ trans('cruds.berkasPelayanan.fields.teks_syarat') }}</label>
+                        <label class="form-label" for="teks_syarat">{{ trans('cruds.berkasPelayanan.fields.teks_syarat') }}</label>
                         <input wire:model="input" class="input-text" type="text" name="teks" id="teks">
                     @elseif($syaratLayanan['jenis_berkas'] === 'Dokumen')
                         <label class="form-label" for="file">Pilih Berkas</label>

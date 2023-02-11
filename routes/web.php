@@ -118,6 +118,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     // Pelayanan
     Route::post('pelayanans/media', [PelayananController::class, 'storeMedia'])->name('pelayanans.storeMedia');
     Route::resource('pelayanans', PelayananController::class, ['except' => ['store', 'update', 'destroy']]);
+    Route::get('pelayanans/{pelayanan}/review', [PelayananController::class, 'review'])->name('pelayanans.review');
+
 
     // Berkas Pelayanan
     Route::post('berkas-pelayanans/media', [BerkasPelayananController::class, 'storeMedia'])->name('berkas-pelayanans.storeMedia');

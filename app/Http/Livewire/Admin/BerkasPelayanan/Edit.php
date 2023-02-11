@@ -53,6 +53,11 @@ class Edit extends Component
 
     public function submit()
     {
+        if($this->berkasPelayanan->status_label == "Revisi"){
+            $this->validateOnly($this->berkasPelayanan->catatan_reviewer, [
+                'berkasPelayanan.catatan_reviewer' => 'string|required',
+            ]);
+        }
         $this->validate();
 
         $this->berkasPelayanan->save();
@@ -100,8 +105,7 @@ class Edit extends Component
                 'in:' . implode(',', array_keys($this->listsForFields['status'])),
             ],
             'berkasPelayanan.catatan_reviewer' => [
-                'string',
-                'required',
+                'nullable',
             ],
         ];
     }

@@ -31,11 +31,20 @@ class PelayananController extends Controller
         return view('admin.pelayanan.edit', compact('pelayanan'));
     }
 
+    public function review(Pelayanan $pelayanan)
+    {
+        abort_if(Gate::denies('pelayanan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.pelayanan.review', compact('pelayanan'));
+    }
+
     public function show(Pelayanan $pelayanan)
     {
         abort_if(Gate::denies('pelayanan_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $pelayanan->load('pemohon', 'jenisLayanan');
+        $pelayanan->status = "Verifikasi";
+        $pelayanan->save();
 
         return view('admin.pelayanan.show', compact('pelayanan'));
     }

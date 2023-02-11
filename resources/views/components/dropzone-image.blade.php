@@ -106,6 +106,7 @@
                 files.forEach(file => {
                     let fileClone = JSON.parse(JSON.stringify(file))
                     this.files.push(fileClone)
+                    this.emit("transformFile", fileclone)
                     this.emit("addedfile", fileClone)
         
                     if (fileClone.preview_thumbnail !== undefined) {
