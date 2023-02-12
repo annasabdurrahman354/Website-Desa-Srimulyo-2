@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Produk extends Model implements HasMedia
 {
@@ -99,6 +100,18 @@ class Produk extends Model implements HasMedia
     public function umkm()
     {
         return $this->belongsTo(Umkm::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('produk_foto')
+            ->useDisk('public')
+            ->useDirectory(function (Media $media) {
+                return "umkm" . '/' . $this->umkm->id . '/' . 'produk' . '/' .  $this->id  . '/' . 'foto' . '/' .  $media->id;
+            })
+            ->useFileName(function (Media $media) {
+                return Str::slug($this->nama). '_' .'foto'. '_' . $media->id . '.' .$media->extension;
+            });
     }
 
     public function getFotoAttribute()

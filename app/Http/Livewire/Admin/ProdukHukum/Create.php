@@ -59,7 +59,9 @@ class Create extends Component
             ->each(fn ($item) => Media::where('uuid', $item['uuid'])
             ->update(['model_id' => $this->produkHukum->id]));
 
-        Media::whereIn('uuid', $this->mediaToRemove)->delete();
+        foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
+            $media->delete();
+        }
     }
 
     protected function rules(): array

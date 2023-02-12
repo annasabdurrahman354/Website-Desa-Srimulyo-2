@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class AparaturDesa extends Model implements HasMedia
 {
@@ -77,6 +78,18 @@ class AparaturDesa extends Model implements HasMedia
             ->width($thumbnailPreviewWidth)
             ->height($thumbnailPreviewHeight)
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('aparatur_desa_foto')
+            ->useDisk('public')
+            ->useDirectory(function (Media $media) {
+                return 'aparatur_desa' . '/' . $this->id . '/' . 'foto' . '/' .  $media->id;
+            })
+            ->useFileName(function (Media $media) {
+                return  Str::slug($this->judul). '_' . 'foto' . '_' . $media->id . '.' . $media->extension;
+            });
     }
 
     public function getFotoAttribute()

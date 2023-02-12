@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Pelayanan extends Model implements HasMedia
 {
@@ -116,6 +118,18 @@ class Pelayanan extends Model implements HasMedia
     public function getStatusLabelAttribute($value)
     {
         return static::STATUS_SELECT[$this->status] ?? null;
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('pelayanan_berkas_hasil')
+            ->useDisk('public')
+            ->useDirectory(function (Media $media) {
+                return "pelayanan" . '/' . $this->id . '/' . 'berkas_hasil' . '/' . $media->id;
+            })
+            ->useFileName(function (Media $media) {
+                return Str::slug($this->jenisLayanan->nama) . '_' . 'berkas_hasil'. '_' . $media->id . '.' . $media->extension;
+            });
     }
 
     public function getBerkasHasilAttribute()

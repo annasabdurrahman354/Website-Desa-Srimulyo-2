@@ -27,6 +27,9 @@ class Create extends Component
         $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
 
         $this->mediaToRemove[] = $media['uuid'];
+        foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
+            $media->delete();
+        }
     }
 
     public function mount(DataPenduduk $dataPenduduk)
@@ -58,7 +61,9 @@ class Create extends Component
             ->each(fn ($item) => Media::where('uuid', $item['uuid'])
             ->update(['model_id' => $this->dataPenduduk->id]));
 
-        Media::whereIn('uuid', $this->mediaToRemove)->delete();
+        foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
+            $media->delete();
+        }
     }
 
     protected function rules(): array

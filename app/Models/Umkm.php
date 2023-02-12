@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Umkm extends Model implements HasMedia
 {
@@ -111,6 +112,18 @@ class Umkm extends Model implements HasMedia
     public function pemilik()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('umkm_carousel')
+            ->useDisk('public')
+            ->useDirectory(function (Media $media) {
+                return "umkm" . '/' . $this->id . '/' . 'carousel' . '/' .  $media->id;
+            })
+            ->useFileName(function (Media $media) {
+                return Str::slug($this->nama_umkm). '_' .'carousel'. '_' . $media->id . '.' . $media->extension;
+            });
     }
 
     public function getCarouselAttribute()

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Carousel extends Model implements HasMedia
 {
@@ -72,6 +73,18 @@ class Carousel extends Model implements HasMedia
             ->width($thumbnailPreviewWidth)
             ->height($thumbnailPreviewHeight)
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('carousel_gambar')
+            ->useDisk('public')
+            ->useDirectory(function (Media $media) {
+                return 'carousel' . '/' . $this->id . '/' . 'gambar' . '/' .  $media->id;
+            })
+            ->useFileName(function (Media $media) {
+                return  Str::slug($this->judul). '_' . 'gambar' . '_' . $media->id . '.' . $media->extension;
+            });
     }
 
     public function getGambarAttribute()

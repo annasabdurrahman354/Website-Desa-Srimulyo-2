@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
+
 
 class BerkasPelayanan extends Model implements HasMedia
 {
@@ -74,6 +77,18 @@ class BerkasPelayanan extends Model implements HasMedia
     public function syaratLayanan()
     {
         return $this->belongsTo(SyaratLayanan::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('berkas_pelayanan_berkas_syarat')
+            ->useDisk('public')
+            ->useDirectory(function (Media $media) {
+                return "pelayanan" . '/' . $this->pelayanan->id . '/' . 'berkas_pelayanan' . '/' . $this->id . '/' . 'berkas_syarat' . '/' . $media->id;
+            })
+            ->useFileName(function (Media $media) {
+                return Str::slug($this->syaratLayanan->nama) . '_' . 'berkas_syarat'. '_' . $media->id . '.' . $media->extension;
+            });
     }
 
     public function getBerkasSyaratAttribute()
