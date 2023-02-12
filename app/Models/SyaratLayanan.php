@@ -5,11 +5,11 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class SyaratLayanan extends Model implements HasMedia
@@ -81,5 +81,18 @@ class SyaratLayanan extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('syarat_layanan_berkas_formulir') as $media){
+            $media->file_name = Str::slug($this->nama) . '_' . 'berkas-formulir'. '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

@@ -5,7 +5,6 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -80,18 +79,6 @@ class AparaturDesa extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('aparatur_desa_foto')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return 'aparatur_desa' . '/' . $this->id . '/' . 'foto' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return  Str::slug($this->judul). '_' . 'foto' . '_' . $media->id . '.' . $media->extension;
-            });
-    }
-
     public function getFotoAttribute()
     {
         return $this->getMedia('aparatur_desa_foto')->map(function ($item) {
@@ -107,5 +94,18 @@ class AparaturDesa extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('aparatur_desa_foto') as $media){
+            $media->file_name = Str::slug($this->nama). '_' . 'foto-aparatur' . '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

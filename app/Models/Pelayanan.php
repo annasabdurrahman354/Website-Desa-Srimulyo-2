@@ -126,9 +126,6 @@ class Pelayanan extends Model implements HasMedia
             ->useDisk('public')
             ->useDirectory(function (Media $media) {
                 return "pelayanan" . '/' . $this->id . '/' . 'berkas_hasil' . '/' . $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return Str::slug($this->jenisLayanan->nama) . '_' . 'berkas_hasil'. '_' . $media->id . '.' . $media->extension;
             });
     }
 
@@ -297,7 +294,18 @@ class Pelayanan extends Model implements HasMedia
         $this->kode = $randomString;
     }    
 
+    public function syncMediaName(){
+        foreach($this->getMedia('pelayanan_berkas_hasil') as $media){
+            $media->file_name = Str::slug($this->jenisLayanan->nama) . '_' . 'berkas-hasil-pelayanan'. '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
     protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
+
         static::retrieved(function ($pelayanan) {
             if(!$pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai() && !$pelayanan->isPelayananTerkirim()){
                 $pelayanan->status = 'Verifikasi';

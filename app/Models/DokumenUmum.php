@@ -5,7 +5,6 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -73,9 +72,6 @@ class DokumenUmum extends Model implements HasMedia
             ->useDisk('public')
             ->useDirectory(function (Media $media) {
                 return 'dokumen_umum' . '/' . $this->id . '/' . 'berkas_dokumen' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return  Str::slug($this->judul). '_' . 'berkas_dokumen' . '_' . $media->id . '.' . $media->extension;
             });
     }
 
@@ -92,5 +88,18 @@ class DokumenUmum extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('dokumen_umum_berkas_dokumen') as $media){
+            $media->file_name = Str::slug($this->judul). '_' . 'berkas-dokumen-umum' . '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

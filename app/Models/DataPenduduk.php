@@ -5,7 +5,6 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -79,9 +78,6 @@ class DataPenduduk extends Model implements HasMedia
             ->useDisk('public')
             ->useDirectory(function (Media $media) {
                 return 'data_penduduk' . '/' . $this->id . '/' . 'berkas_data' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return  Str::slug($this->judul). '_' . 'berkas_data' . '_' . $media->id . '.' . $media->extension;
             });
     }
 
@@ -98,5 +94,18 @@ class DataPenduduk extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('data_penduduk_berkas_data') as $media){
+            $media->file_name = Str::slug($this->judul). '_' . 'berkas-data-penduduk' . '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

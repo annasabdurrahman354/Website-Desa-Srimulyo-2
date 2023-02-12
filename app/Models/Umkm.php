@@ -120,9 +120,6 @@ class Umkm extends Model implements HasMedia
             ->useDisk('public')
             ->useDirectory(function (Media $media) {
                 return "umkm" . '/' . $this->id . '/' . 'carousel' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return Str::slug($this->nama_umkm). '_' .'carousel'. '_' . $media->id . '.' . $media->extension;
             });
     }
 
@@ -156,5 +153,18 @@ class Umkm extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('umkm_carousel') as $media){
+            $media->file_name = Str::slug($this->nama_umkm). '_' .'carousel-umkm'. '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

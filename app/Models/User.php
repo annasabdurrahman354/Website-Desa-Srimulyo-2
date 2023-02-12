@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements HasLocalePreference, HasMedia
 {
@@ -166,16 +167,6 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         $this->attributes['tanggal_lahir'] = $value ? Carbon::createFromFormat(config('project.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getEmailVerifiedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
-    }
-
-    public function setEmailVerifiedAtAttribute($value)
-    {
-        $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('project.datetime_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
-
     public function setPasswordAttribute($input)
     {
         if ($input) {
@@ -191,5 +182,18 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach( $this->getMedia('user_foto_profil') as $media){
+            $media->file_name = Str::slug($this->name). '_' .'foto-profil-user'. '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

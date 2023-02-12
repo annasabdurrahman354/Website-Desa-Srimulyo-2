@@ -5,7 +5,6 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -78,19 +77,7 @@ class BerkasPelayanan extends Model implements HasMedia
     {
         return $this->belongsTo(SyaratLayanan::class);
     }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('berkas_pelayanan_berkas_syarat')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return "pelayanan" . '/' . $this->pelayanan->id . '/' . 'berkas_pelayanan' . '/' . $this->id . '/' . 'berkas_syarat' . '/' . $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return Str::slug($this->syaratLayanan->nama) . '_' . 'berkas_syarat'. '_' . $media->id . '.' . $media->extension;
-            });
-    }
-
+    
     public function getBerkasSyaratAttribute()
     {
         return $this->getMedia('berkas_pelayanan_berkas_syarat')->map(function ($item) {
@@ -109,5 +96,18 @@ class BerkasPelayanan extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('berkas_pelayanan_berkas_syarat') as $media){
+            $media->file_name = Str::slug($this->syaratLayanan->nama) . '_' . 'berkas-syarat'. '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

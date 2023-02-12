@@ -93,18 +93,6 @@ class Artikel extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('artikel_gambar')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return 'artikel' . '/' . $this->id . '/' . 'gambar' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return  Str::slug($this->judul). '_' . 'gambar' . '_' . $media->id . '.' . $media->extension;
-            });
-    }
-
     public function getGambarAttribute()
     {
         return $this->getMedia('artikel_gambar')->map(function ($item) {
@@ -130,5 +118,18 @@ class Artikel extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('artikel_gambar') as $media){
+            $media->file_name = Str::slug($this->judul). '_' . 'gambar-artikel' . '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

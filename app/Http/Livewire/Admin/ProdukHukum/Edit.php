@@ -29,6 +29,10 @@ class Edit extends Component
         $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
 
         $this->mediaToRemove[] = $media['uuid'];
+        
+        foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
+            $media->delete();
+        }
     }
 
     public function getMediaCollection($name)

@@ -5,7 +5,6 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -108,9 +107,6 @@ class Produk extends Model implements HasMedia
             ->useDisk('public')
             ->useDirectory(function (Media $media) {
                 return "umkm" . '/' . $this->umkm->id . '/' . 'produk' . '/' .  $this->id  . '/' . 'foto' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return Str::slug($this->nama). '_' .'foto'. '_' . $media->id . '.' .$media->extension;
             });
     }
 
@@ -139,5 +135,18 @@ class Produk extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('produk_foto') as $media){
+            $media->file_name = Str::slug($this->nama). '_' .'foto-produk'. '_' . $media->id . '.' .$media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }

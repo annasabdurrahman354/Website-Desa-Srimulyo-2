@@ -5,7 +5,6 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -81,9 +80,6 @@ class Carousel extends Model implements HasMedia
             ->useDisk('public')
             ->useDirectory(function (Media $media) {
                 return 'carousel' . '/' . $this->id . '/' . 'gambar' . '/' .  $media->id;
-            })
-            ->useFileName(function (Media $media) {
-                return  Str::slug($this->judul). '_' . 'gambar' . '_' . $media->id . '.' . $media->extension;
             });
     }
 
@@ -102,5 +98,18 @@ class Carousel extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function syncMediaName(){
+        foreach($this->getMedia('carousel_gambar') as $media){
+            $media->file_name = Str::slug($this->judul). '_' . 'gambar-carousel' . '_' . $media->id . '.' . $media->extension;
+            $media->save();
+        }
+    }
+
+    protected static function booted() {
+        static::retrieved (function ($model) {
+            $model->syncMediaName();
+        });
     }
 }
