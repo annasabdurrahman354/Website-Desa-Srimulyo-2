@@ -93,7 +93,7 @@ class Carousel extends Model implements HasMedia
 
     public function syncMediaName(){
         foreach($this->getMedia('carousel_gambar') as $media){
-            $media->file_name = Str::slug($this->judul). '_' . 'gambar-carousel' . '_' . $media->id . '.' . $media->extension;
+            $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
     }

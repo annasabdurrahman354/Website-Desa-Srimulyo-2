@@ -148,7 +148,7 @@ class Umkm extends Model implements HasMedia
 
     public function syncMediaName(){
         foreach($this->getMedia('umkm_carousel') as $media){
-            $media->file_name = Str::slug($this->nama_umkm). '_' .'carousel-umkm'. '_' . $media->id . '.' . $media->extension;
+            $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
     }

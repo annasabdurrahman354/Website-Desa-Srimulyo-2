@@ -98,7 +98,7 @@ class AparaturDesa extends Model implements HasMedia
 
     public function syncMediaName(){
         foreach($this->getMedia('aparatur_desa_foto') as $media){
-            $media->file_name = Str::slug($this->nama). '_' . 'foto-aparatur' . '_' . $media->id . '.' . $media->extension;
+            $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
     }

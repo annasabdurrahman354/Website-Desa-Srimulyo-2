@@ -80,6 +80,7 @@ class Edit extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        User::where('id', $this->user->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

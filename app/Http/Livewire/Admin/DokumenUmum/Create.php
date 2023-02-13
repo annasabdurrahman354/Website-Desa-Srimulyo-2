@@ -63,6 +63,7 @@ class Create extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        DokumenUmum::where('id', $this->dokumenUmum->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

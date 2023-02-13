@@ -62,6 +62,7 @@ class Create extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        Carousel::where('id', $this->carousel->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

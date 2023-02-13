@@ -43,6 +43,7 @@ class Edit extends Component
     public function mount(ProdukHukum $produkHukum)
     {
         $this->produkHukum = $produkHukum;
+        $this->judul =  $this->produkHukum->judul;
         $this->initListsForFields();
         $this->mediaCollections = [
             'produk_hukum_berkas_dokumen' => $produkHukum->berkas_dokumen,
@@ -73,6 +74,7 @@ class Edit extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        ProdukHukum::where('id', $this->produkHukum->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

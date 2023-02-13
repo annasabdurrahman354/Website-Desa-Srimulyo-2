@@ -54,6 +54,7 @@ class Create extends Component
 
         $this->pelayanan->save();
         $this->syncMedia();
+        $this->pelayanan->syncMediaName();
 
         return redirect()->route('admin.pelayanans.index');
     }
@@ -67,6 +68,7 @@ class Create extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        Pelayanan::where('id', $this->pelayanan->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

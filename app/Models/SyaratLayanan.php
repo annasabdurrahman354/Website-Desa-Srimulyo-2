@@ -85,7 +85,7 @@ class SyaratLayanan extends Model implements HasMedia
 
     public function syncMediaName(){
         foreach($this->getMedia('syarat_layanan_berkas_formulir') as $media){
-            $media->file_name = Str::slug($this->nama) . '_' . 'berkas-formulir'. '_' . $media->id . '.' . $media->extension;
+            $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
     }

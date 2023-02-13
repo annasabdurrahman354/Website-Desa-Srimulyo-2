@@ -186,7 +186,7 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
 
     public function syncMediaName(){
         foreach( $this->getMedia('user_foto_profil') as $media){
-            $media->file_name = Str::slug($this->name). '_' .'foto-profil-user'. '_' . $media->id . '.' . $media->extension;
+            $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
     }

@@ -41,6 +41,7 @@ class Edit extends Component
     public function mount(DokumenUmum $dokumenUmum)
     {
         $this->dokumenUmum      = $dokumenUmum;
+        $this->judul =  $this->dokumenUmum->judul;
         $this->mediaCollections = [
             'dokumen_umum_berkas_dokumen' => $dokumenUmum->berkas_dokumen,
         ];
@@ -70,6 +71,7 @@ class Edit extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        DokumenUmum::where('id', $this->dokumenUmum->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

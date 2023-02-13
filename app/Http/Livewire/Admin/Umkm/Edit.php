@@ -45,6 +45,7 @@ class Edit extends Component
     public function mount(Umkm $umkm)
     {
         $this->umkm = $umkm;
+        $this->nama =  $this->umkm->judul;
         $this->initListsForFields();
         $this->mediaCollections = [
             'umkm_carousel' => $umkm->carousel,
@@ -75,6 +76,7 @@ class Edit extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        Umkm::where('id', $this->umkm->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

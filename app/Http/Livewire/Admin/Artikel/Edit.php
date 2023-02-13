@@ -45,6 +45,7 @@ class Edit extends Component
     public function mount(Artikel $artikel)
     {
         $this->artikel = $artikel;
+        $this->judul =  $this->artikel->judul;
         $this->initListsForFields();
         $this->mediaCollections = [
             'artikel_gambar' => $artikel->gambar,
@@ -75,6 +76,7 @@ class Edit extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        Artikel::where('id', $this->artikel->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

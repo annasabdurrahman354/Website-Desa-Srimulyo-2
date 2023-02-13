@@ -74,6 +74,7 @@ class Review extends Component
         foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
             $media->delete();
         }
+        Pelayanan::where('id', $this->pelayanan->id)->first()->syncMediaName();
     }
 
     protected function rules(): array

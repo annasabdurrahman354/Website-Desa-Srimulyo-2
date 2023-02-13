@@ -122,7 +122,7 @@ class Artikel extends Model implements HasMedia
 
     public function syncMediaName(){
         foreach($this->getMedia('artikel_gambar') as $media){
-            $media->file_name = Str::slug($this->judul). '_' . 'gambar-artikel' . '_' . $media->id . '.' . $media->extension;
+            $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
     }
