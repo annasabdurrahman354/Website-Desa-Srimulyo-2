@@ -114,15 +114,6 @@ class Umkm extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('umkm_carousel')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return "umkm" . '/' . $this->id . '/' . 'carousel' . '/' .  $media->id;
-            });
-    }
-
     public function getCarouselAttribute()
     {
         return $this->getMedia('umkm_carousel')->map(function ($item) {
@@ -160,11 +151,5 @@ class Umkm extends Model implements HasMedia
             $media->file_name = Str::slug($this->nama_umkm). '_' .'carousel-umkm'. '_' . $media->id . '.' . $media->extension;
             $media->save();
         }
-    }
-
-    protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
     }
 }

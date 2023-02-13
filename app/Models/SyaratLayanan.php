@@ -89,10 +89,4 @@ class SyaratLayanan extends Model implements HasMedia
             $media->save();
         }
     }
-
-    protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
-    }
 }

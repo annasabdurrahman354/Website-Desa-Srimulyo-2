@@ -190,10 +190,4 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
             $media->save();
         }
     }
-
-    protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
-    }
 }

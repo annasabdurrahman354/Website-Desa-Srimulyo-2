@@ -74,15 +74,6 @@ class Carousel extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('carousel_gambar')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return 'carousel' . '/' . $this->id . '/' . 'gambar' . '/' .  $media->id;
-            });
-    }
-
     public function getGambarAttribute()
     {
         return $this->getMedia('carousel_gambar')->map(function ($item) {
@@ -105,11 +96,5 @@ class Carousel extends Model implements HasMedia
             $media->file_name = Str::slug($this->judul). '_' . 'gambar-carousel' . '_' . $media->id . '.' . $media->extension;
             $media->save();
         }
-    }
-
-    protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
     }
 }

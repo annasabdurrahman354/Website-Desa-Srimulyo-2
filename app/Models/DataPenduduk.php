@@ -72,15 +72,6 @@ class DataPenduduk extends Model implements HasMedia
         'is_aktif',
     ];
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('data_penduduk_berkas_data')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return 'data_penduduk' . '/' . $this->id . '/' . 'berkas_data' . '/' .  $media->id;
-            });
-    }
-
     public function getBerkasDataAttribute()
     {
         return $this->getMedia('data_penduduk_berkas_data')->map(function ($item) {
@@ -101,11 +92,5 @@ class DataPenduduk extends Model implements HasMedia
             $media->file_name = Str::slug($this->judul). '_' . 'berkas-data-penduduk' . '_' . $media->id . '.' . $media->extension;
             $media->save();
         }
-    }
-
-    protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
     }
 }

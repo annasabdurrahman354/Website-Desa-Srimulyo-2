@@ -120,15 +120,6 @@ class Pelayanan extends Model implements HasMedia
         return static::STATUS_SELECT[$this->status] ?? null;
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('pelayanan_berkas_hasil')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return "pelayanan" . '/' . $this->id . '/' . 'berkas_hasil' . '/' . $media->id;
-            });
-    }
-
     public function getBerkasHasilAttribute()
     {
         return $this->getMedia('pelayanan_berkas_hasil')->map(function ($item) {
@@ -302,10 +293,6 @@ class Pelayanan extends Model implements HasMedia
     }
 
     protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
-
         static::retrieved(function ($pelayanan) {
             if(!$pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai() && !$pelayanan->isPelayananTerkirim()){
                 $pelayanan->status = 'Verifikasi';

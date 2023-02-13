@@ -101,15 +101,6 @@ class Produk extends Model implements HasMedia
         return $this->belongsTo(Umkm::class);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('produk_foto')
-            ->useDisk('public')
-            ->useDirectory(function (Media $media) {
-                return "umkm" . '/' . $this->umkm->id . '/' . 'produk' . '/' .  $this->id  . '/' . 'foto' . '/' .  $media->id;
-            });
-    }
-
     public function getFotoAttribute()
     {
         return $this->getMedia('produk_foto')->map(function ($item) {
@@ -142,11 +133,5 @@ class Produk extends Model implements HasMedia
             $media->file_name = Str::slug($this->nama). '_' .'foto-produk'. '_' . $media->id . '.' .$media->extension;
             $media->save();
         }
-    }
-
-    protected static function booted() {
-        static::retrieved (function ($model) {
-            $model->syncMediaName();
-        });
     }
 }
