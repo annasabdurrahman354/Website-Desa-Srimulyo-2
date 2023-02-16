@@ -25,7 +25,8 @@ module.exports = {
         purple: colors.violet,
       },
       fontFamily: {
-        sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+        nunito: ['Nunito', ...defaultTheme.fontFamily.sans],
+        inter: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       minHeight: {
         'screen-75': '75vh'

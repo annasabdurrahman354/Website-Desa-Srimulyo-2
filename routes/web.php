@@ -27,17 +27,23 @@ use App\Http\Controllers\Admin\UmkmController;
 use App\Http\Controllers\Admin\UserAlertController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\UserProfileController;
-use App\Http\Controllers\User\TesController;
-use App\Http\Livewire\User\Pelayanan\PelayananIndex;
-use App\Http\Livewire\User\Pelayanan\PelayananCreate;
-use App\Http\Livewire\User\Pelayanan\PelayananRevisi;
-use App\Http\Livewire\User\Pelayanan\PelayananShow;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Guest\TesController;
+use App\Http\Livewire\Auth\Register;
+use App\Http\Livewire\Guest\Artikel\GuestArtikelIndex;
+use App\Http\Livewire\Guest\Artikel\GuestArtikelShow;
+use App\Http\Livewire\Guest\Beranda\GuestBeranda;
+use App\Http\Livewire\Guest\DataPenduduk\GuestDataPendudukIndex;
+use App\Http\Livewire\Guest\DataPenduduk\GuestDataPendudukShow;
+use App\Http\Livewire\Guest\DokumenUmum\GuestDokumenUmumIndex;
+use App\Http\Livewire\Guest\DokumenUmum\GuestDokumenUmumShow;
+use App\Http\Livewire\Guest\KotakSaran\GuestKotakSaran;
+use App\Http\Livewire\Guest\ProdukHukum\GuestProdukHukumIndex;
+use App\Http\Livewire\Guest\ProdukHukum\GuestProdukHukumShow;
+use App\Http\Livewire\User\Pelayanan\UserPelayananIndex;
+use App\Http\Livewire\User\Pelayanan\UserPelayananCreate;
+use App\Http\Livewire\User\Pelayanan\UserPelayananRevisi;
+use App\Http\Livewire\User\Pelayanan\UserPelayananShow;
 use Illuminate\Support\Facades\Route;
-
-Route::redirect('/', '/login');
-
-Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -139,10 +145,27 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth'
     }
 });
 
+Route::group(['as' => 'guest.'], function () {
+    Route::get('/', GuestBeranda::class)->name('home');
+    Route::get('/artikel', GuestArtikelIndex::class)->name('artikel.index');
+    Route::get('/artikel/{slug}', GuestArtikelShow::class)->name('artikel.show');
+    Route::get('/data-penduduk', GuestDataPendudukIndex::class)->name('data-penduduk.index');
+    Route::get('/data-penduduk/{slug}', GuestDataPendudukShow::class)->name('data-penduduk.show');
+    Route::get('/dokumen-umum', GuestDokumenUmumIndex::class)->name('dokumen-umum.index');
+    Route::get('/dokumen-umum/{slug}', GuestDokumenUmumShow::class)->name('dokumen-umum.show');
+    Route::get('/produk-hukum', GuestProdukHukumIndex::class)->name('produk-hukum.index');
+    Route::get('/produk-hukum/{slug}', GuestProdukHukumShow::class)->name('produk-hukum.show');
+    Route::get('/kotak-saran', GuestKotakSaran::class)->name('kotak-saran');
+});
+
+Route::group(['middleware' => ['guest']], function() {
+    Route::get('/register', Register::class)->name('register');
+});
+
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
     Route::get('/', [TesController::class, 'index'])->name('home');
-    Route::get('/pelayanan', PelayananIndex::class)->name('pelayanan');
-    Route::get('/pelayanan/buat', PelayananCreate::class)->name('pelayanan.create');
-    Route::get('/pelayanan/lihat/{pelayanan}', PelayananShow::class)->name('pelayanan.show');
-    Route::get('/pelayanan/revisi/{pelayanan}/{syaratLayanan}', PelayananRevisi::class)->name('pelayanan.revisi');
+    Route::get('/pelayanan', UserPelayananIndex::class)->name('pelayanan');
+    Route::get('/pelayanan/buat', UserPelayananCreate::class)->name('pelayanan.create');
+    Route::get('/pelayanan/lihat/{pelayanan}', UserPelayananShow::class)->name('pelayanan.show');
+    Route::get('/pelayanan/revisi/{pelayanan}/{syaratLayanan}', UserPelayananRevisi::class)->name('pelayanan.revisi');
 });

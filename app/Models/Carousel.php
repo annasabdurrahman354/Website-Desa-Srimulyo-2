@@ -74,6 +74,12 @@ class Carousel extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('carousel_gambar')
+            ->singleFile();
+    }
+
     public function getGambarAttribute()
     {
         return $this->getMedia('carousel_gambar')->map(function ($item) {

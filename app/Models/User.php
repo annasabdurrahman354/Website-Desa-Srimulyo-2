@@ -135,6 +135,12 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('user_foto_profil')
+            ->singleFile();
+    }
+
     public function getFotoProfilAttribute()
     {
         return $this->getMedia('user_foto_profil')->map(function ($item) {
@@ -145,6 +151,13 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
 
             return $media;
         });
+    }
+
+    public function getAvatarAttribute(){
+        if($this->getFirstMediaUrl('user_foto_profil')){
+            return $this->getFirstMediaUrl('user_foto_profil');
+        }
+        else return "https://ui-avatars.com/api/?background=random&size=256&rounded=true&name=".str_replace(" ", "+", $this->name);
     }
 
     public function getJenisKelaminLabelAttribute($value)

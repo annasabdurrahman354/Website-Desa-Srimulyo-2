@@ -81,6 +81,12 @@ class ProdukHukum extends Model implements HasMedia
         return static::JENIS_SELECT[$this->jenis] ?? null;
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('produk_hukum_berkas_dokumen')
+            ->singleFile();
+    }
+
     public function getBerkasDokumenAttribute()
     {
         return $this->getMedia('produk_hukum_berkas_dokumen')->map(function ($item) {

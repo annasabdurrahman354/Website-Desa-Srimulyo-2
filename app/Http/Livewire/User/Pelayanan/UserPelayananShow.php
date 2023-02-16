@@ -4,9 +4,8 @@ namespace App\Http\Livewire\User\Pelayanan;
 
 use App\Models\Pelayanan;
 use Livewire\Component;
-use Illuminate\Support\Str;
 
-class PelayananShow extends Component
+class UserPelayananShow extends Component
 {
     public Pelayanan $pelayanan;
     public $berkasPelayananByType;

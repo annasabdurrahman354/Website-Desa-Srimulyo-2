@@ -14,12 +14,12 @@
         @stack('styles')
 </head>
 
-<body class="text-blueGray-800 antialiased">
+<body class="text-blueGray-800 antialiased font-nunito">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <div id="app">
-        <x-sidebar />
+        <x-admin-sidebar />
 
         <div class="relative md:ml-64 bg-blueGray-50 min-h-screen">
             <x-nav />
@@ -47,17 +47,17 @@
     <script type="text/javascript" src="{{ asset('js/admin.js') }}"></script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     @livewireScripts
-        @yield('scripts')
-        @stack('scripts')
-        <script>
-            function closeAlert(event){
-        let element = event.target;
-        while(element.nodeName !== "BUTTON"){
-          element = element.parentNode;
+    @yield('scripts')
+    @stack('scripts')
+    <script>
+        function closeAlert(event){
+            let element = event.target;
+            while(element.nodeName !== "BUTTON"){
+                element = element.parentNode;
+            }
+            element.parentNode.parentNode.removeChild(element.parentNode);
         }
-        element.parentNode.parentNode.removeChild(element.parentNode);
-      }
-        </script>
+    </script>
 </body>
 
 </html>

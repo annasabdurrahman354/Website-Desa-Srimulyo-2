@@ -77,6 +77,12 @@ class BerkasPelayanan extends Model implements HasMedia
     {
         return $this->belongsTo(SyaratLayanan::class);
     }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('berkas_pelayanan_berkas_syarat')
+            ->singleFile();
+    }
     
     public function getBerkasSyaratAttribute()
     {

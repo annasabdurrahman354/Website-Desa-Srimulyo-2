@@ -10,7 +10,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 
-class PelayananCreate extends Component
+class UserPelayananCreate extends Component
 {
     use WithFileUploads;
     

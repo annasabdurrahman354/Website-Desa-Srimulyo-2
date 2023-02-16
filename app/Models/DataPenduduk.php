@@ -72,6 +72,12 @@ class DataPenduduk extends Model implements HasMedia
         'is_aktif',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('data_penduduk_berkas_data')
+            ->singleFile();
+    }
+
     public function getBerkasDataAttribute()
     {
         return $this->getMedia('data_penduduk_berkas_data')->map(function ($item) {

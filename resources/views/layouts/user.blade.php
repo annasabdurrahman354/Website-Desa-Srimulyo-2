@@ -14,12 +14,12 @@
     @stack('styles')
 </head>
 
-<body class="text-blueGray-800 bg-gray-50 antialiased h-full">
+<body class="text-blueGray-800 bg-gray-50 antialiased h-full font-nunito">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <div id="app" class="h-full">
-        <x-user-sidebar />
+        <x-user-sidebar class="z-50"/>
         <div class="pt-6 md:pt-4 sm:ml-56 mb-6 h-full">
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 mx-4 bg-white">
                 @yield('content')
@@ -35,18 +35,18 @@
     </form>
     <script type="text/javascript" src="{{ asset('js/user.js') }}"></script>
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-        @livewireScripts
-        @yield('scripts')
-        @stack('scripts')
-        <script>
-            function closeAlert(event){
-        let element = event.target;
-        while(element.nodeName !== "BUTTON"){
-          element = element.parentNode;
+    @livewireScripts
+    @yield('scripts')
+    @stack('scripts')
+    <script>
+        function closeAlert(event){
+            let element = event.target;
+            while(element.nodeName !== "BUTTON"){
+                element = element.parentNode;
+            }
+            element.parentNode.parentNode.removeChild(element.parentNode);
         }
-        element.parentNode.parentNode.removeChild(element.parentNode);
-      }
-        </script>
+    </script>
 </body>
 
 </html>

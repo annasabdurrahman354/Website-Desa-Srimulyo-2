@@ -66,6 +66,12 @@ class DokumenUmum extends Model implements HasMedia
         'is_aktif',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('dokumen_umum_berkas_dokumen')
+            ->singleFile();
+    }
+
     public function getBerkasDokumenAttribute()
     {
         return $this->getMedia('dokumen_umum_berkas_dokumen')->map(function ($item) {

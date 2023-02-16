@@ -93,6 +93,12 @@ class Artikel extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('artikel_gambar')
+            ->singleFile();
+    }
+
     public function getGambarAttribute()
     {
         return $this->getMedia('artikel_gambar')->map(function ($item) {
