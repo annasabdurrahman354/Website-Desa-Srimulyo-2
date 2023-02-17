@@ -2,6 +2,7 @@
    <div class="dropzone" {{ $attributes }}></div>
 </div>
 @push('scripts')
+@once
     <script>
     Dropzone.options[_.camelCase("{{ $attributes['id'] }}")] = {
         url: "{{ $attributes['action'] }}",
@@ -46,8 +47,13 @@
             buttonConfirm.addEventListener('click', function() {
                 // Get the canvas with image data from Cropper.js
                 var canvas = cropper.getCroppedCanvas({
-                width: 256,
-                height: 256
+                    minWidth: 128,
+                    minHeight: 128,
+                    maxWidth: 4096,
+                    maxHeight: 4096,
+                    fillColor: '#fff',
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high',
                 });
                 // Turn the canvas into a Blob (file object without a name)
                 canvas.toBlob(function(blob) {
@@ -75,7 +81,7 @@
             editor.appendChild(image);
             
             // Create Cropper.js
-            var cropper = new Cropper(image, { aspectRatio: 1/3 });
+            var cropper = new Cropper(image, { aspectRatio: {{ $attributes['ratio'] ?? null }} });
         },
         success: function (file, response) {
         @this.addMedia(response.media)
@@ -123,18 +129,18 @@
         });
         },
         error: function (file, response) {
-        file.previewElement.classList.add('dz-error')
-        let message = $.type(response) === 'string' ? response : response.errors.file
-        return _.map(file.previewElement.querySelectorAll('[data-dz-errormessage]'), r => r.textContent = message)
+            file.previewElement.classList.add('dz-error')
+            let message = $.type(response) === 'string' ? response : response.errors.file
+            return _.map(file.previewElement.querySelectorAll('[data-dz-errormessage]'), r => r.textContent = message)
         }
     }
     </script>
-    <script src="https://unpkg.com/cropperjs"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
+@endonce
 @endpush
 
 @push('styles')
     @once
-        <link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.css"/>
     @endonce
 @endpush

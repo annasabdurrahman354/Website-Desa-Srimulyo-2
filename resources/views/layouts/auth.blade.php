@@ -12,11 +12,10 @@
         @livewireStyles
         @stack('styles')
     </head>
-    <body class="text-blueGray-800 bg-gray-50 antialiased h-full font-inter">
-
+    <body class="text-gray-800 bg-repeat heropattern-moroccan-blue-200 bg-blue-800 dark:bg-gray-900 antialiased font-inter">
         <noscript>You need to enable JavaScript to run this app.</noscript>
 
-        <div id="app" class="h-full">
+            <div id="app" class="w-full">
                 @yield('content')
             </div>
             @if(session('status'))

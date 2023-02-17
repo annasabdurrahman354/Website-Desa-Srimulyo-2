@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DataPenduduk extends Model implements HasMedia
 {
@@ -71,12 +69,6 @@ class DataPenduduk extends Model implements HasMedia
         'is_tabel',
         'is_aktif',
     ];
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('data_penduduk_berkas_data')
-            ->singleFile();
-    }
 
     public function getBerkasDataAttribute()
     {

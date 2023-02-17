@@ -182,7 +182,7 @@ return [
             'is_aktif'          => 'Aktif',
             'is_aktif_helper'   => ' ',
             'foto'              => 'Foto',
-            'foto_helper'       => 'Rasio foto ialah 2:3 dengan maksimal ukuran 512 x 768 px',
+            'foto_helper'       => 'Rasio foto ialah 2:3',
         ],
     ],
     'kategoriArtikel' => [
@@ -230,7 +230,7 @@ return [
             'is_diterbitkan'        => 'Diterbitkan',
             'is_diterbitkan_helper' => ' ',
             'gambar'                => 'Gambar',
-            'gambar_helper'         => 'Rasio foto ialah 3:2 dengan maksimal ukuran 1536 x 1024 px',
+            'gambar_helper'         => 'Rasio foto ialah 3:2 ',
         ],
     ],
     'dataPenduduk' => [
@@ -308,7 +308,7 @@ return [
             'deleted_at'         => 'Deleted at',
             'deleted_at_helper'  => ' ',
             'gambar'             => 'Gambar',
-            'gambar_helper'      => 'Rasio gambar ialah 3:1 dengan maksimal ukuran 3072 x 1024 px',
+            'gambar_helper'      => 'Rasio gambar ialah 3:1',
         ],
     ],
     'manajemenUmkm' => [

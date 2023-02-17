@@ -81,12 +81,15 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" wire:loading.remove>
         <button class="btn btn-indigo mr-2" type="submit">
             {{ trans('global.save') }}
         </button>
         <a href="{{ route('admin.data-penduduks.index') }}" class="btn btn-secondary">
             {{ trans('global.cancel') }}
         </a>
+    </div>
+    <div class="form-group" wire:loading>
+        <x-loading/>
     </div>
 </form>

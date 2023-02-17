@@ -135,12 +135,6 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('user_foto_profil')
-            ->singleFile();
-    }
-
     public function getFotoProfilAttribute()
     {
         return $this->getMedia('user_foto_profil')->map(function ($item) {

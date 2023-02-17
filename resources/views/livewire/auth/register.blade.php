@@ -1,12 +1,11 @@
-<section class="bg-gray-50 dark:bg-gray-900 my-4">
+<section class="my-8">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-            <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-            Desa Srimulyo   
+        <a href="#" class="hidden items-center mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+            Sistem Informasi Desa Srimulyo   
         </a>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                <h1 class="w-full text-center text-xl font-bold leading-tight tracking-tight text-blue-700 md:text-2xl dark:text-white">
                   Daftarkan Akun Baru
                 </h1>
                 <form wire:submit.prevent="submit">
@@ -147,10 +146,10 @@
                         @enderror
                     </div>
 
-                    <div class="flex flex-col justify-center items-center align-middle text-center space-y-4 mt-2">
-                        <button type="submit" class="button-normal">Buat Akun</button>
-                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Sudah pernah mendaftar? <a href="{{route('login')}}" class="font-medium text-blue-600 hover:underline dark:text-blue-200">Masuk disini</a>
+                    <div class="flex flex-col justify-center items-center align-middle text-center space-y-2 mt-6">
+                        <button type="submit" class="button-normal w-full rounded-md mb-4">Buat Akun</button>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-300 ">
+                            Sudah pernah mendaftar? <a href="{{route('login')}}" class="font-medium text-blue-700 hover:underline dark:text-blue-500">Masuk disini</a>
                         </p>
                     </div>
                 </form>

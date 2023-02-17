@@ -12,7 +12,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.carousel_gambar') ? 'invalid' : '' }}">
         <label class="form-label required" for="gambar">{{ trans('cruds.carousel.fields.gambar') }}</label>
-        <x-dropzone id="gambar" name="gambar" action="{{ route('admin.carousels.storeMedia') }}" collection-name="carousel_gambar" max-file-size="2" max-width="3072" max-height="1024" max-files="1" />
+        <x-dropzone-image id="gambar" name="gambar" action="{{ route('admin.carousels.storeMedia') }}" collection-name="carousel_gambar" ratio="3/1" max-file-size="2" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.carousel_gambar') }}
         </div>
@@ -41,12 +41,15 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" wire:loading.remove>
         <button class="btn btn-indigo mr-2" type="submit">
             {{ trans('global.save') }}
         </button>
         <a href="{{ route('admin.carousels.index') }}" class="btn btn-secondary">
             {{ trans('global.cancel') }}
         </a>
+    </div>
+    <div class="form-group" wire:loading>
+        <x-loading/>
     </div>
 </form>

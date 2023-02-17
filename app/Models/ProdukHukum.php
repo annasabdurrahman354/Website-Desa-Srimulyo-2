@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProdukHukum extends Model implements HasMedia
 {
@@ -79,12 +77,6 @@ class ProdukHukum extends Model implements HasMedia
     public function getJenisLabelAttribute($value)
     {
         return static::JENIS_SELECT[$this->jenis] ?? null;
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('produk_hukum_berkas_dokumen')
-            ->singleFile();
     }
 
     public function getBerkasDokumenAttribute()

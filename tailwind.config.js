@@ -91,6 +91,7 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
     require('flowbite/plugin'),
+    require('tailwindcss-hero-patterns'),
     plugin(function ({ addComponents, theme }) {
       const screens = theme("screens", {});
       addComponents([

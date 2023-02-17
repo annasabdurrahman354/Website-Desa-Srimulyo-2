@@ -21,7 +21,7 @@
                </div>
             </div>
             <hr class="border-gray-300 sm:mx-auto dark:border-gray-700" />
-            <img class="w-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/authentication/background.jpg"/>
+            <img class="w-full" src="https://flowbite.com/docs/images/blog/image-1.jpg"/>
          </div>
          <div class="lg:col-span-2 lg:my-4 w-full grid grid-flow-row grid-rows-1 gap-6">
             <div class="border bg-white border-gray-300 rounded-md shadow-sm p-4">

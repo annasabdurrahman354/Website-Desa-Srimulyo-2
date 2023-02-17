@@ -1,77 +1,55 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-<section class="relative w-full h-full py-40 min-h-screen">
-    <div class="container mx-auto px-4 h-full">
-        <div class="flex content-center items-center justify-center h-full">
-            <div class="w-full lg:w-4/12 px-4">
-                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
-                    <div class="rounded-t mb-0 px-6 py-6">
-                        <div class="text-center mb-3">
-                            <h6 class="text-blueGray-500 text-sm font-bold">
-                                {{ __('global.login') }}
-                            </h6>
-                        </div>
-                        <hr class="mt-6 border-b-1 border-blueGray-300" />
+
+<section class="flex justify-center items-center h-screen w-full">
+    <div class="w-2/3 lg:w-1/3 p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+        <h1 class="w-full text-center text-xl font-bold leading-tight tracking-tight text-blue-700 md:text-2xl dark:text-white">Selamat Datang</h1>
+        <form method="POST" class="space-y-6" action="{{ route('login') }}">
+            @csrf
+            <div>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Anda</label>
+                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required>
+                @error('email')
+                    <div class="text-red-500">
+                        <small>{{ $message }}</small>
                     </div>
-                    <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="relative w-full mb-3">
-                                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" for="email">
-                                    {{ __('global.login_email') }}
-                                </label>
-                                <input id="email" name="email" type="email" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full {{ $errors->has('email') ? ' ring ring-red-300' : '' }}" placeholder="{{ __('global.login_email') }}" required autocomplete="email" autofocus value="{{ old('email') }}" />
-                                @error('email')
-                                    <div class="text-red-500">
-                                        <small>{{ $message }}</small>
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="relative w-full mb-3">
-                                <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" for="password">
-                                    {{ __('global.login_password') }}
-                                </label>
-                                <input id="password" name="password" type="password" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full {{ $errors->has('password') ? ' ring ring-red-300' : '' }}" placeholder="{{ __('global.login_password') }}" required autocomplete="current-password" />
-                                @error('password')
-                                    <span class="text-red-500">
-                                        <small>{{ $message }}</small>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div>
-                                <label class="inline-flex items-center cursor-pointer"><input id="remember" name="remember" type="checkbox" class="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150" {{ old('remember') ? 'checked' : '' }} />
-                                    <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                                        {{ __('global.remember_me') }}
-                                    </span>
-                                </label>
-                            </div>
-                            <div class="text-center mt-6">
-                                <button class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">
-                                    {{ __('global.login') }}
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="flex flex-wrap mt-6">
-                    <div class="w-1/2">
-                        @if(Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-blueGray-200">
-                                <small>{{ __('global.forgot_password') }}</small>
-                            </a>
-                        @endif
-                    </div>
-                    <div class="w-1/2 text-right">
-                        @if(Route::has('register'))
-                            <a href="{{ route('register') }}" class="text-blueGray-200">
-                                <small>{{ __('global.register') }}</small>
-                            </a>
-                        @endif
-                    </div>
-                </div>
+                @enderror
             </div>
-        </div>
+            <div>
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                @error('password')
+                    <span class="text-red-500">
+                        <small>{{ $message }}</small>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="flex items-start">
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800">
+                    </div>
+                    <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+                </div>
+                @if(Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500">
+                        {{ __('global.forgot_password') }}
+                    </a>
+                @endif
+            </div>
+
+            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                @if(Route::has('register'))
+                    Belum memiliki akun? 
+                    <a href="{{ route('register') }}" class="text-blue-700 hover:underline dark:text-blue-500">
+                        {{ __('global.register') }}
+                    </a>
+                @endif
+            </div>
+        </form>
     </div>
 </section>
 @endsection

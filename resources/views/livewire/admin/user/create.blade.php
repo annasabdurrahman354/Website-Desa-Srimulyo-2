@@ -2,7 +2,7 @@
 
     <div class="form-group {{ $errors->has('mediaCollections.user_foto_profil') ? 'invalid' : '' }}">
         <label class="form-label" for="foto_profil">{{ trans('cruds.user.fields.foto_profil') }}</label>
-        <x-dropzone id="foto_profil" name="foto_profil" action="{{ route('admin.users.storeMedia') }}" collection-name="user_foto_profil" max-file-size="1" max-width="256" max-height="256" max-files="1" />
+        <x-dropzone-image id="foto_profil" name="foto_profil" action="{{ route('admin.users.storeMedia') }}" collection-name="user_foto_profil" max-file-size="1" ratio="1/1" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.user_foto_profil') }}
         </div>

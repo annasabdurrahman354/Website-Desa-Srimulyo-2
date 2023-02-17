@@ -22,7 +22,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.artikel_gambar') ? 'invalid' : '' }}">
         <label class="form-label required" for="gambar">{{ trans('cruds.artikel.fields.gambar') }}</label>
-        <x-dropzone id="gambar" name="gambar" action="{{ route('admin.artikels.storeMedia') }}" collection-name="artikel_gambar" max-file-size="2" max-width="1536" max-height="1024" max-files="1" />
+        <x-dropzone-image id="gambar" name="gambar" action="{{ route('admin.artikels.storeMedia') }}" collection-name="artikel_gambar" ratio="3/2" max-file-size="2" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.artikel_gambar') }}
         </div>
@@ -52,7 +52,9 @@
     </div>
     <div class="form-group {{ $errors->has('artikel.konten') ? 'invalid' : '' }}">
         <label class="form-label required" for="konten">{{ trans('cruds.artikel.fields.konten') }}</label>
-        <textarea class="form-control" name="konten" id="konten" required wire:model.defer="artikel.konten" rows="4"></textarea>
+        <div wire:ignore>
+            <textarea class="form-control editor" name="konten" id="konten" required wire:model="artikel.konten" rows="4"></textarea>
+        </div>
         <div class="validation-message">
             {{ $errors->first('artikel.konten') }}
         </div>
@@ -91,7 +93,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" wire:loading.remove>
         <button class="btn btn-indigo mr-2" type="submit">
             {{ trans('global.save') }}
         </button>
@@ -99,4 +101,47 @@
             {{ trans('global.cancel') }}
         </a>
     </div>
+    <div class="form-group" wire:loading>
+        <x-loading/>
+    </div>
 </form>
+
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        const watchdog = new CKSource.EditorWatchdog();
+        
+        window.watchdog = watchdog;
+        
+        watchdog.setCreator( ( element, config ) => {
+            return CKSource.Editor
+                .create( element, config )
+                .then( editor => {
+                    editor.model.document.on('change:data', () => {
+                        @this.set('artikel.konten', editor.getData());
+                        })
+                    return editor;
+                } )
+        } );
+        
+        watchdog.setDestructor( editor => {
+            return editor.destroy();
+        } );
+        
+        watchdog.on( 'error', handleError );
+        
+        watchdog
+            .create( document.querySelector( '.editor' ), {
+                licenseKey: '',
+            } )
+            .catch( handleError );
+        
+        function handleError( error ) {
+            console.error( 'Oops, something went wrong!' );
+            console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+            console.warn( 'Build id: 4xgomjqas0xv-dl2rhexus27m' );
+            console.error( error );
+        }
+        
+    </script>
+@endpush

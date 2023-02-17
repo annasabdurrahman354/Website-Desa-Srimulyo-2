@@ -32,7 +32,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.produk_foto') ? 'invalid' : '' }}">
         <label class="form-label required" for="foto">{{ trans('cruds.produk.fields.foto') }}</label>
-        <x-dropzone id="foto" name="foto" action="{{ route('admin.produks.storeMedia') }}" collection-name="produk_foto" max-file-size="2" max-width="800" max-height="600" max-files="1" />
+        <x-dropzone-image id="foto" name="foto" action="{{ route('admin.produks.storeMedia') }}" collection-name="produk_foto" max-file-size="2" ratio="4/3" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.produk_foto') }}
         </div>
@@ -101,12 +101,15 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" wire:loading.remove>
         <button class="btn btn-indigo mr-2" type="submit">
             {{ trans('global.save') }}
         </button>
         <a href="{{ route('admin.produks.index') }}" class="btn btn-secondary">
             {{ trans('global.cancel') }}
         </a>
+    </div>
+    <div class="form-group" wire:loading>
+        <x-loading/>
     </div>
 </form>
