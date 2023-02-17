@@ -53,7 +53,11 @@
     <div class="form-group {{ $errors->has('artikel.konten') ? 'invalid' : '' }}">
         <label class="form-label required" for="konten">{{ trans('cruds.artikel.fields.konten') }}</label>
         <div wire:ignore>
-            <textarea class="form-control editor" name="konten" id="konten" required wire:model="artikel.konten" rows="4"></textarea>
+            <div class="w-full">
+                <div class="editor ck-content" name="konten" id="konten" >
+                    {!! $artikel->konten !!}
+                </div>
+            </div>
         </div>
         <div class="validation-message">
             {{ $errors->first('artikel.konten') }}
@@ -144,4 +148,10 @@
         }
         
     </script>
+@endpush
+
+@push('styles')
+    @once
+    <link rel="stylesheet" href="{{asset('css/ckeditor/ckeditor.css')}}"/>
+    @endonce
 @endpush

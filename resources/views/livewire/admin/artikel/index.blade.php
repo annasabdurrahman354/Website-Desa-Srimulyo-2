@@ -64,10 +64,6 @@
                             @include('components.table.sort', ['field' => 'rangkuman'])
                         </th>
                         <th>
-                            {{ trans('cruds.artikel.fields.konten') }}
-                            @include('components.table.sort', ['field' => 'konten'])
-                        </th>
-                        <th>
                             {{ trans('cruds.artikel.fields.jumlah_pembaca') }}
                             @include('components.table.sort', ['field' => 'jumlah_pembaca'])
                         </th>
@@ -112,9 +108,6 @@
                             </td>
                             <td>
                                 {{ $artikel->rangkuman }}
-                            </td>
-                            <td>
-                                {{ $artikel->konten }}
                             </td>
                             <td>
                                 {{ $artikel->jumlah_pembaca }}

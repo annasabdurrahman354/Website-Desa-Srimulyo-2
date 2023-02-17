@@ -26,6 +26,7 @@ trait Auditable
 
     protected static function audit($description, $model)
     {
+        unset($model['konten']);
         AuditLog::create([
             'description'  => $description,
             'subject_id'   => $model->id ?? null,

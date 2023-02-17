@@ -3,15 +3,21 @@
 namespace App\Http\Livewire\Guest\Artikel;
 
 use App\Models\Artikel;
+use App\Models\KategoriArtikel;
 use Livewire\Component;
 
 class GuestArtikelShow extends Component
 {
     public $artikel;
+    public $kategoris = [];
+    public $artikels = [];
+    public $query = '';
 
     public function mount($slug)
     {
         $this->artikel = Artikel::where('slug', $slug)->with(['penulis', 'kategori'])->first();
+        $this->artikels = Artikel::with(['penulis', 'kategori'])->orderBy('id', 'desc')->take(3)->get();
+        $this->kategoris = KategoriArtikel::inRandomOrder()->limit(6)->get();
     }
 
     public function render()
@@ -19,8 +25,8 @@ class GuestArtikelShow extends Component
         return view('livewire.guest.artikel.show')->extends('layouts.guest');
     }
 
-    public function submit()
+    public function search()
     {
-
+        if($this->query != "") redirect(route('guest.artikel.index', ['search' => $this->query ]));
     }
 }

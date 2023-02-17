@@ -52,7 +52,13 @@
     </div>
     <div class="form-group {{ $errors->has('artikel.konten') ? 'invalid' : '' }}">
         <label class="form-label required" for="konten">{{ trans('cruds.artikel.fields.konten') }}</label>
-        <textarea class="form-control" name="konten" id="konten" required wire:model.defer="artikel.konten" rows="4"></textarea>
+        <div wire:ignore>
+            <div class="w-full">
+                    <div class="editor ck-content" name="konten" id="konten" >
+                        {!! $artikel->konten !!}
+                    </div>
+            </div>
+        </div>
         <div class="validation-message">
             {{ $errors->first('artikel.konten') }}
         </div>
@@ -103,3 +109,47 @@
         <x-loading/>
     </div>
 </form>
+
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+    <script>
+        const watchdog = new CKSource.EditorWatchdog();
+        
+        window.watchdog = watchdog;
+        
+        watchdog.setCreator( ( element, config ) => {
+            return CKSource.Editor
+                .create( element, config )
+                .then( editor => {
+                    editor.model.document.on('change:data', () => {
+                        @this.set('artikel.konten', editor.getData());
+                        })
+                    return editor;
+                } )
+        } );
+        
+        watchdog.setDestructor( editor => {
+            return editor.destroy();
+        } );
+        
+        watchdog.on( 'error', handleError );
+        
+        watchdog
+            .create( document.querySelector( '.editor' ), {
+                licenseKey: '',
+            } )
+            .catch( handleError );
+        
+        function handleError( error ) {
+            console.error( 'Oops, something went wrong!' );
+            console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+            console.warn( 'Build id: 4xgomjqas0xv-dl2rhexus27m' );
+            console.error( error );
+        }
+    </script>
+@endpush
+@push('styles')
+    @once
+    <link rel="stylesheet"  href="{{ asset('css/ckeditor/ckeditor.css') }}"/>
+    @endonce
+@endpush

@@ -28,10 +28,10 @@ class Index extends Component
 
     protected $queryString = [
         'search' => [
-            'except' => '',
+            'except' => 'konten',
         ],
         'sortBy' => [
-            'except' => 'id',
+            'except' => ['id' ,"konten"],
         ],
         'sortDirection' => [
             'except' => 'desc',
