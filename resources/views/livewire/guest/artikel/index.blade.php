@@ -50,39 +50,42 @@
       
       
       <!-- Artikel list section -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 -m-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative">
          @forelse ( $artikels as $artikel)
-            <div class="p-4 w-full">
-               <div class="h-full w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                  <div >
-                     <img class="rounded-t-lg w-full" src="{{$artikel->gambar[0]['url']}}" alt="" />
-                  </div>
-                  <div class="p-5">
-                     <div class="bg-gray-100 text-gray-600 w-fit text-sm font-medium mb-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-400 border border-gray-400">{{$artikel->kategori->kategori}}</div>
+            <div class="w-full h-full flex flex-col bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+               <div >
+                  <img class="rounded-t-lg w-full" src="{{$artikel->gambar[0]['url']}}" alt="" />
+               </div>
+               <div class="p-5 h-full flex flex-col justify-between">
+                  <div>
+                     <div class="flex justify-between">
+                        <div class="bg-gray-100 text-gray-600 w-fit text-sm font-medium mb-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-400 border border-gray-400">{{$artikel->kategori->kategori}}</div>
+                        <p class="text-sm text-gray-400">{{$artikel->created_at->diffForHumans()}}</p>
+                     </div>
                      <div>
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$artikel->judul}}</h5>
                      </div>
                      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$artikel->rangkuman}}</p>
-                     <div class="flex justify-between items-center w-full">
-                        <a href="{{route('guest.artikel.show', $artikel->slug)}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-blue-500 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                              Baca Selengkapnya
-                              <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a>
-                        <div>
-                           <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
-                              <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                 <circle cx="12" cy="12" r="3"></circle>
-                              </svg>
-                              {{$artikel->jumlah_pembaca}}
-                           </span>
-                           <span class="text-gray-400 inline-flex items-center leading-none text-sm -ml-2">
-                              <svg class="w-4 h-4 mr-1" stroke="currentColor"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                              </svg>
-                              {{$artikel->penulis->name}}
-                           </span>
-                        </div>
+                  </div>
+                  <div class="flex justify-between items-center w-full">
+                     <a href="{{route('guest.artikel.show', $artikel->slug)}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-blue-500 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                           Baca Selengkapnya
+                           <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                     </a>
+                     <div>
+                        <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
+                           <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                              <circle cx="12" cy="12" r="3"></circle>
+                           </svg>
+                           {{$artikel->jumlah_pembaca}}
+                        </span>
+                        <span class="text-gray-400 inline-flex items-center leading-none text-sm -ml-2">
+                           <svg class="w-4 h-4 mr-1" stroke="currentColor"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                           </svg>
+                           {{$artikel->penulis->name}}
+                        </span>
                      </div>
                   </div>
                </div>
@@ -90,7 +93,7 @@
          @empty
          <div class="p-4 w-full">
             Tidak ada postingan artikel!
-         <<div class="p-4 w-full">
+         <div class="p-4 w-full">
          @endforelse
       </div>
       <div class="mt-4">

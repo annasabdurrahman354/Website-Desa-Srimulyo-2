@@ -16,16 +16,16 @@
       @endguest
       
       @auth
-      <div class="flex items-center md:order-2">
+      <div class="flex items-center">
           <button type="button" class="flex mr-3 text-sm rounded-full md:mr-0 items-center md:gap-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
             <span class="sr-only">Open user menu</span>
-            <span class="block py-2 pl-3 pr-2 text-gray-700 rounded focus:bg-transparent hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white">{{auth()->user()->name}}</span>
+            <span class="block py-2 pl-3 pr-2 font-medium text-blue-500 rounded focus:bg-transparent hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white">{{auth()->user()->name}}</span>
             <img class="w-8 h-8 rounded-full hover:ring-2 focus:ring-blue-500 dark:focus:ring-gray-600" src="{{ auth()->user()->avatar }}" alt="user photo">
           </button>
         <!-- Dropdown menu -->
         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
           <div class="px-4 py-3">
-            <span class="block text-sm text-gray-900 dark:text-white">{{ auth()->user()->name }}</span>
+            <span class="block text-sm font-medium text-blue-500 dark:text-white">{{ auth()->user()->name }}</span>
             <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ auth()->user()->email }}</span>
           </div>
           <ul class="py-2" aria-labelledby="user-menu-button">
@@ -49,15 +49,21 @@
       @endauth
 
       <!-- Jika lebih dari LG -->
-      <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex md:hidden items-center p-2 ml-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
+      <button data-collapse-toggle="navbar-dropdownLg" type="button" class="inline-flex md:hidden items-center p-2 ml-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdownLg" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
       </button>
+
+      <button data-collapse-toggle="navbar-dropdownMd" type="button" class="hidden md:inline-flex xl:hidden items-center p-2 ml-3 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdownMd" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+      </button>
+
     </div>
     
     <!-- Jika lebih dari LG -->
-    <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
-      <ul class="flex flex-col px-2 pb-2 pt-2 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-6 md:mt-0 md:text-base md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+    <div class="hidden w-full md:block md:w-auto" id="navbar-dropdownLg">
+      <ul class="flex flex-col px-2 pb-2 pt-2 mt-4 border border-gray-100 rounded-lg shadow-md md:shadow-none mb-4 md:mb-0 bg-gray-50 md:flex-row md:space-x-3 lg:space-x-4 xl:space-x-6 md:mt-0 md:font-medium md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li>
           <a href="{{route('guest.home')}}" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-white dark:bg-blue-600 md:dark:bg-transparent" aria-current="page">Beranda</a>
         </li>
@@ -87,10 +93,10 @@
                 </div>
             </div>
         </li>
-        <li>
+        <li class="md:hidden xl:inline">
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dokumen Umum</a>
         </li>
-        <li>
+        <li class="md:hidden xl:inline">
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Produk Hukum</a>
         </li>
         <li>
@@ -113,11 +119,29 @@
                 </ul>
             </div>
         </li>
-        <li>
+        <li class="md:hidden xl:inline">
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kotak Saran</a>
         </li>
-        <li>
+        <li class="md:hidden xl:inline">
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profil Desa</a>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="hidden xl:hidden w-full order-3" id="navbar-dropdownMd">
+      <ul class="hidden md:block px-2 pb-2 pt-2 mt-4 border border-gray-100 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700 mb-4">
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Dokumen Umum</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Produk Hukum</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Kotak Saran</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Profil Desa</a>
         </li>
       </ul>
     </div>

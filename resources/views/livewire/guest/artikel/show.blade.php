@@ -1,8 +1,8 @@
 <div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
     <section class="text-gray-600 body-font container px-4 pt-12 pb-12 mx-auto w-full">
-      <div class="w-full lg:w-1/2 mx-auto text-center mb-6">
-            <p>August 3, 2022, 2:20am EDT</p>
-            <h2 class="my-4">{{$artikel->judul}}</h2>
+      <div class="w-full lg:w-1/2 mx-auto text-center mb-4">
+            <p class="font-semibold">{{$artikel->created_at->isoFormat('dddd, D MMMM Y')}}</p>
+            <h2 class="mb-4 font-serif">{{$artikel->judul}}</h2>
             <p>{{$artikel->rangkuman}}</p>
       </div>
       <div class="grid grid-flow-row lg:grid-flow-col lg:grid-cols-6 gap-5">
@@ -22,7 +22,7 @@
             </div>
             <hr class="border-gray-300 sm:mx-auto dark:border-gray-700" />
             <img class="w-full" src="{{$artikel->gambar[0]['url']}}"/>
-            <div class="w-full h-fit px-4 ck-content">
+            <div class="w-full h-fit px-4 ck-content font-sans">
                {!! $artikel->konten !!}
             </div>
          </div>
