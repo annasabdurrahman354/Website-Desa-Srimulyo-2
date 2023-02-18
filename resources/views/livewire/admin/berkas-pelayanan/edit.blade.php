@@ -34,7 +34,7 @@
     @else
     <div class="form-group {{ $errors->has('mediaCollections.berkas_pelayanan_berkas_syarat') ? 'invalid' : '' }}">
         <label class="form-label" for="berkas_syarat">{{ trans('cruds.berkasPelayanan.fields.berkas_syarat') }}</label>
-        <x-dropzone id="berkas_syarat" name="berkas_syarat" action="{{ route('admin.berkas-pelayanans.storeMedia') }}" collection-name="berkas_pelayanan_berkas_syarat" max-file-size="5" max-files="1" />
+        <x-dropzone id="berkas_syarat" name="berkas_syarat" action="{{ route('admin.berkas-pelayanans.storeMedia') }}" collection-name="berkas_pelayanan_berkas_syarat" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.berkas_pelayanan_berkas_syarat') }}
         </div>

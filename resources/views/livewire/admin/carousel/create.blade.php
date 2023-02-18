@@ -12,7 +12,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.carousel_gambar') ? 'invalid' : '' }}">
         <label class="form-label required" for="gambar">{{ trans('cruds.carousel.fields.gambar') }}</label>
-        <x-dropzone-image id="gambar" name="gambar" action="{{ route('admin.carousels.storeMedia') }}" collection-name="carousel_gambar" ratio="3/1" max-file-size="2" max-files="1" />
+        <x-dropzone-image id="gambar" name="gambar" action="{{ route('admin.carousels.storeMedia') }}" collection-name="carousel_gambar" ratio="3/1" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.carousel_gambar') }}
         </div>

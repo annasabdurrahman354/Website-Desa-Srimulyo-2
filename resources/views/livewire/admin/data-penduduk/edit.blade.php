@@ -42,7 +42,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.data_penduduk_berkas_data') ? 'invalid' : '' }}">
         <label class="form-label required" for="berkas_data">{{ trans('cruds.dataPenduduk.fields.berkas_data') }}</label>
-        <x-dropzone id="berkas_data" name="berkas_data" action="{{ route('admin.data-penduduks.storeMedia') }}" collection-name="data_penduduk_berkas_data" max-file-size="10" max-files="1" />
+        <x-dropzone id="berkas_data" name="berkas_data" action="{{ route('admin.data-penduduks.storeMedia') }}" collection-name="data_penduduk_berkas_data" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.data_penduduk_berkas_data') }}
         </div>

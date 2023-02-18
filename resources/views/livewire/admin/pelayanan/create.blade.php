@@ -67,7 +67,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.pelayanan_berkas_hasil') ? 'invalid' : '' }}">
         <label class="form-label" for="berkas_hasil">{{ trans('cruds.pelayanan.fields.berkas_hasil') }}</label>
-        <x-dropzone id="berkas_hasil" name="berkas_hasil" action="{{ route('admin.pelayanans.storeMedia') }}" collection-name="pelayanan_berkas_hasil" max-file-size="5" />
+        <x-dropzone id="berkas_hasil" name="berkas_hasil" action="{{ route('admin.pelayanans.storeMedia') }}" collection-name="pelayanan_berkas_hasil" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.pelayanan_berkas_hasil') }}
         </div>

@@ -32,7 +32,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.umkm_carousel') ? 'invalid' : '' }}">
         <label class="form-label required" for="carousel">{{ trans('cruds.umkm.fields.carousel') }}</label>
-        <x-dropzone-image id="carousel" name="carousel" action="{{ route('admin.umkms.storeMedia') }}" collection-name="umkm_carousel" max-file-size="2" ratio="2/1" />
+        <x-dropzone-image id="carousel" name="carousel" action="{{ route('admin.umkms.storeMedia') }}" collection-name="umkm_carousel" ratio="2/1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.umkm_carousel') }}
         </div>
