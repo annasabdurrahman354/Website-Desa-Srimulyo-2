@@ -70,26 +70,33 @@
             {{ trans('cruds.umkm.fields.alamat_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('umkm.latitude') ? 'invalid' : '' }}">
-        <label class="form-label" for="latitude">{{ trans('cruds.umkm.fields.latitude') }}</label>
-        <input class="form-control" type="text" name="latitude" id="latitude" wire:model.defer="umkm.latitude">
-        <div class="validation-message">
-            {{ $errors->first('umkm.latitude') }}
+
+    <div class="form-group border border-dashed border-spacing-1 border-blue-400 rounded-md p-4">
+        <div class="form-group {{ $errors->has('umkm.longitude') || $errors->has('umkm.latitude') ? 'invalid' : '' }} relative" >
+            <label class="form-label" for="map">Klik pada lokasi UMKM Anda</label>
+            <div id="map" class="w-full h-96 rounded-md shadow-md" wire:ignore></div>
         </div>
-        <div class="help-block">
-            {{ trans('cruds.umkm.fields.latitude_helper') }}
+        <div class="form-group">
+            <label class="form-label contents" for="map">Atau masukkan koordinat secara manual</label>
+            <div class="flex items-center gap-4 w-full">
+                <div class="flex-1 {{ $errors->has('umkm.latitude') ? 'invalid' : '' }}">
+                    <label class="form-label" for="latitude">{{ trans('cruds.umkm.fields.latitude') }}</label>
+                    <input oninput="onHandleLatitudeInput(this)" class="form-control" type="number" step="any" name="latitude" id="latitude" wire:model="umkm.latitude">
+                    <div class="validation-message">
+                        {{ $errors->first('umkm.latitude') }}
+                    </div>
+                </div>
+                <div class="flex-1 {{ $errors->has('umkm.longitude') ? 'invalid' : '' }}">
+                    <label class="form-label" for="longitude">{{ trans('cruds.umkm.fields.longitude') }}</label>
+                    <input oninput="onHandleLongitudeInput(this)" class="form-control" type="number" step="any" name="longitude" id="longitude" wire:model="umkm.longitude">
+                    <div class="validation-message">
+                        {{ $errors->first('umkm.longitude') }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group {{ $errors->has('umkm.longitude') ? 'invalid' : '' }}">
-        <label class="form-label" for="longitude">{{ trans('cruds.umkm.fields.longitude') }}</label>
-        <input class="form-control" type="text" name="longitude" id="longitude" wire:model.defer="umkm.longitude">
-        <div class="validation-message">
-            {{ $errors->first('umkm.longitude') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.umkm.fields.longitude_helper') }}
-        </div>
-    </div>
+
     <div class="form-group {{ $errors->has('umkm.waktu_keterlihatan') ? 'invalid' : '' }}">
         <label class="form-label" for="waktu_keterlihatan">{{ trans('cruds.umkm.fields.waktu_keterlihatan') }}</label>
         <x-date-picker class="form-control" wire:model="umkm.waktu_keterlihatan" id="waktu_keterlihatan" name="waktu_keterlihatan" />
@@ -143,3 +150,64 @@
         <x-loading/>
     </div>
 </form>
+
+@push('scripts')
+    <script>
+        var map = L.map('map').setView([-7.4524345217123, 111.08387166008306], 14);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        map.invalidateSize();
+
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            @this.set('umkm.latitude', e.latlng.lat);
+            @this.set('umkm.longitude', e.latlng.lng);
+
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Anda mengklik pada " + e.latlng.toString())
+                .openOn(map);
+            map.panTo(L.latLng(e.latlng.lat, e.latlng.lng));
+        }
+
+        map.on('click', onMapClick);
+        
+        function onHandleLatitudeInput(e) {
+            @this.set('umkm.latitude', e.value);
+            popup
+                .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
+                .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
+                .openOn(map);
+            map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
+        }
+
+        function onHandleLatitudeInput(e) {
+            @this.set('umkm.latitude', e.value);
+            popup
+                .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
+                .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
+                .openOn(map);
+            map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
+        }
+
+    </script>
+    <script>
+        var x = document.getElementById("demo");
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+        }
+    </script>
+@endpush
+

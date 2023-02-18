@@ -12,7 +12,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.aparatur_desa_foto') ? 'invalid' : '' }}">
         <label class="form-label required" for="foto">{{ trans('cruds.aparaturDesa.fields.foto') }}</label>
-        <x-dropzone-image id="foto" name="foto" action="{{ route('admin.aparatur-desas.storeMedia') }}" collection-name="aparatur_desa_foto" max-file-size="2" ratio="2/3" max-files="1" />
+        <x-dropzone-image id="foto" name="foto" action="{{ route('admin.aparatur-desas.storeMedia') }}" collection-name="aparatur_desa_foto" ratio="2/3" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.aparatur_desa_foto') }}
         </div>

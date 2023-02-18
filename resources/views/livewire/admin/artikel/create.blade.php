@@ -22,7 +22,7 @@
     </div>
     <div class="form-group {{ $errors->has('mediaCollections.artikel_gambar') ? 'invalid' : '' }}">
         <label class="form-label required" for="gambar">{{ trans('cruds.artikel.fields.gambar') }}</label>
-        <x-dropzone-image id="gambar" name="gambar" action="{{ route('admin.artikels.storeMedia') }}" collection-name="artikel_gambar" ratio="3/2" max-file-size="2" max-files="1" />
+        <x-dropzone-image id="gambar" name="gambar" action="{{ route('admin.artikels.storeMedia') }}" collection-name="artikel_gambar" ratio="3/2" max-files="1" />
         <div class="validation-message">
             {{ $errors->first('mediaCollections.artikel_gambar') }}
         </div>
