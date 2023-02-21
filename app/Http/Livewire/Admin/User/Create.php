@@ -98,6 +98,7 @@ class Create extends Component
             ],
             'user.nomor_telepon' => [
                 'string',
+                'numeric',
                 'required',
             ],
             'user.jenis_kelamin' => [

@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<nav class="hidden md:block bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 w-full border-b border-gray-200 dark:border-gray-600 z-50 ">
+<nav class="hidden md:block px-2 sm:px-4 py-2.5 bg-repeat heropattern-moroccan-blue-200 bg-blue-100 dark:bg-gray-900 w-full border-b border-gray-200 dark:border-gray-600 z-50 ">
   <div class="container flex flex-wrap items-center justify-between mx-auto">
     <div href="{{route('guest.home')}}" class="flex items-center">
       <img src="{{ asset('image/logo-sragen.png') }}" class="h-20 m-4" alt="Flowbite Logo">

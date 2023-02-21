@@ -368,7 +368,7 @@ return [
             'kategori'                  => 'Kategori',
             'kategori_helper'           => ' ',
             'carousel'                  => 'Carousel',
-            'carousel_helper'           => 'Rasio foto ialah 2:1 dengan maksimal ukuran 2048 x 1024 px',
+            'carousel_helper'           => 'Rasio foto ialah 2:1',
         ],
     ],
     'satuanProduk' => [
@@ -434,7 +434,7 @@ return [
             'is_tampilkan'        => 'Tampilkan',
             'is_tampilkan_helper' => ' ',
             'foto'                => 'Foto',
-            'foto_helper'         => 'Rasio foto ialah 4:3 dengan maksimal ukuran 800 x 600 px',
+            'foto_helper'         => 'Rasio foto ialah 4:3',
         ],
     ],
     'manajemenLayanan' => [

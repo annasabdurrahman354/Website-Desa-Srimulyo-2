@@ -1,27 +1,25 @@
 <div wire:ignore>
    <div class="dropzone" {{ $attributes }}></div>
 </div>
+
 @push('scripts')
-@once
     <script>
     Dropzone.options[_.camelCase("{{ $attributes['id'] }}")] = {
         url: "{{ $attributes['action'] }}",
-        maxFilesize: {{ $attributes['max-file-size'] ?? 2 }},
-        maxFiles: {{ $attributes['max-files'] ?? 'null' }},
+        maxFilesize: {{$attributes['max-file-size'] ?? 5}},
+        maxFiles: {{$attributes['max-files'] ?? 'null'}},
         addRemoveLinks: true,
-        headers: {
-        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        },
+        headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+        acceptedFiles: ".jpeg, .jpg, .png",
         params: {
-        @if($attributes['max-width'])
-        max_width: {{ $attributes['max-width'] }},
-        @endif
-        @if($attributes['max-height'])
-        max_height: {{ $attributes['max-height'] }},
-        @endif
-        size: {{ $attributes['max-file-size'] ?? 2 }},
-        model_id: {{ $attributes['model-id'] ?? 0 }},
-        collection_name: "{{ $attributes['collection-name'] ?? 'default' }}"
+            @if($attributes['max-width'])
+            max_width: {{$attributes['max-width']}},
+            @endif
+            @if($attributes['max-height'])
+            max_height: {{$attributes['max-height']}},
+            @endif
+            model_id: {{$attributes['model-id'] ?? 0}},
+            collection_name: "{{ $attributes['collection-name'] ?? 'default' }}"
         },
         transformFile: function(file, done) {
             // Create Dropzone reference for use in confirm button click handler
@@ -57,20 +55,20 @@
                 });
                 // Turn the canvas into a Blob (file object without a name)
                 canvas.toBlob(function(blob) {
-                // Create a new Dropzone file thumbnail
-                myDropZone.createThumbnail(
-                    blob,
-                    myDropZone.options.thumbnailWidth,
-                    myDropZone.options.thumbnailHeight,
-                    myDropZone.options.thumbnailMethod,
-                    false, 
-                    function(dataURL) {
-                    
-                    // Update the Dropzone file thumbnail
-                    myDropZone.emit('thumbnail', file, dataURL);
-                    // Return the file to Dropzone
-                    done(blob);
-                });
+                    // Create a new Dropzone file thumbnail
+                    myDropZone.createThumbnail(
+                        blob,
+                        myDropZone.options.thumbnailWidth,
+                        myDropZone.options.thumbnailHeight,
+                        myDropZone.options.thumbnailMethod,
+                        false,
+                        function(dataURL) {
+
+                            // Update the Dropzone file thumbnail
+                            myDropZone.emit('thumbnail', file, dataURL);
+                            // Return the file to Dropzone
+                            done(blob);
+                        });
                 });
                 // Remove the editor from the view
                 document.body.removeChild(editor);
@@ -79,56 +77,60 @@
             var image = new Image();
             image.src = URL.createObjectURL(file);
             editor.appendChild(image);
-            
+
             // Create Cropper.js
-            var cropper = new Cropper(image, { aspectRatio: {{ $attributes['ratio'] ?? null }} });
+            var cropper = new Cropper(image, {
+                aspectRatio: {{$attributes['ratio'] ?? null}}
+            });
         },
-        success: function (file, response) {
-        @this.addMedia(response.media)
+        success: function(file, response) {
+            @this.addMedia(response.media)
         },
-        removedfile: function (file) {
-        file.previewElement.remove()
-        
-        if (file.status === 'error') {
-            return;
-        }
-        
-        if (file.xhr) {
-            var response = JSON.parse(file.xhr.response)
-        @this.removeMedia(response.media)
-        } else {
-        @this.removeMedia(file)
-        
-            if (this.options.maxFiles !== null) {
-                this.options.maxFiles++
+        removedfile: function(file) {
+            file.previewElement.remove()
+
+            if (file.status === 'error') {
+                return;
             }
-        }
-        },
-        init: function () {
-        document.addEventListener("livewire:load", () => {
-            let files = @this.mediaCollections["{{ $attributes['collection-name'] ?? 'default' }}"]
-            if (files !== undefined && files.length) {
-                files.forEach(file => {
-                    let fileClone = JSON.parse(JSON.stringify(file))
-                    this.files.push(fileClone)
-                    this.emit("transformFile", fileclone)
-                    this.emit("addedfile", fileClone)
-        
-                    if (fileClone.preview_thumbnail !== undefined) {
-                        this.emit("thumbnail", fileClone, fileClone.preview_thumbnail)
-                    } else {
-                        this.emit("thumbnail", fileClone, fileClone.url)
-                    }
-        
-                    this.emit("complete", fileClone)
-                    if (this.options.maxFiles !== null) {
-                        this.options.maxFiles--
-                    }
-                })
+
+            if (file.xhr) {
+                var response = JSON.parse(file.xhr.response)
+                @this.removeMedia(response.media)
+            } else {
+                @this.removeMedia(file)
+
+                if (this.options.maxFiles !== null) {
+                    this.options.maxFiles++
+                }
             }
-        });
         },
-        error: function (file, response) {
+        init: function() {
+            document.addEventListener("livewire:load", () => {
+                let files = @this.mediaCollections["{{ $attributes['collection-name'] ?? 'default' }}"]
+                if (files !== undefined && files.length) {
+                    files.forEach(file => {
+                        let fileClone = JSON.parse(JSON.stringify(file))
+                        this.files.push(fileClone)
+                        
+                        this.emit("addedfile", fileClone)
+                        
+                        if (fileClone.preview_thumbnail !== undefined) {
+                            this.emit("thumbnail", fileClone, fileClone.preview_thumbnail)
+                        } else {
+                            this.emit("thumbnail", fileClone, fileClone.url)
+                        }
+
+                        this.emit("complete", fileClone)
+                        if (this.options.maxFiles !== null) {
+                            this.options.maxFiles--
+                        }
+                    })
+                }
+            });
+            this.on("addedfile", file => {
+            });
+        },
+        error: function(file, response) {
             file.previewElement.classList.add('dz-error')
             let message = $.type(response) === 'string' ? response : response.errors.file
             return _.map(file.previewElement.querySelectorAll('[data-dz-errormessage]'), r => r.textContent = message)
@@ -136,7 +138,6 @@
     }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
-@endonce
 @endpush
 
 @push('styles')

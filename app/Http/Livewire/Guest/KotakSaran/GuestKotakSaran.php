@@ -37,6 +37,7 @@ class GuestKotakSaran extends Component
             ],
             'kotakSaran.nomor_telepon' => [
                 'string',
+                'numeric',
                 'nullable',
             ],
             'kotakSaran.isi' => [

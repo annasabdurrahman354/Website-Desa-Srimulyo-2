@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Guest\Beranda;
 
 use App\Models\Artikel;
+use App\Models\Carousel;
 use App\Models\KategoriArtikel;
 use Livewire\Component;
 
@@ -12,6 +13,7 @@ class GuestBeranda extends Component
     public string $kategoriNama = 'Semua Kategori';
     public string $kategoriId = "";
     public $kategoris = [];
+    public $carousels = [];
 
     public function setKategori($kategoriId, $kategoriNama){
         $this->kategoriNama = $kategoriNama;
@@ -21,6 +23,7 @@ class GuestBeranda extends Component
     public function mount()
     {   
         $this->kategoris = KategoriArtikel::get();
+        $this->carousels = Carousel::where('is_aktif', 1)->get();
     }
 
     public function render()

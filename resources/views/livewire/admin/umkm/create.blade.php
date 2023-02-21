@@ -10,6 +10,7 @@
             {{ trans('cruds.umkm.fields.pemilik_helper') }}
         </div>
     </div>
+    
     <div class="form-group {{ $errors->has('umkm.nama_umkm') ? 'invalid' : '' }}">
         <label class="form-label required" for="nama_umkm">{{ trans('cruds.umkm.fields.nama_umkm') }}</label>
         <input class="form-control" type="text" name="nama_umkm" id="nama_umkm" required wire:model="nama">
@@ -20,6 +21,7 @@
             {{ trans('cruds.umkm.fields.nama_umkm_helper') }}
         </div>
     </div>
+
     <div class="form-group {{ $errors->has('umkm.slug') ? 'invalid' : '' }}">
         <label class="form-label required" for="slug">{{ trans('cruds.umkm.fields.slug') }}</label>
         <input class="form-control" type="text" name="slug" id="slug" required wire:model="umkm.slug" disabled>
@@ -149,6 +151,7 @@
     <div class="form-group" wire:loading>
         <x-loading/>
     </div>
+   
 </form>
 
 @push('scripts')
@@ -163,8 +166,8 @@
         var popup = L.popup();
 
         function onMapClick(e) {
-            @this.set('umkm.latitude', e.latlng.lat);
-            @this.set('umkm.longitude', e.latlng.lng);
+            @this.set('umkm.latitude', e.latlng.lat.toString());
+            @this.set('umkm.longitude', e.latlng.lng.toString());
 
             popup
                 .setLatLng(e.latlng)
@@ -176,7 +179,7 @@
         map.on('click', onMapClick);
         
         function onHandleLatitudeInput(e) {
-            @this.set('umkm.latitude', e.value);
+            @this.set('umkm.latitude', e.value.toString());
             popup
                 .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
                 .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
@@ -185,7 +188,7 @@
         }
 
         function onHandleLatitudeInput(e) {
-            @this.set('umkm.latitude', e.value);
+            @this.set('umkm.latitude', e.value.toString());
             popup
                 .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
                 .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
@@ -193,21 +196,6 @@
             map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
         }
 
-    </script>
-    <script>
-        var x = document.getElementById("demo");
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
-
-        function showPosition(position) {
-            x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
-        }
     </script>
 @endpush
 

@@ -31,10 +31,6 @@ class Edit extends Component
         $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
 
         $this->mediaToRemove[] = $media['uuid'];
-        
-        foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
-            $media->delete();
-        }
     }
 
     public function getMediaCollection($name)
@@ -151,7 +147,7 @@ class Edit extends Component
     {
         $baseSlug = Str::slug($nama);
         // Check if the base slug exists in the database
-        if(Umkm::where('judul', $nama)->exists()){
+        if(Umkm::where('nama_umkm', $nama)->exists()){
             $counter = 1;
             while (Umkm::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
             return $slug;
@@ -163,7 +159,7 @@ class Edit extends Component
 
     public function updatedNama($value)
     {
-        $this->umkm->nama = $value;
+        $this->umkm->nama_umkm = $value;
         $this->umkm->slug = $this->generateSlug($value);
     }
 }

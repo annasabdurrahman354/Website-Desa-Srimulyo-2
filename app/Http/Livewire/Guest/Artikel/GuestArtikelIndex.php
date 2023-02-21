@@ -2,8 +2,6 @@
 
 namespace App\Http\Livewire\Guest\Artikel;
 
-use App\Http\Livewire\WithConfirmation;
-use App\Http\Livewire\WithSorting;
 use App\Models\Artikel;
 use App\Models\KategoriArtikel;
 use Livewire\Component;
@@ -12,10 +10,6 @@ use Livewire\WithPagination;
 class GuestArtikelIndex extends Component
 {
     use WithPagination;
-    use WithSorting;
-    use WithConfirmation;
-
-    public array $orderable;
 
     public $kategoris = [];
 
@@ -24,30 +18,6 @@ class GuestArtikelIndex extends Component
     public string $kategoriId = "";
 
     public string $search = '';
-
-    public array $paginationOptions;
-
-    protected $queryString = [
-        'search' => [
-            'except' => [
-                'id',
-                'judul',
-                'konten',
-                'jumlah_pembaca',
-            ],
-        ],
-        'sortBy' => [
-            'except' => '',
-        ],
-        'sortDirection' => [
-            'except' => 'desc',
-        ],
-    ];
-
-    public function updatedKategori()
-    {
-        $this->resetPage();
-    }
 
     public function updatingSearch()
     {
@@ -65,19 +35,19 @@ class GuestArtikelIndex extends Component
             $this->kategoriId          = request()->kategori;
             $this->kategoriNama        = KategoriArtikel::where('id', $this->kategoriId)->first()->kategori;
         }
+        if(request()->search){
+            $this->search = request()->search;
+        }
         $this->kategoris          = KategoriArtikel::get();
-        $this->sortBy            = 'id';
-        $this->sortDirection     = 'desc';
-        $this->paginationOptions = config('project.pagination.options');
-        $this->orderable         = (new Artikel())->orderable;
+
     }
 
     public function render()
     {
         $query = Artikel::with(['penulis', 'kategori'])->advancedFilter([
             's'               => $this->search ?: null,
-            'order_column'    => $this->sortBy,
-            'order_direction' => $this->sortDirection,
+            'order_column'    => 'id',
+            'order_direction' => 'desc',
         ]);
         $artikels = $query;
         if($this->kategoriId != ""){

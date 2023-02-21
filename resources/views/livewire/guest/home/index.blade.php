@@ -2,26 +2,44 @@
    <!-- Carousel section -->
    <div id="default-carousel" class="relative w-full" data-carousel="static" wire:ignore>
       <!-- Carousel wrapper -->
-      <div class="relative h-56 overflow-hidden md:h-96">
-         <!-- Item 1 -->
-         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <span class="z-30 absolute w-full h-fit pb-6 pt-2 px-6 bottom-0 right-0 left-0 align-middle text-center bg-slate-300/25 backdrop-blur-sm text-white text-base dark:text-gray-800">First Slide</span>
-            <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-         </div>
-         <!-- Item 2 -->
-         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-         </div>
-         <!-- Item 3 -->
-         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-         </div>
+      <div class="relative h-56 overflow-hidden md:h-96 rounded-b-md shadow-md">
+         @forelse ( $carousels as $carousel)
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+               <span class="z-30 absolute w-full h-fit pb-6 pt-2 px-6 bottom-0 right-0 left-0 align-middle text-center bg-gray-800/50 backdrop-blur-sm text-white text-lg font-sans font-medium dark:text-gray-800">{{$carousel->judul}}</span>
+               @if ($carousel->link_tujuan)
+                  <a href="//{{$carousel->link_tujuan}}">
+                  <img src="{{$carousel->gambar[0]['url']}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                  </a>
+               @else
+                  <img src="{{$carousel->gambar[0]['url']}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+               @endisset
+            </div>
+         @empty
+            <!-- Item 1 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+               <span class="z-30 absolute w-full h-fit pb-6 pt-2 px-6 bottom-0 right-0 left-0 align-middle text-center bg-slate-300/25 backdrop-blur-sm text-white text-base dark:text-gray-800">First Slide</span>
+               <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 2 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+               <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+               <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+         @endforelse
+            
       </div>
       <!-- Slider indicators -->
       <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-2 left-1/2">
-         <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-         <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-         <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+         @forelse (array_keys($carousels->toArray()) as $i)
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="{{$i}}"></button>
+         @empty
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+         @endforelse
       </div>
       <!-- Slider controls -->
       <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -215,7 +233,7 @@
                   </ul>
             </div>
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="faq" role="tabpanel" aria-labelledby="faq-tab">
-                  <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
+                  <div id="accordion-flush" data-accordion="collapse" data-active-classes="border-t border-gray-200 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
                      <p id="accordion-flush-heading-1">
                         <button type="button" class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
                         <span>What is Flowbite?</span>

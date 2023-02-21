@@ -19,7 +19,7 @@
       <div class="flex items-center">
           <button type="button" class="flex mr-3 text-sm rounded-full md:mr-0 items-center md:gap-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
             <span class="sr-only">Open user menu</span>
-            <span class="block py-2 pl-3 pr-2 font-medium text-blue-500 rounded focus:bg-transparent hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white">{{auth()->user()->name}}</span>
+            <span class="block py-2 pl-3 pr-2 text-blue-500 rounded focus:bg-transparent md:p-0 hover:text-blue-700 md:dark:hover:text-white dark:text-gray-400 dark:hover:text-white">{{auth()->user()->name}}</span>
             <img class="w-8 h-8 rounded-full hover:ring-2 focus:ring-blue-500 dark:focus:ring-gray-600" src="{{ auth()->user()->avatar }}" alt="user photo">
           </button>
         <!-- Dropdown menu -->
@@ -94,10 +94,10 @@
             </div>
         </li>
         <li class="md:hidden xl:inline">
-          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dokumen Umum</a>
+          <a href="{{route('guest.dokumen-umum.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dokumen Umum</a>
         </li>
         <li class="md:hidden xl:inline">
-          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Produk Hukum</a>
+          <a href="{{route('guest.produk-hukum.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Produk Hukum</a>
         </li>
         <li>
             <button id="dropdownUmkmLink" data-dropdown-toggle="dropdownUmkm" class="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
@@ -120,7 +120,7 @@
             </div>
         </li>
         <li class="md:hidden xl:inline">
-          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kotak Saran</a>
+          <a href="{{route('guest.kotak-saran')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kotak Saran</a>
         </li>
         <li class="md:hidden xl:inline">
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profil Desa</a>
@@ -132,13 +132,13 @@
     <div class="hidden xl:hidden w-full order-3" id="navbar-dropdownMd">
       <ul class="hidden md:block px-2 pb-2 pt-2 mt-4 border border-gray-100 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700 mb-4">
         <li>
-          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Dokumen Umum</a>
+          <a href="{{route('guest.dokumen-umum.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Dokumen Umum</a>
         </li>
         <li>
-          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Produk Hukum</a>
+          <a href="{{route('guest.produk-hukum.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Produk Hukum</a>
         </li>
         <li>
-          <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Kotak Saran</a>
+          <a href="{{route('guest.kotak-saran')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Kotak Saran</a>
         </li>
         <li>
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Profil Desa</a>

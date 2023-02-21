@@ -38,6 +38,7 @@ class Create extends Component
             'kotakSaran.nomor_telepon' => [
                 'string',
                 'nullable',
+                'numeric',
             ],
             'kotakSaran.isi' => [
                 'string',

@@ -136,7 +136,7 @@ class Create extends Component
     {
         $baseSlug = Str::slug($nama);
         // Check if the base slug exists in the database
-        if(Produk::where('judul', $nama)->exists()){
+        if(Produk::where('nama', $nama)->exists()){
             $counter = 1;
             while (Produk::where('slug', $slug = "{$baseSlug}-" . ++$counter)->exists()) {}
             return $slug;

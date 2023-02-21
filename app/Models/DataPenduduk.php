@@ -80,6 +80,17 @@ class DataPenduduk extends Model implements HasMedia
         });
     }
 
+    public function getBerkasDataUrlAttribute()
+    {
+        return $this->getMedia('data_penduduk_berkas_data')[0]->getUrl();
+    }
+
+    public function getBerkasDataTypeAttribute()
+    {
+        
+        return pathinfo($this->getMedia('data_penduduk_berkas_data')[0]->file_name, PATHINFO_EXTENSION);
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
