@@ -2496,6 +2496,9 @@ input:checked + .toggle-bg {
 .mt-72 {
   margin-top: 18rem;
 }
+.-mt-1 {
+  margin-top: -0.25rem;
+}
 .block {
   display: block;
 }
@@ -2588,6 +2591,9 @@ input:checked + .toggle-bg {
 .h-modal {
   height: calc(100% - 2rem);
 }
+.h-7 {
+  height: 1.75rem;
+}
 .max-h-96 {
   max-height: 24rem;
 }
@@ -2657,6 +2663,9 @@ input:checked + .toggle-bg {
 }
 .w-64 {
   width: 16rem;
+}
+.w-7 {
+  width: 1.75rem;
 }
 .min-w-0 {
   min-width: 0px;
@@ -3078,6 +3087,10 @@ input:checked + .toggle-bg {
   --tw-border-opacity: 1;
   border-color: rgb(241 245 249 / var(--tw-border-opacity));
 }
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(113 113 122 / var(--tw-border-opacity));
+}
 .border-blue-400 {
   --tw-border-opacity: 1;
   border-color: rgb(118 169 250 / var(--tw-border-opacity));
@@ -3089,10 +3102,6 @@ input:checked + .toggle-bg {
 .border-blue-700 {
   --tw-border-opacity: 1;
   border-color: rgb(26 86 219 / var(--tw-border-opacity));
-}
-.border-gray-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(113 113 122 / var(--tw-border-opacity));
 }
 .border-blue-600 {
   --tw-border-opacity: 1;
@@ -3833,6 +3842,10 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.hover\:bg-gray-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(63 63 70 / var(--tw-bg-opacity));
+}
 .hover\:text-gray-900:hover {
   --tw-text-opacity: 1;
   color: rgb(24 24 27 / var(--tw-text-opacity));
@@ -3852,6 +3865,10 @@ input:checked + .toggle-bg {
 .hover\:text-gray-700:hover {
   --tw-text-opacity: 1;
   color: rgb(63 63 70 / var(--tw-text-opacity));
+}
+.hover\:text-blue-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(63 131 248 / var(--tw-text-opacity));
 }
 .hover\:text-indigo-600:hover {
   --tw-text-opacity: 1;
@@ -4270,6 +4287,10 @@ input:checked + .toggle-bg {
     width: 40%;
   }
 
+  .sm\:w-auto {
+    width: auto;
+  }
+
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -4305,6 +4326,18 @@ input:checked + .toggle-bg {
 
   .sm\:justify-between {
     justify-content: space-between;
+  }
+
+  .sm\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0px * var(--tw-space-y-reverse));
+  }
+
+  .sm\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(1rem * var(--tw-space-x-reverse));
+    margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
   }
 
   .sm\:rounded-lg {
@@ -4347,6 +4380,11 @@ input:checked + .toggle-bg {
 
   .sm\:text-xl {
     font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .sm\:text-lg {
+    font-size: 1.125rem;
     line-height: 1.75rem;
   }
 }

@@ -25,13 +25,19 @@
                   </div>
                </div>
               
-               <hr class="flex-1 w-full border border-gray-300 sm:mx-auto dark:border-gray-700" />
+               <hr class="flex-1 w-full border-1 border-gray-300 sm:mx-auto dark:border-gray-700" />
 
                <div class="w-full h-full px-4 py-4">
                      @if ($produkHukum->berkas_dokumen_type == "pdf")
-                        <embed class="w-full h-full border border-gray-500 rounded-md" src="{{$produkHukum->berkas_dokumen_url}}" type="application/pdf">
+                        <x-pdf-viewer pdf-file="{{$produkHukum->berkas_dokumen_url}}"/>
                      @else
-                        <iframe class="w-full h-full border border-gray-500 rounded-md" src='https://view.officeapps.live.com/op/embed.aspx?src={{$produkHukum->berkas_dokumen_url}}' frameborder='0'></iframe>
+                        <iframe
+                           src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$produkHukum->berkas_dokumen_url}}#toolbar=0&scrollbar=0"
+                           frameBorder="0"
+                           scrolling="auto"
+                           height="100%"
+                           width="100%"
+                        ></iframe>
                      @endif
                </div>
             </div>

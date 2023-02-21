@@ -27,11 +27,29 @@
               
                <hr class="flex-1 w-full border border-gray-300 sm:mx-auto dark:border-gray-700" />
 
+               <div class="w-full h-full px-4 py-4 hidden">
+                     @if ($dokumenUmum->berkas_dokumen_type == "pdf")
+                        <embed  class="w-full h-full border border-gray-500 rounded-md" class="w-full h-full border border-gray-500 rounded-md" src="{{$dokumenUmum->berka_dokumen_url}}" type="application/pdf">
+                     @else
+                        <iframe
+                           src="https://drive.google.com/viewerng/viewer?embedded=true&url=http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&scrollbar=0"
+                           frameBorder="0"
+                           scrolling="auto"
+                           height="100%"
+                           width="100%"
+                        ></iframe>
+                     @endif
+               </div>
+
                <div class="w-full h-full px-4 py-4">
                      @if ($dokumenUmum->berkas_dokumen_type == "pdf")
-                        <embed class="w-full h-full border border-gray-500 rounded-md" src="{{$dokumenUmum->berka_dokumen_url}}" type="application/pdf">
-                     @else
-                        <iframe class="w-full h-full border border-gray-500 rounded-md" src='https://view.officeapps.live.com/op/embed.aspx?src={{$dokumenUmum->berkas_dokumen_url}}' frameborder='0'></iframe>
+                        <div class="h-full w-full flex flex-col">
+                           <div id="results" class="w-full h-fit p-3 border-2 border-dashed border-spacing-1 rounded-md bg-white">
+                              <p>Peramban Anda tidak bisa menampilkan berkas. <a class="text-blue-700 hover:text-blue-500 hover:underline" href="{{$dokumenUmum->berka_dokumen_url}}"> Klik disini untuk mengunduh! </a></p>
+                           </div>
+
+                           <div id="pdf" class="w-full h-full border border-gray-500"></div>
+                        </div>
                      @endif
                </div>
             </div>
@@ -123,4 +141,29 @@
             navigator.clipboard.writeText(window.location.href);
          });
       </script> 
+@endpush
+
+@push('scripts')
+    <script src="https://unpkg.com/pdfobject@2.2.8/pdfobject.min.js"></script>
+    <script>
+        var options = {
+            pdfOpenParams: {
+                navpanes: 0,
+                toolbar: 0,
+                statusbar: 0,
+                view: "FitV",
+                pagemode: "thumbs",
+            },
+            forcePDFJS: false,
+            PDFJS_URL: "{{ asset('pdfjs/web/viewer.html') }}"
+        };
+
+        var myPDF = PDFObject.embed("{{$dokumenUmum->berka_dokumen_url ?? null}}", "#pdf", options);
+
+        var el = document.querySelector("#results");
+        el.setAttribute("class", (myPDF) ? "hidden" : "");
+
+        var el = document.querySelector("#pdf");
+        el.setAttribute("class", (myPDF) ? "" : "hidden");
+    </script>
 @endpush
