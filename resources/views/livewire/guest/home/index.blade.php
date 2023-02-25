@@ -1,4 +1,4 @@
-<div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+<div class="container w-full mx-auto dark:bg-gray-900">
    <!-- Carousel section -->
    <div id="default-carousel" class="relative w-full" data-carousel="static" wire:ignore>
       <!-- Carousel wrapper -->
@@ -8,25 +8,25 @@
                <span class="z-30 absolute w-full h-fit pb-6 pt-2 px-6 bottom-0 right-0 left-0 align-middle text-center bg-gray-800/50 backdrop-blur-sm text-white text-lg font-sans font-medium dark:text-gray-800">{{$carousel->judul}}</span>
                @if ($carousel->link_tujuan)
                   <a href="//{{$carousel->link_tujuan}}">
-                  <img src="{{$carousel->gambar[0]['url']}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                     <img src="{{$carousel->getFirstMediaUrl('carousel_gambar')}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                   </a>
                @else
-                  <img src="{{$carousel->gambar[0]['url']}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                  <img src="{{$carousel->getFirstMediaUrl('carousel_gambar')}}" class="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                @endisset
             </div>
          @empty
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                <span class="z-30 absolute w-full h-fit pb-6 pt-2 px-6 bottom-0 right-0 left-0 align-middle text-center bg-slate-300/25 backdrop-blur-sm text-white text-base dark:text-gray-800">First Slide</span>
-               <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+               <img src="{{asset('image/img-fallback1.svg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
             <!-- Item 2 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-               <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+               <img src="{{asset('image/img-fallback2.svg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
             <!-- Item 3 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-               <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+               <img src="{{asset('image/img-fallback3.svg')}}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
          @endforelse
             
@@ -110,7 +110,7 @@
           @forelse ( $latest_artikel as $artikel)
             <div class="w-full h-full flex flex-col bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                <div >
-                  <img class="rounded-t-lg w-full" src="{{$artikel->gambar[0]['url']}}" alt="" />
+                  <img class="rounded-t-lg w-full" src="{{$artikel->getFirstMediaUrl('artikel_gambar')}}" alt="" />
                </div>
                <div class="p-5 h-full flex flex-col justify-between">
                   <div>

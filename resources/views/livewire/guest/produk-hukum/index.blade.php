@@ -1,4 +1,4 @@
-<div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+<div class="container w-full mx-auto dark:bg-gray-900">
    <!-- Dokumen section -->
    <section class="text-gray-600 body-font container px-4 pt-12 pb-12 mx-auto">
       <div>
@@ -6,8 +6,8 @@
             <div class="h-1 rounded overflow-hidden">
                <div class="w-32 h-full bg-blue-500"></div>
             </div>
-            <div class="flex flex-wrap md:flex-nowrap sm:flex-row py-1 mb-4 items-center align-middle justify-between space-y-2">
-               <h2 class="mt-1 text-2xl tracking-tighter font-bold text-gray-900 dark:text-white h-full whitespace-nowrap">Daftar Produk Hukum {{$tahun == "" ? "" : "Tahun ".$tahun }}</h2>
+            <div class="flex flex-wrap md:flex-nowrap sm:flex-row mb-4 items-center align-middle justify-between space-y-2">
+               <h2 class="text-2xl tracking-tighter font-bold text-gray-900 dark:text-white h-full whitespace-nowrap">Daftar Produk Hukum {{$tahun == "" ? "" : "Tahun ".$tahun }}</h2>
                
                <div class="flex flex-nowrap items-center space-x-2 w-full md:w-fit justify-between">
                   <div class="relative flex-grow md:flex-grow-0">
@@ -76,10 +76,10 @@
          @empty
          <div class="p-4 w-full">
             Tidak ada postingan produk hukum!
-         <div class="p-4 w-full">
+         </div>
          @endforelse
       </div>
-      <div class="mt-4">
+      <div class="mt-2">
       {{ $produkHukums->links() }}
       </div>
    </section>

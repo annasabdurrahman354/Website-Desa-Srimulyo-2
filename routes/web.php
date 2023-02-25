@@ -37,11 +37,20 @@ use App\Http\Livewire\Guest\DataPenduduk\GuestDataPendudukShow;
 use App\Http\Livewire\Guest\DokumenUmum\GuestDokumenUmumIndex;
 use App\Http\Livewire\Guest\DokumenUmum\GuestDokumenUmumShow;
 use App\Http\Livewire\Guest\KotakSaran\GuestKotakSaran;
+use App\Http\Livewire\Guest\ProdukHukum\GuestProdukHukumIndex;
+use App\Http\Livewire\Guest\ProdukHukum\GuestProdukHukumShow;
+use App\Http\Livewire\Guest\Umkm\GuestPetaUmkm;
+use App\Http\Livewire\Guest\Umkm\GuestProdukIndex;
+use App\Http\Livewire\Guest\Umkm\GuestUmkmEtalasae;
+use App\Http\Livewire\Guest\Umkm\GuestUmkmIndex;
 use App\Http\Livewire\User\Pelayanan\UserPelayananIndex;
 use App\Http\Livewire\User\Pelayanan\UserPelayananCreate;
 use App\Http\Livewire\User\Pelayanan\UserPelayananRevisi;
 use App\Http\Livewire\User\Pelayanan\UserPelayananShow;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -151,6 +160,12 @@ Route::group(['as' => 'guest.'], function () {
     Route::get('/data-penduduk/{slug}', GuestDataPendudukShow::class)->name('data-penduduk.show');
     Route::get('/dokumen-umum', GuestDokumenUmumIndex::class)->name('dokumen-umum.index');
     Route::get('/dokumen-umum/{slug}', GuestDokumenUmumShow::class)->name('dokumen-umum.show');
+    Route::get('/produk-hukum', GuestProdukHukumIndex::class)->name('produk-hukum.index');
+    Route::get('/produk-hukum/{slug}', GuestProdukHukumShow::class)->name('produk-hukum.show');
+    Route::get('/umkm/peta', GuestPetaUmkm::class)->name('umkm.peta');
+    Route::get('/umkm/umkm', GuestUmkmIndex::class)->name('umkm.index');
+    Route::get('/umkm/produk', GuestProdukIndex::class)->name('produk.index');
+    Route::get('/umkm/etalase/{slug}', GuestUmkmEtalasae::class)->name('umkm.etalase');
     Route::get('/kotak-saran', GuestKotakSaran::class)->name('kotak-saran');
 });
 

@@ -15,8 +15,7 @@ class GuestArtikelShow extends Component
 
     public function mount($slug)
     {
-        $this->artikel = Artikel::where('slug', $slug)->with(['penulis', 'kategori'])->first();
-        if(!$this->artikel) return abort(404);
+        $this->artikel = Artikel::where('slug', $slug)->with(['penulis', 'kategori'])->firstOrFail();
         $this->artikels = Artikel::with(['penulis', 'kategori'])->orderBy('id', 'desc')->take(3)->get();
         $this->kategoris = KategoriArtikel::inRandomOrder()->limit(9)->get();
     }

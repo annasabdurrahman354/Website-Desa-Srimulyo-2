@@ -80,11 +80,6 @@ class DataPenduduk extends Model implements HasMedia
         });
     }
 
-    public function getBerkasDataUrlAttribute()
-    {
-        return $this->getMedia('data_penduduk_berkas_data')[0]->getUrl();
-    }
-
     public function getBerkasDataTypeAttribute()
     {
         

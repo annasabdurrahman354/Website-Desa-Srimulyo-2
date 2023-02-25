@@ -78,6 +78,14 @@ class Produk extends Model implements HasMedia
         'is_tampilkan',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('umkm_carousel')
+            ->useFallbackUrl('/image/img-fallback3.svg')
+            ->useFallbackPath(public_path('/image/img-fallback3.svg'));
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $thumbnailWidth  = 50;

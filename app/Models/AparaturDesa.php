@@ -78,6 +78,14 @@ class AparaturDesa extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('aparatur_desa_foto')
+            ->useFallbackUrl('/image/img-fallback2.svg')
+            ->useFallbackPath(public_path('/image/img-fallback2.svg'));
+    }
+
     public function getFotoAttribute()
     {
         return $this->getMedia('aparatur_desa_foto')->map(function ($item) {

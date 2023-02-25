@@ -1,4 +1,4 @@
-<div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+<div class="container w-full mx-auto dark:bg-gray-900">
     <section class="text-gray-600 body-font container px-4 pt-12 pb-12 mx-auto w-full">
       <div class="w-full lg:w-1/2 mx-auto text-center mb-4">
             <p class="font-semibold">{{$produkHukum->created_at->isoFormat('dddd, D MMMM Y')}}</p>
@@ -29,10 +29,10 @@
 
                <div class="w-full h-full px-4 py-4">
                      @if ($produkHukum->berkas_dokumen_type == "pdf")
-                        <x-pdf-viewer pdf-file="{{$produkHukum->berkas_dokumen_url}}"/>
+                        <x-pdf-viewer pdf-file="{{$produkHukum->getFirstMediaUrl('produk_hukum_berkas_dokumen')}}"/>
                      @else
                         <iframe
-                           src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$produkHukum->berkas_dokumen_url}}#toolbar=0&scrollbar=0"
+                           src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$produkHukum->getFirstMediaUrl('produk_hukum_berkas_dokumen')}}#toolbar=0&scrollbar=0"
                            frameBorder="0"
                            scrolling="auto"
                            height="100%"

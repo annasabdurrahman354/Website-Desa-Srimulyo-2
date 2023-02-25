@@ -16,8 +16,7 @@ class GuestDokumenUmumShow extends Component
 
     public function mount($slug)
     {
-        $this->dokumenUmum = DokumenUmum::where('slug', $slug)->first();
-        if(!$this->dokumenUmum) return abort(404);
+        $this->dokumenUmum = DokumenUmum::where('slug', $slug)->firstOrFail();
         $this->artikels = Artikel::with(['penulis', 'kategori'])->orderBy('id', 'desc')->take(3)->get();
         $this->kategoris = KategoriArtikel::inRandomOrder()->limit(6)->get();
     }

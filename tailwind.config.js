@@ -83,6 +83,9 @@ module.exports = {
       },
       backgroundSize: {
         full: '100$'
+      },
+      borderWidth: {
+        '3': '3px'
       }
     }
   },

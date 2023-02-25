@@ -2,33 +2,25 @@
 
 namespace App\Http\Livewire\Guest\Umkm;
 
+use App\Models\KategoriUmkm;
 use App\Models\Umkm;
 use Livewire\Component;
 
 class GuestPetaUmkm extends Component
 {
-
     public string $search = '';
 
-    protected $queryString = [
-        'search' => [
-            'except' => '',
-        ],
-        'sortBy' => [
-            'except' => 'id',
-        ],
-        'sortDirection' => [
-            'except' => 'desc',
-        ],
-    ];
+    public $umkms = [];
+    public $tags = [];
+    public $clickedUmkm = '';
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
+    public function setClickedUmkm($umkm){
+        $this->clickedUmkm = $umkm;
     }
 
     public function mount()
     {
+        $this->tags = Umkm::with('kategori')->distinct('kategori_id')->get(['kategori_id'])->pluck('kategori.kategori')->toArray();
     }
 
     public function render()
@@ -38,9 +30,23 @@ class GuestPetaUmkm extends Component
             'order_column'    => 'id',
             'order_direction' => 'desc',
         ]);
+        
+        $this->umkms = $query->get();
 
-        $umkms = $query->get();
+        $this->umkms = $this->umkms->map(function ($item) {
+            $umkm = $item->toArray();
+            $umkm['thumbUrl'] = $item->getFirstMediaUrl('umkm_carousel');
+            $umkm['icon'] = $item->icon;
+            $umkm['color'] = $item->color;
+            $umkm['url_arah'] = $item->url_arah;
+            $umkm['url_hubungi'] = $item->url_hubungi;
+            unset($umkm['carousel']);
+            unset($umkm['media']);
+            return $umkm;
+        });
 
-        return view('livewire.guest.umkm.peta', compact('query', 'umkms'));
+        $umkms = $this->umkms;
+
+        return view('livewire.guest.umkm.umkm-peta', compact('query', 'umkms'))->extends('layouts.guest');
     }
 }

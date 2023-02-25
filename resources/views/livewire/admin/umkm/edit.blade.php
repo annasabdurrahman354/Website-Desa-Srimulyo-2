@@ -151,8 +151,14 @@
     </div>
 </form>
 
+@push('styles')
+    @once
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    @endonce
+@endpush
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <script>
         var map = L.map('map').setView([@js($umkm->latitude), @js($umkm->longitude)], 14);
 
@@ -160,61 +166,69 @@
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-
+        
+        var lc = L.control
+                .locate({
+                    position: "topleft",
+                    setView: 'untilPanOrZoom',
+                    flyTo: true,          
+                    strings: {
+                        title: "Show me where I am, yo!"
+                    }
+                })
+                .addTo(map);
+        var markerGroup = L.layerGroup().addTo(map);
+        
         map.invalidateSize();
 
-        var popup = L.popup();
-
-        popup
-            .setLatLng(L.latLng(@js($umkm->latitude), @js($umkm->longitude)))
-            .setContent("Lokasi UMKM Anda di " + L.latLng(@js($umkm->latitude), @js($umkm->longitude)))
-            .openOn(map);
+        L.marker(L.latLng(@js($umkm->latitude), @js($umkm->longitude))).addTo(markerGroup)
+                .bindPopup("Lokasi UMKM Anda berada di sini!").openPopup();
         map.panTo(L.latLng(@js($umkm->latitude), @js($umkm->longitude)));
 
         function onMapClick(e) {
+            markerGroup.clearLayers();
+            lc.stop();
+
             @this.set('umkm.latitude', e.latlng.lat.toString());
             @this.set('umkm.longitude', e.latlng.lng.toString());
 
-            popup
-                .setLatLng(e.latlng)
-                .setContent("Anda mengklik pada " + e.latlng.toString())
-                .openOn(map);
+            L.marker(e.latlng).addTo(markerGroup)
+                .bindPopup("Anda berada di sini!").openPopup();
             map.panTo(L.latLng(e.latlng.lat, e.latlng.lng));
         }
 
-        function onHandleLatitudeInput(e) {
-            @this.set('umkm.latitude', e.value.toString());
-            popup
-                .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
-                .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
-                .openOn(map);
-            map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
-        }
-
-        function onHandleLatitudeInput(e) {
-            @this.set('umkm.latitude', e.value.toString());
-            popup
-                .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
-                .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
-                .openOn(map);
-            map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
-        }
-
         map.on('click', onMapClick);
-    </script>
-    <script>
-        var x = document.getElementById("demo");
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
+
+        function onLocationFound(e) {
+            markerGroup.clearLayers();
+            
+            @this.set('umkm.latitude', e.latlng.lat.toString());
+            @this.set('umkm.longitude', e.latlng.lng.toString());
+
+            var radius = e.accuracy;
+
+            L.marker(e.latlng).addTo(markerGroup)
+                .bindPopup("Kemungkinan Anda berada " + radius + " meter dari titik ini!").openPopup();
         }
 
-        function showPosition(position) {
-            x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
+        map.on('locationfound', onLocationFound);
+
+        function onHandleLatitudeInput(e) {
+            @this.set('umkm.latitude', e.value.toString());
+            popup
+                .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
+                .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
+                .openOn(map);
+            map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
+        }
+
+        function onHandleLatitudeInput(e) {
+            @this.set('umkm.latitude', e.value.toString());
+            popup
+                .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
+                .setContent("Anda mengklik pada " + L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value).toString())
+                .openOn(map);
+            map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
         }
     </script>
 @endpush

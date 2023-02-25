@@ -41,7 +41,7 @@ class Edit extends Component
     public function mount(Umkm $umkm)
     {
         $this->umkm = $umkm;
-        $this->nama =  $this->umkm->judul;
+        $this->nama =  $this->umkm->nama_umkm;
         $this->initListsForFields();
         $this->mediaCollections = [
             'umkm_carousel' => $umkm->carousel,

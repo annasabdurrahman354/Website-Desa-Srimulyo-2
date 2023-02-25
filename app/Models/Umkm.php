@@ -91,6 +91,14 @@ class Umkm extends Model implements HasMedia
         'is_terverifikasi',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('umkm_carousel')
+            ->useFallbackUrl('/image/img-fallback1.svg')
+            ->useFallbackPath(public_path('/image/img-fallback1.svg'));
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $thumbnailWidth  = 50;
@@ -126,14 +134,95 @@ class Umkm extends Model implements HasMedia
         });
     }
 
-    public function getWaktuKeterlihatanAttribute($value)
+    public function getUrlArahAttribute()
     {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
+        return "https://www.google.com/maps/dir/?api=1&destination=".$this->latitude.",".$this->longitude;
     }
 
-    public function setWaktuKeterlihatanAttribute($value)
+    public function getUrlHubungiAttribute()
     {
-        $this->attributes['waktu_keterlihatan'] = $value ? Carbon::createFromFormat(config('project.datetime_format'), $value)->format('Y-m-d H:i:s') : null;
+        if($this->pemilik_id){
+            $telepon = substr($this->nomor_telepon ?? $this->pemilik->nomor_telepon, 1);
+            $nama = urlencode($this->nama_umkm);
+            return "https://api.whatsapp.com/send?phone=62".$telepon."&text=Halo%2C%20saya%20menemukan%20".$nama."%20dari%20situs%20web%20Desa%20Srimulyo%20%F0%9F%A4%97.%20";
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function getIconAttribute(){
+        switch($this->kategori->kategori){
+            case 'Batu Bata':
+                return 'cube';
+                break;
+            case 'Rumah Makan':
+                return 'utensils';
+                break;
+            case 'Toko Kelontong':
+                return 'store-alt';
+                break;
+            case 'Toko Pakaian':
+                return 'tshirt';
+                break;
+            case 'Toko Peralatan Rumah':
+                return 'briefcase';
+                break;
+            case 'Toko Elektronik':
+                return 'plug';
+                break;
+            case 'Toserba':
+                return 'store';
+                break;
+            case 'Supermarket':
+                return 'shopping-cart';
+                break;
+            case 'Pom Bensin':
+                return 'gas-pump';
+                break;
+            case 'Jasa':
+                return 'house-user';
+                break;
+            default:
+                return 'map-marker';
+        }
+    }
+
+    public function getColorAttribute(){
+        switch($this->kategori->kategori){
+            case 'Batu Bata':
+                return 'darkred';
+                break;
+            case 'Rumah Makan':
+                return 'orange';
+                break;
+            case 'Toko Kelontong':
+                return '#FAEBD7';
+                break;
+            case 'Toko Pakaian':
+                return 'yellow';
+                break;
+            case 'Toko Peralatan Rumah':
+                return 'blue';
+                break;
+            case 'Toko Elektronik':
+                return 'purple';
+                break;
+            case 'Toserba':
+                return '#00FFFF';
+                break;
+            case 'Supermarket':
+                return '#6495ED';
+                break;
+            case 'Pom Bensin':
+                return 'red';
+                break;
+            case 'Jasa':
+                return 'green';
+                break;
+            default:
+                return '#FFD700';
+        }
     }
 
     public function kategori()

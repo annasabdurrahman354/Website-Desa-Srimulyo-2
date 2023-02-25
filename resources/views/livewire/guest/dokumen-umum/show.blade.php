@@ -1,4 +1,4 @@
-<div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+<div class="container w-full mx-auto dark:bg-gray-900">
     <section class="text-gray-600 body-font container px-4 pt-12 pb-12 mx-auto w-full">
       <div class="w-full lg:w-1/2 mx-auto text-center mb-4">
             <p class="font-semibold">{{$dokumenUmum->created_at->isoFormat('dddd, D MMMM Y')}}</p>
@@ -29,7 +29,7 @@
 
                <div class="w-full h-full px-4 py-4 hidden">
                      @if ($dokumenUmum->berkas_dokumen_type == "pdf")
-                        <embed  class="w-full h-full border border-gray-500 rounded-md" class="w-full h-full border border-gray-500 rounded-md" src="{{$dokumenUmum->berka_dokumen_url}}" type="application/pdf">
+                        <embed  class="w-full h-full border border-gray-500 rounded-md" class="w-full h-full border border-gray-500 rounded-md" src="{{$dokumenUmum->getFirstMediaUrl('dokumen_umum_berkas_dokumen')}}" type="application/pdf">
                      @else
                         <iframe
                            src="https://drive.google.com/viewerng/viewer?embedded=true&url=http://infolab.stanford.edu/pub/papers/google.pdf#toolbar=0&scrollbar=0"
@@ -45,7 +45,7 @@
                      @if ($dokumenUmum->berkas_dokumen_type == "pdf")
                         <div class="h-full w-full flex flex-col">
                            <div id="results" class="w-full h-fit p-3 border-2 border-dashed border-spacing-1 rounded-md bg-white">
-                              <p>Peramban Anda tidak bisa menampilkan berkas. <a class="text-blue-700 hover:text-blue-500 hover:underline" href="{{$dokumenUmum->berka_dokumen_url}}"> Klik disini untuk mengunduh! </a></p>
+                              <p>Peramban Anda tidak bisa menampilkan berkas. <a class="text-blue-700 hover:text-blue-500 hover:underline" href="{{$dokumenUmum->getFirstMediaUrl('dokumen_umum_berkas_dokumen')}}"> Klik disini untuk mengunduh! </a></p>
                            </div>
 
                            <div id="pdf" class="w-full h-full border border-gray-500"></div>
@@ -155,7 +155,7 @@
                 pagemode: "thumbs",
             },
             forcePDFJS: false,
-            PDFJS_URL: "{{ asset('pdfjs/web/viewer.html') }}"
+            PDFJS_URL: "{{ asset('vendor/pdfjs/web/viewer.html') }}"
         };
 
         var myPDF = PDFObject.embed("{{$dokumenUmum->berka_dokumen_url ?? null}}", "#pdf", options);

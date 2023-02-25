@@ -74,11 +74,6 @@ class DokumenUmum extends Model implements HasMedia
         });
     }
 
-    public function getBerkaDokumenUrlAttribute()
-    {
-        return $this->getMedia('dokumen_umum_berkas_dokumen')[0]->getUrl();
-    }
-
     public function getBerkasDokumenTypeAttribute()
     {
         

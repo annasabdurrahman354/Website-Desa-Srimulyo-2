@@ -16,8 +16,7 @@ class GuestProdukHukumShow extends Component
 
     public function mount($slug)
     {
-        $this->produkHukum = ProdukHukum::where('slug', $slug)->first();
-        if(!$this->produkHukum) return abort(404);
+        $this->produkHukum = ProdukHukum::where('slug', $slug)->firstOrFail();
         $this->artikels = Artikel::with(['penulis', 'kategori'])->orderBy('id', 'desc')->take(3)->get();
         $this->kategoris = KategoriArtikel::inRandomOrder()->limit(6)->get();
     }

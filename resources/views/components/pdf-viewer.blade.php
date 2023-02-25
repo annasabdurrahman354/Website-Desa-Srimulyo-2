@@ -18,7 +18,7 @@
                 pagemode: "thumbs",
             },
             forcePDFJS: true,
-            PDFJS_URL: "{{ asset('pdfjs/web/viewer.html') }}"
+            PDFJS_URL: "{{ asset('vendor/pdfjs/web/viewer.html') }}"
         };
 
         var myPDF = PDFObject.embed("{{$attributes['pdf-file'] ?? null}}", "#pdf", options);

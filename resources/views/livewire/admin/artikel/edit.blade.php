@@ -150,6 +150,6 @@
 @endpush
 @push('styles')
     @once
-    <link rel="stylesheet"  href="{{ asset('ckeditor/ckeditor.css') }}"/>
+    <link rel="stylesheet"  href="{{ asset('vendor/ckeditor/ckeditor.css') }}"/>
     @endonce
 @endpush

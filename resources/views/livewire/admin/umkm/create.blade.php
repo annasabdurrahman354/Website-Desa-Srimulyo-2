@@ -83,14 +83,14 @@
             <div class="flex items-center gap-4 w-full">
                 <div class="flex-1 {{ $errors->has('umkm.latitude') ? 'invalid' : '' }}">
                     <label class="form-label" for="latitude">{{ trans('cruds.umkm.fields.latitude') }}</label>
-                    <input oninput="onHandleLatitudeInput(this)" class="form-control" type="number" step="any" name="latitude" id="latitude" wire:model="umkm.latitude">
+                    <input oninput="handleLatitudeInput(this)" class="form-control" type="number" step="any" name="latitude" id="latitude" wire:model="umkm.latitude">
                     <div class="validation-message">
                         {{ $errors->first('umkm.latitude') }}
                     </div>
                 </div>
                 <div class="flex-1 {{ $errors->has('umkm.longitude') ? 'invalid' : '' }}">
                     <label class="form-label" for="longitude">{{ trans('cruds.umkm.fields.longitude') }}</label>
-                    <input oninput="onHandleLongitudeInput(this)" class="form-control" type="number" step="any" name="longitude" id="longitude" wire:model="umkm.longitude">
+                    <input oninput="handleLongitudeInput(this)" class="form-control" type="number" step="any" name="longitude" id="longitude" wire:model="umkm.longitude">
                     <div class="validation-message">
                         {{ $errors->first('umkm.longitude') }}
                     </div>
@@ -154,31 +154,63 @@
    
 </form>
 
+@push('styles')
+    @once
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    @endonce
+@endpush
+
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <script>
         var map = L.map('map').setView([-7.4524345217123, 111.08387166008306], 14);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+        var lc = L.control
+                .locate({
+                    position: "topleft",
+                    setView: 'untilPanOrZoom',
+                    flyTo: true,          
+                    strings: {
+                        title: "Show me where I am, yo!"
+                    }
+                })
+                .addTo(map);
+        var markerGroup = L.layerGroup().addTo(map);
+
         map.invalidateSize();
 
-        var popup = L.popup();
-
         function onMapClick(e) {
+            markerGroup.clearLayers();
+            lc.stop();
+
             @this.set('umkm.latitude', e.latlng.lat.toString());
             @this.set('umkm.longitude', e.latlng.lng.toString());
 
-            popup
-                .setLatLng(e.latlng)
-                .setContent("Anda mengklik pada " + e.latlng.toString())
-                .openOn(map);
+            L.marker(e.latlng).addTo(markerGroup)
+                .bindPopup("Anda berada di sini!").openPopup();
             map.panTo(L.latLng(e.latlng.lat, e.latlng.lng));
         }
 
         map.on('click', onMapClick);
+
+        function onLocationFound(e) {
+            markerGroup.clearLayers();
+            
+            @this.set('umkm.latitude', e.latlng.lat.toString());
+            @this.set('umkm.longitude', e.latlng.lng.toString());
+
+            var radius = e.accuracy;
+
+            L.marker(e.latlng).addTo(markerGroup)
+                .bindPopup("Kemungkinan Anda berada " + radius + " meter dari titik ini!").openPopup();
+        }
+
+        map.on('locationfound', onLocationFound);
         
-        function onHandleLatitudeInput(e) {
+        function handleLatitudeInput(e) {
             @this.set('umkm.latitude', e.value.toString());
             popup
                 .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))
@@ -187,7 +219,7 @@
             map.panTo(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value));
         }
 
-        function onHandleLatitudeInput(e) {
+        function handleLatitudeInput(e) {
             @this.set('umkm.latitude', e.value.toString());
             popup
                 .setLatLng(L.latLng(document.getElementById('latitude').value, document.getElementById('longitude').value))

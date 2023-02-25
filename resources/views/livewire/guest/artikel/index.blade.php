@@ -1,13 +1,12 @@
-<div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
-   <!-- Artikel section -->
+<div class="container w-full mx-auto dark:bg-gray-900">
    <section class="text-gray-600 body-font container px-4 pt-12 pb-12 mx-auto">
       <div>
          <div class="flex flex-col">
             <div class="h-1 rounded overflow-hidden">
                <div class="w-32 h-full bg-blue-500"></div>
             </div>
-            <div class="flex flex-wrap md:flex-nowrap sm:flex-row py-1 mb-4 items-center align-middle justify-between space-y-2">
-               <h2 class="mt-1 text-2xl tracking-tighter font-bold text-gray-900 dark:text-white h-full whitespace-nowrap">Daftar Artikel {{$kategoriNama == "Semua Kategori" ? "" : $kategoriNama }}</h2>
+            <div class="flex flex-wrap md:flex-nowrap sm:flex-row mb-4 items-center align-middle justify-between space-y-2">
+               <h2 class="text-2xl tracking-tighter font-bold text-gray-900 dark:text-white h-full whitespace-nowrap">Daftar Artikel {{$kategoriNama == "Semua Kategori" ? "" : $kategoriNama }}</h2>
                
                <div class="flex flex-nowrap items-center space-x-2 w-full md:w-fit justify-between">
                   <div class="relative flex-grow md:flex-grow-0">
@@ -54,7 +53,7 @@
          @forelse ( $artikels as $artikel)
             <div class="w-full h-full flex flex-col bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                <div >
-                  <img class="rounded-t-lg w-full" src="{{$artikel->gambar[0]['url']}}" alt="" />
+                  <img class="rounded-t-lg w-full" src="{{$artikel->getFirstMediaUrl('artikel_gambar')}}" alt="" />
                </div>
                <div class="p-5 h-full flex flex-col justify-between">
                   <div>
@@ -93,10 +92,10 @@
          @empty
          <div class="p-4 w-full">
             Tidak ada postingan artikel!
-         <div class="p-4 w-full">
+         </div>
          @endforelse
       </div>
-      <div class="mt-4">
+      <div class="mt-2">
       {{ $artikels->links() }}
       </div>
    </section>

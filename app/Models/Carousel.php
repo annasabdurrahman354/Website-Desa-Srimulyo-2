@@ -54,6 +54,14 @@ class Carousel extends Model implements HasMedia
         'updated_at',
         'deleted_at',
     ];
+    
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('carousel_gambar')
+            ->useFallbackUrl('/image/img-fallback1.svg')
+            ->useFallbackPath(public_path('/image/img-fallback1.svg'));
+    }
 
     public function registerMediaConversions(Media $media = null): void
     {

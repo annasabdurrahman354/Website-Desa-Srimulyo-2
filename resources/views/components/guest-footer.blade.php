@@ -1,4 +1,4 @@
-<footer class="p-2 bg-white rounded-lg shadow md:px-6 md:py-4 dark:bg-gray-900">
+<footer class="p-2 bottom-0 bg-white border-t border-gray-200 dark:border-gray-600 shadow md:px-6 md:py-4 dark:bg-gray-900">
     <div class="container px-4 mx-auto lg:px-4">
         <div class="flex flex-wrap justify-between w-full">
             <div class="">

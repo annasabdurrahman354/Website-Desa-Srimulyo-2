@@ -1,4 +1,4 @@
-<div class="container w-full mx-auto dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+<div class="container w-full mx-auto dark:bg-gray-900">
     <section class="text-gray-600 body-font container px-4 pt-12 pb-12 mx-auto w-full">
       <div class="w-full lg:w-1/2 mx-auto text-center mb-4">
             <p class="font-semibold">{{$artikel->created_at->isoFormat('dddd, D MMMM Y')}}</p>
@@ -21,7 +21,7 @@
                </div>
             </div>
             <hr class="border-gray-300 sm:mx-auto dark:border-gray-700" />
-            <img class="w-full" src="{{$artikel->gambar[0]['url']}}"/>
+            <img class="w-full" src="{{$artikel->getFirstMediaUrl('artikel_gambar')}}"/>
             <div class="w-full h-fit px-4 ck-content font-sans">
                {!! $artikel->konten !!}
             </div>
@@ -114,6 +114,6 @@
 
 @push('styles')
     @once
-    <link rel="stylesheet" href="{{asset('ckeditor/ckeditor.css')}}"/>
+    <link rel="stylesheet" href="{{asset('vendor/ckeditor/ckeditor.css')}}"/>
     @endonce
 @endpush

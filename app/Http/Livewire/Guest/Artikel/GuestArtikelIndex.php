@@ -33,13 +33,14 @@ class GuestArtikelIndex extends Component
     {
         if(request()->kategori){
             $this->kategoriId          = request()->kategori;
-            $this->kategoriNama        = KategoriArtikel::where('id', $this->kategoriId)->first()->kategori;
+            if(KategoriArtikel::where('id', $this->kategoriId)->first()){
+                $this->kategoriNama        = KategoriArtikel::where('id', $this->kategoriId)->first()->kategori;
+            }
         }
         if(request()->search){
             $this->search = request()->search;
         }
         $this->kategoris          = KategoriArtikel::get();
-
     }
 
     public function render()
@@ -56,6 +57,7 @@ class GuestArtikelIndex extends Component
         else{
             $artikels = $query->paginate(9);
         }
+        
         return view('livewire.guest.artikel.index', compact('artikels', 'query'))->extends('layouts.guest');
     }
 }

@@ -74,6 +74,14 @@ class Artikel extends Model implements HasMedia
         'is_diterbitkan',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('artikel_gambar')
+            ->useFallbackUrl('/image/img-fallback2.svg')
+            ->useFallbackPath(public_path('/image/img-fallback2.svg'));
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $thumbnailWidth  = 50;
@@ -102,6 +110,11 @@ class Artikel extends Model implements HasMedia
 
             return $media;
         });
+    }
+
+    public function getTeksKontenAttribute()
+    {
+        return strip_tags($this->konten);
     }
 
     public function penulis()
