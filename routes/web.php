@@ -47,6 +47,9 @@ use App\Http\Livewire\User\Pelayanan\UserPelayananIndex;
 use App\Http\Livewire\User\Pelayanan\UserPelayananCreate;
 use App\Http\Livewire\User\Pelayanan\UserPelayananRevisi;
 use App\Http\Livewire\User\Pelayanan\UserPelayananShow;
+use App\Http\Livewire\User\Usaha\UserUsahaEdit;
+use App\Http\Livewire\User\Usaha\UserUsahaIndex;
+use App\Http\Livewire\User\Usaha\UserUsahaRegister;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -175,8 +178,11 @@ Route::group(['middleware' => ['guest']], function() {
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
     Route::get('/', [TesController::class, 'index'])->name('home');
-    Route::get('/pelayanan', UserPelayananIndex::class)->name('pelayanan');
+    Route::get('/pelayanan', UserPelayananIndex::class)->name('pelayanan.index');
     Route::get('/pelayanan/buat', UserPelayananCreate::class)->name('pelayanan.create');
     Route::get('/pelayanan/lihat/{pelayanan}', UserPelayananShow::class)->name('pelayanan.show');
     Route::get('/pelayanan/revisi/{pelayanan}/{syaratLayanan}', UserPelayananRevisi::class)->name('pelayanan.revisi');
+    Route::get('/usaha', UserUsahaIndex::class)->name('usaha.index');
+    Route::get('/usaha/daftar', UserUsahaRegister::class)->name('usaha.register');
+    Route::get('/usaha/edit/', UserUsahaEdit::class)->name('usaha.edit');
 });

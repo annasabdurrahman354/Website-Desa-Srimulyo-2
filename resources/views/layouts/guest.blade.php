@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="{{ asset('css/user.css') }}" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     @if (request()->is("umkm/*"))
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
         integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
         crossorigin=""/>
-     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
         integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
         crossorigin="" ></script>
     @endif
@@ -43,7 +43,6 @@
         {{ csrf_field() }}
     </form>
     <script type="text/javascript" src="{{ asset('js/user.js') }}"></script>
-    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     @livewireScripts
     @yield('scripts')
     @stack('scripts')

@@ -186,6 +186,16 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         return $this->belongsToMany(Role::class);
     }
 
+    public function produks()
+    {
+        return $this->hasManyThrough(
+            Produk::class,
+            Umkm::class,
+            'pemilik_id', // Foreign key on users table...
+            'umkm_id', // Foreign key on posts table...
+        );
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');

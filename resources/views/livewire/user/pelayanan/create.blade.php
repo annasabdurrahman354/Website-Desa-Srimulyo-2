@@ -1,5 +1,5 @@
-<div class="relative">
-    <div>
+<form wire:submit.prevent="submit">
+    <div class="relative">
         <div class="form-group {{ $errors->has('pelayanan.jenis_layanan_id') ? 'invalid' : '' }}">
             <label class="form-label required" for="jenis_layanan">{{ trans('cruds.pelayanan.fields.jenis_layanan') }}</label>
             <x-select-list class="form-control" required id="jenis_layanan" name="jenis_layanan" :options="$this->listsForFields['jenis_layanan']" wire:model="jenis" />
@@ -22,7 +22,7 @@
          @endif
         <div class="form-group {{ $errors->has('pelayanan.catatan_pemohon') ? 'invalid' : '' }}">
             <label class="form-label" for="catatan_pemohon">Sisipkan Catatan</label>
-            <input type="text" name="catatan_pemohon" id="catatan_pemohon" class="input-textarea" placeholder="Tuliskan catatan Anda untuk petugas" wire:model="pelayanan.catatan_pemohon">
+            <input type="text" name="catatan_pemohon" id="catatan_pemohon" class="input-textarea" placeholder="Tuliskan catatan Anda untuk petugas" wire:model.defer="pelayanan.catatan_pemohon">
             <div class="validation-message">
                 {{ $errors->first('pelayanan.catatan_pemohon') }}
             </div>
@@ -62,13 +62,13 @@
                         <div class="form-group">
                             @if($syarat['jenis_berkas'] === 'Teks')
                                 <label class="form-label" for="teks_syarat_{{$index}}">{{ trans('cruds.berkasPelayanan.fields.teks_syarat') }}</label>
-                                <input wire:model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="input-text" type="text" name="teks" id="teks">
+                                <input wire:model.defer="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="input-text" type="text" name="teks" id="teks">
                             @elseif($syarat['jenis_berkas'] === 'Dokumen')
                                 <label class="form-label" for="file">Pilih Berkas</label>
-                                <input wire:model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
+                                <input wire:model.defer="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
                             @elseif($syarat['jenis_berkas'] === 'Foto')
                                 <label class="form-label" for="file">Pilih Foto</label>
-                                <input wire:model="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept="image/png, image/jpeg">
+                                <input wire:model.defer="inputs.{{ $index }}" :key="syarat_{{ $index }}_input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept="image/png, image/jpeg">
                             @endif
                             @error('inputs.' . $index) <span class="error input-error">{{ str_replace('inputs.' . $index, $syarat['nama'], $message) }}</span> @enderror
                         </div>
@@ -86,12 +86,10 @@
                 </div>
             </div>
             <div wire:loading.remove>
-                <button type="button" wire:click="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ajukan</button>
-                <a href="{{ route('user.pelayanan') }}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Batal</a>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ajukan</button>
+                <a href="{{ route('user.pelayanan.index') }}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Batal</a>
             </div>
-        </div>   
-
+        </div>       
     </div>
-    
-</div>
+</form>
 

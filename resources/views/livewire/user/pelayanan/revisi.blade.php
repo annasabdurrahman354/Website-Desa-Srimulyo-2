@@ -10,7 +10,7 @@
             <li>
                 <div class="flex items-center">
                     <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                    <a href="{{route('user.pelayanan')}}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Pelayanan</a>
+                    <a href="{{route('user.pelayanan.index')}}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Pelayanan</a>
                 </div>
             </li>
             <li>
@@ -54,17 +54,17 @@
                 </div>
             @endif
 
-            <div class="p-5 font-light border border border-gray-200 dark:border-gray-700">
+            <div class="p-5 font-light border border-gray-200 dark:border-gray-700">
                 <div class="form-group">
                     @if($syaratLayanan['jenis_berkas'] === 'Teks')
                         <label class="form-label" for="teks_syarat">{{ trans('cruds.berkasPelayanan.fields.teks_syarat') }}</label>
-                        <input wire:model="input" class="input-text" type="text" name="teks" id="teks">
+                        <input wire:model.defer="input" class="input-text" type="text" name="teks" id="teks">
                     @elseif($syaratLayanan['jenis_berkas'] === 'Dokumen')
                         <label class="form-label" for="file">Pilih Berkas</label>
-                        <input wire:model="input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
+                        <input wire:model.defer="input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept=".xlsx, .xls, .doc, .docx, .ppt, .pptx, .pdf">
                     @elseif($syaratLayanan['jenis_berkas'] === 'Foto')
                         <label class="form-label" for="file">Pilih Foto</label>
-                        <input wire:model="input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept="image/png, image/jpeg">
+                        <input wire:model.defer="input" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file" name="file" type="file" accept="image/png, image/jpeg">
                     @endif
                     @error('input') <span class="error input-error">{{ str_replace('input', $syaratLayanan['nama'], $message) }}</span> @enderror
                 </div>

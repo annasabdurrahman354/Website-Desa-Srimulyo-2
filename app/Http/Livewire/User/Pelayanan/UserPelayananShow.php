@@ -13,6 +13,9 @@ class UserPelayananShow extends Component
     public function mount(Pelayanan $pelayanan)
     {
         $this->pelayanan =  $pelayanan->load('pemohon', 'jenisLayanan');
+        if ($pelayanan->pemohon_id != auth()->user()->id) {
+            abort(403, 'Access denied');
+        }
         $this->berkasPelayananByType =  $pelayanan->berkasPelayananByType();
     }
 

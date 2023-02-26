@@ -21,8 +21,10 @@ class UserPelayananRevisi extends Component
   
     public function mount(Pelayanan $pelayanan, SyaratLayanan $syaratLayanan)
     {
-        
         $this->pelayanan =  $pelayanan;
+        if ($pelayanan->pemohon_id != auth()->user()->id) {
+            abort(403, 'Access denied');
+        }
         $this->syaratLayanan = $syaratLayanan;
         $this->berkasPelayananByType = BerkasPelayanan::where('pelayanan_id', $this->pelayanan->id)
                                         ->where('syarat_layanan_id', $this->syaratLayanan->id)
@@ -74,7 +76,7 @@ class UserPelayananRevisi extends Component
         } 
         $berkas_pelayanan->save();
         
-        return redirect()->route('user.pelayanan');
+        return redirect()->route('user.pelayanan.index');
     }
 
     public function render()

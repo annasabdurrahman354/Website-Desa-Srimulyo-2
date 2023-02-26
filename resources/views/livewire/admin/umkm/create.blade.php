@@ -76,7 +76,7 @@
     <div class="form-group border border-dashed border-spacing-1 border-blue-400 rounded-md p-4">
         <div class="form-group {{ $errors->has('umkm.longitude') || $errors->has('umkm.latitude') ? 'invalid' : '' }} relative" >
             <label class="form-label" for="map">Klik pada lokasi UMKM Anda</label>
-            <div id="map" class="w-full h-96 rounded-md shadow-md" wire:ignore></div>
+            <div id="map" class="w-full h-96 rounded-md shadow-md z-2" wire:ignore></div>
         </div>
         <div class="form-group">
             <label class="form-label contents" for="map">Atau masukkan koordinat secara manual</label>

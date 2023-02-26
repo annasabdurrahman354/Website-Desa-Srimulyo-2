@@ -91,7 +91,7 @@ class UserPelayananCreate extends Component
             } 
             $berkas_pelayanan->save();
         }
-        return redirect()->route('user.pelayanan');
+        return redirect()->route('user.pelayanan.index');
     }
 
     protected function initListsForFields(): void
