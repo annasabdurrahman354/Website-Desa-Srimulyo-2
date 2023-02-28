@@ -37,7 +37,7 @@ class UserUsahaIndex extends Component
         ],
     ];
 
-    public function updatingSearch()
+    public function updatedSearch()
     {
         $this->resetPage();
     }
@@ -59,16 +59,13 @@ class UserUsahaIndex extends Component
 
     public function render()
     {
-
-        $query = Produk::join('umkms', 'produks.umkm_id', '=', 'umkms.id')
-                        ->where('umkms.pemilik_id', '=', auth()->user()->id)
-                        ->with(['satuan', 'kategori'])
-                        ->advancedFilter([
+        $query = Produk::with(['satuan', 'kategori'])->advancedFilter([
                             's'               => $this->search ?: null,
                             'order_column'    => $this->sortBy,
                             'order_direction' => $this->sortDirection,
-        ]);
-
+                        ]);
+        $query = $query->join('umkms', 'produks.umkm_id', '=', 'umkms.id')
+                        ->where('umkms.pemilik_id', '=', auth()->user()->id);
         $produks = $query->paginate($this->perPage);
         return view('livewire.user.usaha.index', compact('produks', 'query'))->extends('layouts.user');
     }

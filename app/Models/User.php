@@ -8,6 +8,8 @@ use App\Support\HasAdvancedFilter;
 use Carbon\Carbon;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -196,9 +198,14 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         );
     }
 
+    public function umkm(): HasOne
+    {
+        return $this->hasOne(Umkm::class, 'pemilik_id');
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $date->format(config('project.datetime_format'));
     }
 
     public function syncMediaName(){

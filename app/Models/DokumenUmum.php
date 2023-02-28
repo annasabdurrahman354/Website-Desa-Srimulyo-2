@@ -82,7 +82,7 @@ class DokumenUmum extends Model implements HasMedia
 
     protected function serializeDate(DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $date->format(config('project.datetime_format'));
     }
 
     public function syncMediaName(){

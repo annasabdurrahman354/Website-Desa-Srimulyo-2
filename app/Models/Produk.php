@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Support\Str;
 
 class Produk extends Model implements HasMedia
 {
@@ -104,11 +103,6 @@ class Produk extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
-    public function umkm()
-    {
-        return $this->belongsTo(Umkm::class);
-    }
-
     public function getFotoAttribute()
     {
         return $this->getMedia('produk_foto')->map(function ($item) {
@@ -119,6 +113,17 @@ class Produk extends Model implements HasMedia
 
             return $media;
         });
+    }
+
+    public function getHargaRupiah()
+    {
+        $hasil_rupiah = number_format($this->harga,2,',','.');
+	    return $hasil_rupiah;
+    }
+
+    public function umkm()
+    {
+        return $this->belongsTo(Umkm::class);
     }
 
     public function satuan()
@@ -133,7 +138,7 @@ class Produk extends Model implements HasMedia
 
     protected function serializeDate(DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $date->format(config('project.datetime_format'));
     }
 
     public function syncMediaName(){

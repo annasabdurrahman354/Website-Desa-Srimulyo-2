@@ -5,14 +5,12 @@ namespace App\Models;
 use \DateTimeInterface;
 use App\Support\HasAdvancedFilter;
 use App\Traits\Auditable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Illuminate\Support\Str;
 
 class Umkm extends Model implements HasMedia
 {
@@ -91,6 +89,21 @@ class Umkm extends Model implements HasMedia
         'is_terverifikasi',
     ];
 
+    public function pemilik()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriUmkm::class);
+    }
+
+    public function produks()
+    {
+        return $this->hasMany(Produk::class);
+    }
+
     public function registerMediaCollections(): void
     {
         $this
@@ -117,11 +130,6 @@ class Umkm extends Model implements HasMedia
             ->fit('crop', $thumbnailPreviewWidth, $thumbnailPreviewHeight);
     }
 
-    public function pemilik()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function getCarouselAttribute()
     {
         return $this->getMedia('umkm_carousel')->map(function ($item) {
@@ -141,7 +149,7 @@ class Umkm extends Model implements HasMedia
 
     public function getUrlHubungiAttribute()
     {
-        if($this->pemilik_id){
+        if($this->pemilik_id || $this->nomor_telepon){
             $telepon = substr($this->nomor_telepon ?? $this->pemilik->nomor_telepon, 1);
             $nama = urlencode($this->nama_umkm);
             return "https://api.whatsapp.com/send?phone=62".$telepon."&text=Halo%2C%20saya%20menemukan%20".$nama."%20dari%20situs%20web%20Desa%20Srimulyo%20%F0%9F%A4%97.%20";
@@ -225,14 +233,9 @@ class Umkm extends Model implements HasMedia
         }
     }
 
-    public function kategori()
-    {
-        return $this->belongsTo(KategoriUmkm::class);
-    }
-
     protected function serializeDate(DateTimeInterface $date)
     {
-        return $date->format('Y-m-d H:i:s');
+        return $date->format(config('project.datetime_format'));
     }
 
     public function syncMediaName(){

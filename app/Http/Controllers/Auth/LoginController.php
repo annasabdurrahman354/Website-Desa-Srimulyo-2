@@ -31,8 +31,12 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        $umkm = auth()->user()->umkm;
+        $umkm->waktu_keterlihatan = now();
+        $umkm->save();
         if(auth()->user()->is_admin){
             redirect(route("admin.home"));
+            
         }
         else{
             redirect(route("user.home"));

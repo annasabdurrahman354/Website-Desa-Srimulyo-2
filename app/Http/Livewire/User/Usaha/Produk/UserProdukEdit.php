@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Produk;
+namespace App\Http\Livewire\User\Usaha\Produk;
 
 use App\Models\KategoriProduk;
 use App\Models\Produk;
@@ -10,7 +10,7 @@ use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Str;
 
-class Edit extends Component
+class UserProdukEdit extends Component
 {
     public Produk $produk;
 
@@ -39,19 +39,22 @@ class Edit extends Component
         return $this->mediaCollections[$name];
     }
 
-    public function mount(Produk $produk)
+    public function mount($slug)
     {
-        $this->produk = $produk;
+        $this->produk =  Produk::where('slug', $slug)->firstOrFail();
+        if ($this->produk->umkm_id != Umkm::select('id')->where('pemilik_id', auth()->user()->id)->firstOrFail()->id) {
+            abort(403, 'Access denied');
+        }
         $this->nama =  $this->produk->nama;
         $this->initListsForFields();
         $this->mediaCollections = [
-            'produk_foto' => $produk->foto,
+            'produk_foto' => $this->produk->foto,
         ];
     }
 
     public function render()
     {
-        return view('livewire.admin.produk.edit');
+        return view('livewire.user.usaha.produk.edit')->extends('layouts.user');
     }
 
     public function submit()
@@ -61,7 +64,7 @@ class Edit extends Component
         $this->produk->save();
         $this->syncMedia();
 
-        return redirect()->route('admin.produks.index');
+        return redirect()->route('user.usaha.index');
     }
 
     protected function syncMedia(): void

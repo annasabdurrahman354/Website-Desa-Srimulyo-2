@@ -22,7 +22,7 @@ class GuestUmkmEtalasae extends Component
 
     public string $search = '';
 
-    public function updatingSearch()
+    public function updatedSearch()
     {
         $this->resetPage();
     }
@@ -44,17 +44,17 @@ class GuestUmkmEtalasae extends Component
             $this->search = request()->search;
         }
         $this->umkm         = Umkm::where('slug', $slug)->firstOrFail();
-        $this->kategoris    = Produk::where('umkm_id', $this->umkm->id)->with('kategori')->distinct('kategori_id')->get(['kategori_id'])->pluck('kategori.kategori')->toArray();
+        $this->kategoris    = $this->umkm->produks->pluck('kategori')->unique();
     }
 
     public function render()
     {
-        $query = Produk::where('umkm_id', $this->umkm->id)->with(['satuan', 'kategori'])->advancedFilter([
+        $query = Produk::with(['satuan', 'kategori'])->advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => 'id',
             'order_direction' => 'desc',
         ]);
-        $produks = $query;
+        $produks = $query->where('umkm_id', $this->umkm->id);
         if($this->kategoriId != ""){
             $produks = $produks->where('kategori_id', $this->kategoriId)->paginate(9);
         }

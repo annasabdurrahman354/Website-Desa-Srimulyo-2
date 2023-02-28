@@ -125,12 +125,6 @@ class UserUsahaRegister extends Component
                 'exists:kategori_umkms,id',
                 'required',
             ],
-            'umkm.is_aktif' => [
-                'boolean',
-            ],
-            'umkm.is_terverifikasi' => [
-                'boolean',
-            ],
         ];
     }
 

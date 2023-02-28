@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\UserAlertController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\UserProfileController;
 use App\Http\Controllers\Guest\TesController;
+
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Guest\Artikel\GuestArtikelIndex;
 use App\Http\Livewire\Guest\Artikel\GuestArtikelShow;
@@ -47,6 +48,8 @@ use App\Http\Livewire\User\Pelayanan\UserPelayananIndex;
 use App\Http\Livewire\User\Pelayanan\UserPelayananCreate;
 use App\Http\Livewire\User\Pelayanan\UserPelayananRevisi;
 use App\Http\Livewire\User\Pelayanan\UserPelayananShow;
+use App\Http\Livewire\User\Usaha\Produk\UserProdukCreate;
+use App\Http\Livewire\User\Usaha\Produk\UserProdukEdit;
 use App\Http\Livewire\User\Usaha\UserUsahaEdit;
 use App\Http\Livewire\User\Usaha\UserUsahaIndex;
 use App\Http\Livewire\User\Usaha\UserUsahaRegister;
@@ -166,10 +169,10 @@ Route::group(['as' => 'guest.'], function () {
     Route::get('/produk-hukum', GuestProdukHukumIndex::class)->name('produk-hukum.index');
     Route::get('/produk-hukum/{slug}', GuestProdukHukumShow::class)->name('produk-hukum.show');
     Route::get('/umkm/peta', GuestPetaUmkm::class)->name('umkm.peta');
-    Route::get('/umkm/umkm', GuestUmkmIndex::class)->name('umkm.index');
+    Route::get('/umkm', GuestUmkmIndex::class)->name('umkm.index');
     Route::get('/umkm/produk', GuestProdukIndex::class)->name('produk.index');
     Route::get('/umkm/etalase/{slug}', GuestUmkmEtalasae::class)->name('umkm.etalase');
-    Route::get('/kotak-saran', GuestKotakSaran::class)->name('kotak-saran');
+    Route::get('/kotak-saran', GuestKotakSaran::class)->name('kotak-saran.index');
 });
 
 Route::group(['middleware' => ['guest']], function() {
@@ -185,4 +188,6 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], fu
     Route::get('/usaha', UserUsahaIndex::class)->name('usaha.index');
     Route::get('/usaha/daftar', UserUsahaRegister::class)->name('usaha.register');
     Route::get('/usaha/edit/', UserUsahaEdit::class)->name('usaha.edit');
+    Route::get('/usaha/produk/buat/', UserProdukCreate::class)->name('usaha.produk.create');
+    Route::get('/usaha/produk/edit/{slug}', UserProdukEdit::class)->name('usaha.produk.edit');
 });

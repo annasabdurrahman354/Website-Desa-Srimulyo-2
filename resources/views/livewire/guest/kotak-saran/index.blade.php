@@ -16,31 +16,38 @@
       </div>
     </div>
     <div class="lg:w-1/3 bg-white border border-1 border-gray-300 rounded-lg shadow md:flex md:flex-col md:ml-auto w-full px-4 py-4 md:mt-0">
-      <h2 class="text-gray-900 text-xl mb-1 font-semibold title-font">Kotak Saran</h2>
-      <p class="leading-relaxed mb-5 text-gray-600">Silakan berikan kritik atau saran Anda untuk pembangunan desa yang lebih baik!</p>
-      <div class="relative mb-4">
-        <label for="name" class="leading-7 text-sm text-gray-600">Nama Anda</label>
-        <input wire:model.defer='kotakSaran.pengirim' type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-        <div class="validation-message">
-            {{ $errors->first('kotakSaran.pengirim') }}
+      <form wire:submit.prevent="submit">
+        <h2 class="text-gray-900 text-xl mb-1 font-semibold title-font">Kotak Saran</h2>
+        <p class="leading-relaxed mb-5 text-gray-600">Silakan berikan kritik atau saran Anda untuk pembangunan desa yang lebih baik!</p>
+        <div class="relative mb-4">
+          <label for="name" class="leading-7 text-sm text-gray-600">Nama Anda</label>
+          <input wire:model.defer='kotakSaran.pengirim' type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          <div class="validation-message">
+              {{ $errors->first('kotakSaran.pengirim') }}
+          </div>
         </div>
-      </div>
-      <div class="relative mb-4">
-        <label for="telepon" class="leading-7 text-sm text-gray-600">Nomor Telepon</label>
-        <input wire:model.defer='kotakSaran.nomor_telepon' type="text" pattern="[0-9]+" id="telepon" name="telepon" class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-        <div class="validation-message">
-            {{ $errors->first('kotakSaran.nomor_telepon') }}
+        <div class="relative mb-4">
+          <label for="telepon" class="leading-7 text-sm text-gray-600">Nomor Telepon</label>
+          <input wire:model.defer='kotakSaran.nomor_telepon' type="text" pattern="[0-9]+" id="telepon" name="telepon" class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          <div class="validation-message">
+              {{ $errors->first('kotakSaran.nomor_telepon') }}
+          </div>
         </div>
-      </div>
-      <div class="relative mb-4">
-        <label for="message" class="leading-7 text-sm text-gray-600 required">Kritik/Saran</label>
-        <textarea wire:model.defer='kotakSaran.isi' id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-        <div class="validation-message">
-            {{ $errors->first('kotakSaran.isi') }}
+        <div class="relative mb-4">
+          <label for="message" class="leading-7 text-sm text-gray-600 required">Kritik/Saran</label>
+          <textarea wire:model.defer='kotakSaran.isi' id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+          <div class="validation-message">
+              {{ $errors->first('kotakSaran.isi') }}
+          </div>
         </div>
-      </div>
-      <button class="button-normal">Kirim</button>
-      <p class="text-sm text-gray-500 mt-3">Kosongkan nama dan telepon jika menginginkan anonim.</p>
+        <div wire:loading.remove>
+            <button type="submit" class="button-normal">Kirim</button>
+        </div>
+        <div wire:loading>
+            <x-loading/>
+        </div>
+        <p class="text-sm text-gray-500 mt-3">Kosongkan nama dan telepon jika menginginkan anonim.</p>
+      </form>
     </div>
   </div>
 </section>

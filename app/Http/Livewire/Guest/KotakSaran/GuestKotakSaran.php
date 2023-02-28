@@ -25,7 +25,7 @@ class GuestKotakSaran extends Component
 
         $this->kotakSaran->save();
 
-        return redirect()->route('guest.kotak-saran.index');
+        return redirect()->route('guest.home');
     }
 
     protected function rules(): array

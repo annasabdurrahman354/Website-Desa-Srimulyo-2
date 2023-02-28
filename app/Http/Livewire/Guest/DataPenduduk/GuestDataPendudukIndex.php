@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Guest\DataPenduduk;
 
-use App\Models\ProdukHukum;
+use App\Models\DataPenduduk;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -35,23 +35,23 @@ class GuestDataPendudukIndex extends Component
         if(request()->tahun){
             $this->tahun          = request()->tahun;
         }
-        $this->tahuns          = ProdukHukum::distinct()->pluck('tahun');
+        $this->tahuns          = DataPenduduk::distinct()->pluck('tahun_pembaruan');
     }
 
     public function render()
     {
-        $query = ProdukHukum::advancedFilter([
+        $query = DataPenduduk::advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => 'id',
             'order_direction' => 'desc',
         ]);
-        $produkHukums = $query;
+        $dataPenduduks = $query;
         if($this->tahun != ""){
-            $produkHukums = $produkHukums->where('tahun', $this->tahun)->paginate(9);
+            $dataPenduduks = $dataPenduduks->where('tahun_pembaruan', $this->tahun)->paginate(9);
         }
         else{
-            $produkHukums = $query->paginate(9);
+            $dataPenduduks = $query->paginate(9);
         }
-        return view('livewire.guest.produk-hukum.index', compact('produkHukums', 'query'))->extends('layouts.guest');
+        return view('livewire.guest.data-penduduk.index', compact('dataPenduduks', 'query'))->extends('layouts.guest');
     }
 }

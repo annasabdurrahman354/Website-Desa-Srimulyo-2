@@ -120,7 +120,7 @@
             </div>
         </li>
         <li class="md:hidden xl:inline">
-          <a href="{{route('guest.kotak-saran')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kotak Saran</a>
+          <a href="{{route('guest.kotak-saran.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kotak Saran</a>
         </li>
         <li class="md:hidden xl:inline">
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profil Desa</a>
@@ -138,7 +138,7 @@
           <a href="{{route('guest.produk-hukum.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Produk Hukum</a>
         </li>
         <li>
-          <a href="{{route('guest.kotak-saran')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Kotak Saran</a>
+          <a href="{{route('guest.kotak-saran.index')}}" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Kotak Saran</a>
         </li>
         <li>
           <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100  dark:text-gray-400  dark:hover:bg-gray-700 dark:hover:text-white">Profil Desa</a>

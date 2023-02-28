@@ -20,7 +20,7 @@ class GuestPetaUmkm extends Component
 
     public function mount()
     {
-        $this->tags = Umkm::with('kategori')->distinct('kategori_id')->get(['kategori_id'])->pluck('kategori.kategori')->toArray();
+        $this->tags = Umkm::where('is_aktif', true)->with('kategori')->distinct('kategori_id')->get(['kategori_id'])->pluck('kategori.kategori')->toArray();
     }
 
     public function render()
@@ -31,7 +31,7 @@ class GuestPetaUmkm extends Component
             'order_direction' => 'desc',
         ]);
         
-        $this->umkms = $query->get();
+        $this->umkms = $query->where('is_aktif', true)->get();
 
         $this->umkms = $this->umkms->map(function ($item) {
             $umkm = $item->toArray();

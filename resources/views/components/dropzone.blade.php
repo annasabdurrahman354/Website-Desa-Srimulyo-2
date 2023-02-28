@@ -12,7 +12,9 @@
     headers: {
         'X-CSRF-TOKEN': "{{ csrf_token() }}"
     },
-    acceptedFiles: "{{ $attributes['file-type'] ?? 'null'}}",
+    @if ($attributes['file-type'])
+        acceptedFiles: "{{ $attributes['file-type'] }}",
+    @endif
     params: {
 @if($attributes['max-width'])
       max_width: {{ $attributes['max-width'] }},

@@ -7,11 +7,11 @@
                <div class="w-32 h-full bg-blue-500"></div>
             </div>
             <div class="flex flex-wrap md:flex-nowrap sm:flex-row mb-4 items-center align-middle justify-between space-y-2">
-               <h2 class="text-2xl tracking-tighter font-bold text-gray-900 dark:text-white h-full whitespace-nowrap">Daftar Dokumen {{$tahun == "" ? "" : "Tahun ".$tahun }}</h2>
+               <h2 class="text-2xl tracking-tighter font-bold text-gray-900 dark:text-white h-full whitespace-nowrap">Daftar Data Kependudukan {{$tahun == "" ? "" : " Tahun Pembaruan ".$tahun }}</h2>
                
                <div class="flex flex-nowrap items-center space-x-2 w-full md:w-fit justify-between">
                   <div class="relative flex-grow md:flex-grow-0 lg:w-96">
-                     <input type="text" wire:model="search" id="search-dropdown" class="block font-medium rounded-lg text-sm w-full h-fit px-3 py-1.5 z-20 text-gray-900 bg-gray-50 border-gray-300 border-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari dokumen..." required>
+                     <input type="text" wire:model="search" id="search-dropdown" class="block font-medium rounded-lg text-sm w-full h-fit px-3 py-1.5 z-20 text-gray-900 bg-gray-50 border-gray-300 border-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Cari data kependudukan..." required>
                      <div class="absolute top-0 right-0 bottom-0 p-2 text-sm font-medium">
                         <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         <span class="sr-only">Search</span>
@@ -51,21 +51,21 @@
       
       <!-- Dokumen list section -->
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 relative">
-         @forelse ( $dokumenUmums as $dokumenUmum)
+         @forelse ( $dataPenduduks as $dataPenduduk)
             <div class="w-full h-full flex flex-col bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                <div class="p-5 h-full flex flex-col justify-between">
                   <div>
                      <div class="flex justify-between">
-                        <div class="bg-gray-100 text-gray-600 w-fit text-sm font-medium mb-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-400 border border-gray-400">Tahun {{" ".$dokumenUmum->tahun_terbit}}</div>
-                        <p class="text-sm text-gray-400">{{$dokumenUmum->created_at->diffForHumans()}}</p>
+                        <div class="bg-gray-100 text-gray-600 w-fit text-sm font-medium mb-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-400 border border-gray-400">Tahun {{" ".$dataPenduduk->tahun_pembaruan}}</div>
+                        <p class="text-sm text-gray-400">{{$dataPenduduk->created_at->diffForHumans()}}</p>
                      </div>
                      <div>
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$dokumenUmum->judul}}</h5>
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$dataPenduduk->judul}}</h5>
                      </div>
-                     <p class="line-clamp-3 mb-3 font-normal text-gray-700 dark:text-gray-400">{{$dokumenUmum->deskripsi}}</p>
+                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$dataPenduduk->deskripsi}}</p>
                   </div>
                   <div class="flex justify-between items-center w-full">
-                     <a href="{{route('guest.dokumen-umum.show', $dokumenUmum->slug)}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-blue-500 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                     <a href="{{route('guest.data-penduduk.show', $dataPenduduk->slug)}}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-blue-500 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                            Baca Selengkapnya
                            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                      </a>
@@ -80,7 +80,7 @@
          @endforelse
       </div>
       <div class="mt-2">
-      {{ $dokumenUmums->links() }}
+      {{ $dataPenduduks->links() }}
       </div>
    </section>
 </div>

@@ -59,7 +59,7 @@
                                     <span class="badge-blue">{{ $pelayanan->jenisLayanan->nama ?? '' }}</span>
                                 @endif
                             </td>
-                            <td class="text-center ">
+                            <td class="text-center">
                                 @if($pelayanan->jenisLayanan)
                                     @if($pelayanan->berkas_hasil->isNotEmpty())
                                     <div class="mx-auto flex justify-center">

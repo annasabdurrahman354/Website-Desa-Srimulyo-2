@@ -91,6 +91,16 @@
             </div>
         </div>
 
+        <div class="form-group {{ $errors->has('umkm.is_aktif') ? 'invalid' : '' }}">
+            <input class="input-checkbox" type="checkbox" name="is_aktif" id="is_aktif" wire:model.defer="umkm.is_aktif">
+            <label class="input-label" for="is_aktif">Apakah aktif?</label>
+            <div class="validation-message">
+                {{ $errors->first('umkm.is_aktif') }}
+            </div>
+            <div class="help-block">
+                Centang untuk membuat UMKM Anda terpublikasi
+            </div>
+        </div>
         <div class="form-group">
             <div wire:loading >
                 <div class="flex justify-start">
@@ -99,10 +109,10 @@
                 </div>
             </div>
             <div wire:loading.remove>
-                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ubah</button>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Simpan</button>
                 <a href="{{ route('user.usaha.index') }}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-semibold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Batal</a>
             </div>
-        </div>   
+        </div>    
     </div>
 </form>
 

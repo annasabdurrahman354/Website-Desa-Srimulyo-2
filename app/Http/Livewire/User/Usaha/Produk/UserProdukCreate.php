@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Produk;
+namespace App\Http\Livewire\User\Usaha\Produk;
 
 use App\Models\KategoriProduk;
 use App\Models\Produk;
@@ -10,7 +10,7 @@ use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Str;
 
-class Edit extends Component
+class UserProdukCreate extends Component
 {
     public Produk $produk;
 
@@ -32,26 +32,24 @@ class Edit extends Component
         $this->mediaCollections[$media['collection_name']] = $collection->reject(fn ($item) => $item['uuid'] === $media['uuid'])->toArray();
 
         $this->mediaToRemove[] = $media['uuid'];
-    }
-
-    public function getMediaCollection($name)
-    {
-        return $this->mediaCollections[$name];
+        
+        foreach(Media::whereIn('uuid', $this->mediaToRemove)->get() as $media){
+            $media->delete();
+        }
     }
 
     public function mount(Produk $produk)
     {
-        $this->produk = $produk;
-        $this->nama =  $this->produk->nama;
+        $this->produk               = $produk;
+        $this->produk->umkm_id      = Umkm::select('id')->where('pemilik_id', auth()->user()->id)->firstOrFail()->id;
+        $this->produk->is_tersedia  = true;
+        $this->produk->is_tampilkan = true;
         $this->initListsForFields();
-        $this->mediaCollections = [
-            'produk_foto' => $produk->foto,
-        ];
     }
 
     public function render()
     {
-        return view('livewire.admin.produk.edit');
+        return view('livewire.user.usaha.produk.create')->extends('layouts.user');
     }
 
     public function submit()
@@ -61,7 +59,7 @@ class Edit extends Component
         $this->produk->save();
         $this->syncMedia();
 
-        return redirect()->route('admin.produks.index');
+        return redirect()->route('user.usaha.index');
     }
 
     protected function syncMedia(): void
@@ -91,7 +89,7 @@ class Edit extends Component
             'produk.slug' => [
                 'string',
                 'required',
-                'unique:produks,slug,' . $this->produk->id,
+                'unique:produks,slug',
             ],
             'mediaCollections.produk_foto' => [
                 'array',
@@ -130,11 +128,10 @@ class Edit extends Component
 
     protected function initListsForFields(): void
     {
-        $this->listsForFields['umkm']     = Umkm::pluck('nama_umkm', 'id')->toArray();
         $this->listsForFields['satuan']   = SatuanProduk::pluck('satuan', 'id')->toArray();
         $this->listsForFields['kategori'] = KategoriProduk::pluck('kategori', 'id')->toArray();
     }
-    
+
     public function generateSlug($nama)
     {
         $baseSlug = Str::slug($nama);

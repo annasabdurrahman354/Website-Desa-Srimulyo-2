@@ -12,6 +12,8 @@ class UserUsahaEdit extends Component
 {
     public Umkm $umkm;
 
+    public $aaa = "iiiii";
+
     public array $mediaToRemove = [];
 
     public array $listsForFields = [];
@@ -32,14 +34,14 @@ class UserUsahaEdit extends Component
         $this->mediaToRemove[] = $media['uuid'];
     }
 
-    public function mount(Umkm $umkm)
+    public function mount()
     {
         $this->umkm                    = Umkm::where('pemilik_id', auth()->user()->id)->firstOrFail();
         $this->nama                    = $this->umkm->nama_umkm;
         $this->umkm->waktu_keterlihatan = now();
         $this->initListsForFields();
         $this->mediaCollections = [
-            'umkm_carousel' => $umkm->carousel,
+            'umkm_carousel' => $this->umkm->carousel,
         ];
     }
 
@@ -54,7 +56,6 @@ class UserUsahaEdit extends Component
 
         $this->umkm->save();
         $this->syncMedia();
-
         return redirect()->route('user.usaha.index');
     }
 
@@ -114,12 +115,19 @@ class UserUsahaEdit extends Component
                 'string',
                 'nullable',
             ],
+            'umkm.waktu_keterlihatan' => [
+                'nullable',
+                'date_format:' . config('project.datetime_format'),
+            ],
             'umkm.kategori_id' => [
                 'integer',
                 'exists:kategori_umkms,id',
                 'required',
             ],
             'umkm.is_aktif' => [
+                'boolean',
+            ],
+            'umkm.is_terverifikasi' => [
                 'boolean',
             ],
         ];
