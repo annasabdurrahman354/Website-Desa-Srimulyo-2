@@ -47,11 +47,9 @@ class GuestProdukHukumIndex extends Component
         ]);
         $produkHukums = $query;
         if($this->tahun != ""){
-            $produkHukums = $produkHukums->where('tahun', $this->tahun)->paginate(9);
+            $produkHukums = $produkHukums->where('tahun', $this->tahun);
         }
-        else{
-            $produkHukums = $query->paginate(9);
-        }
+        $produkHukums = $produkHukums->where('is_aktif', true)->paginate(9);
         return view('livewire.guest.produk-hukum.index', compact('produkHukums', 'query'))->extends('layouts.guest');
     }
 }

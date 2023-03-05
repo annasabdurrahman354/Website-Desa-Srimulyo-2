@@ -38,7 +38,6 @@ class UserUsahaEdit extends Component
     {
         $this->umkm                    = Umkm::where('pemilik_id', auth()->user()->id)->firstOrFail();
         $this->nama                    = $this->umkm->nama_umkm;
-        $this->umkm->waktu_keterlihatan = now();
         $this->initListsForFields();
         $this->mediaCollections = [
             'umkm_carousel' => $this->umkm->carousel,
@@ -53,7 +52,7 @@ class UserUsahaEdit extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->umkm->waktu_keterlihatan = now();
         $this->umkm->save();
         $this->syncMedia();
         return redirect()->route('user.usaha.index');
@@ -89,6 +88,7 @@ class UserUsahaEdit extends Component
                 'unique:umkms,slug,' . $this->umkm->id,
             ],
             'mediaCollections.umkm_carousel' => [
+                'required',
                 'array',
             ],
             'mediaCollections.umkm_carousel.*.id' => [
@@ -108,19 +108,22 @@ class UserUsahaEdit extends Component
                 'required',
             ],
             'umkm.latitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-90',
+                'max:90',
+                'required',
             ],
             'umkm.longitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-180',
+                'max:180',
+                'required',
             ],
             'umkm.waktu_keterlihatan' => [
                 'nullable',
                 'date_format:' . config('project.datetime_format'),
             ],
             'umkm.kategori_id' => [
-                'integer',
                 'exists:kategori_umkms,id',
                 'required',
             ],

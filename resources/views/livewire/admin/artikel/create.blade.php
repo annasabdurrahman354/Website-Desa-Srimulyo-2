@@ -111,7 +111,7 @@
 </form>
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
     <script>
         const watchdog = new CKSource.EditorWatchdog();
         

@@ -47,11 +47,10 @@ class GuestDataPendudukIndex extends Component
         ]);
         $dataPenduduks = $query;
         if($this->tahun != ""){
-            $dataPenduduks = $dataPenduduks->where('tahun_pembaruan', $this->tahun)->paginate(9);
+            $dataPenduduks = $dataPenduduks->where('tahun_pembaruan', $this->tahun);
         }
-        else{
-            $dataPenduduks = $query->paginate(9);
-        }
+        $dataPenduduks = $dataPenduduks->where('is_aktif', true)->paginate(9);
+
         return view('livewire.guest.data-penduduk.index', compact('dataPenduduks', 'query'))->extends('layouts.guest');
     }
 }

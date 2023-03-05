@@ -35,13 +35,16 @@
                 <x-rating disabled value="{{$pelayanan->rating}}"/>
             @endif
         </div>
-        <div class="form-group">
-           <div class="border-2 border-gray-300 border-dashed w-full h-fit p-2 rounded-md">
-                <p>
-                    {{$pelayanan->jenisLayanan->deskripsi}}
-                </p>
-           </div>
-        </div>
+        @if($pelayanan->status_label == "Selesai" && $pelayanan->penilaian_pemohon)
+            <div class="form-group">
+                <label class="form-label" for="file">Penilaian Anda</label>
+                <div class="border-2 border-yellow-400 w-full h-fit p-2 rounded-md">
+                    <p>
+                        {{$pelayanan->penilaian_pemohon}}
+                    </p>
+                </div>
+            </div>
+        @endif
 
         @if ($pelayanan->status_label == "Revisi")
             <div class="form-group">
@@ -113,6 +116,15 @@
                 </x-message>
             </div>
         @endif
+
+        <div class="form-group">
+            <label class="form-label" for="file">Deskripsi Pelayanan</label>
+            <div class="border-2 border-gray-300 border-dashed w-full h-fit p-2 rounded-md">
+                <p>
+                    {{$pelayanan->jenisLayanan->deskripsi}}
+                </p>
+            </div>
+        </div>
         
         @if ($pelayanan->catatan_pemohon != "")
             <div class="form-group {{ $errors->has('pelayanan.catatan_pemohon') ? 'invalid' : '' }}">
@@ -234,7 +246,7 @@
                         <div class="space-y-6">
                             <div class="form-group {{ $errors->has('pelayanan.rating') ? 'invalid' : '' }}">
                                 <label class="form-label required">{{ trans('cruds.pelayanan.fields.rating') }}</label>
-                                <x-rating disabled value="{{$pelayanan->rating}}" wire:model.defer="pelayanan.rating"/>
+                                <x-rating value="{{$pelayanan->rating}}" wire:model.defer="pelayanan.rating"/>
                                 <div class="validation-message">
                                     {{ $errors->first('pelayanan.rating') }}
                                 </div>

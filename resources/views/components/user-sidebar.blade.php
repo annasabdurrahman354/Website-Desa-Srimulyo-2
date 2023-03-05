@@ -9,15 +9,15 @@
                <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
             </svg>
          </button>
-        <a href="{{ route("admin.home") }}" class="flex ml-2 md:mr-24">
-          <img src="{{ asset('image/logo-sragen.png') }}" class="h-8 mr-3" alt="FlowBite Logo" />
+        <a href="{{ route('guest.home') }}" class="flex ml-2 md:mr-24">
+          <img src="{{ asset('image/logo-sragen.png') }}" class="h-8 mr-3" alt="Logo Sragen" />
           <span class="self-center text-l font-semibold sm:text-xl whitespace-nowrap dark:text-white">Website Desa Srimulyo</span>
         </a>
       </div>
       <div class="flex items-center">
           <div class="flex items-center ml-3">
-            <div class="flex space-x-3 lg:mr-8">
-              <x-user-notification/>
+            <div class="flex space-x-4 lg:mr-8">
+              <livewire:user-notification/>
               <button type="button" class="flex text-sm rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                 <span class="sr-only">Open user menu</span>
                 <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->avatar }}" alt="user photo">
@@ -33,8 +33,13 @@
                 </p>
               </div>
               <ul class="py-1" role="none">
+                @if (auth()->user()->is_admin)
+                  <li>
+                    <a href="{{route('admin.home')}}" class="block px-4 py-2 text-base text-gray-700 hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Admin Panel</a>
+                  </li>
+                @endif
                 <li>
-                  <a href="{{route('admin.home')}}" class="block px-4 py-2 text-base text-gray-700 hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Admin Panel</a>
+                  <a href="{{route('guest.home')}}" class="block px-4 py-2 text-base text-gray-700  hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Beranda</a>
                 </li>
                 <li>
                   <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();" class="block px-4 py-2 text-base text-gray-700  hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Keluar</a>
@@ -69,9 +74,9 @@
             </a>
          </li>
          <li>
-            <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
+            <a href="{{ route('user.profile.index') }}" class="{{ request()->is("user/profile*") ? "sidebar-active" : "sidebar" }}">
+               <svg aria-hidden="true" class="w-6 h-6 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+               <span class="flex-1 ml-3 font-semibold whitespace-nowrap">Profil</span>
             </a>
          </li>
       </ul>

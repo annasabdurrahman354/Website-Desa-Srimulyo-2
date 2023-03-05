@@ -42,8 +42,6 @@ class BerkasPelayananController extends Controller
 
     public function storeMedia(Request $request)
     {
-        abort_if(Gate::none(['berkas_pelayanan_create', 'berkas_pelayanan_edit']), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->has('size')) {
             $this->validate($request, [
                 'file' => 'max:' . $request->input('size') * 1024,

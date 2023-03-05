@@ -18,13 +18,13 @@
                      </div>
                   </div>
                   <!-- dropdown button -->
-                  <button id="dropdownKategoriUmkmButton" data-dropdown-toggle="dropdownKategoriUmkmRadio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm h-full px-3 py-1.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                  <button id="dropdownKategoriUmkmButton" data-dropdown-toggle="dropdownKategoriUmkmRadio" class="whitespace-nowrap text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm h-full px-3 py-1.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                      {{$kategoriNama}}
                      <svg class="w-4 h-4 ml-2 -mr-1" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                   </button>
 
                   <!-- Kategori dropdown radio -->
-                  <div id="dropdownKategoriUmkmRadio" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                  <div id="dropdownKategoriUmkmRadio" class="z-40 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                      <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownKategoriUmkmButton">
                         <li>
                            <div class="flex items-center">
@@ -65,13 +65,13 @@
                <div class="p-5 h-full flex flex-col justify-between">
                   <div>
                      <div class="flex flex-wrap divide-x-2 space-x-2 items-center align-middle text-center mb-1">
-                        <span class="text-gray-500 inline-flex items-center leading-none text-sm">
+                        <span class="text-gray-500 inline-flex items-center leading-none text-xs sm:text-sm">
                            <svg class="w-4 h-4 mr-1" stroke="currentColor"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                            </svg>
                            {{$umkm->pemilik->name}}
                         </span>
-                        <span class="pl-2 text-gray-500 inline-flex items-center leading-none text-sm">
+                        <span class="pl-2 text-gray-500 inline-flex items-center leading-none text-xs sm:text-sm">
                            <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                               <circle cx="12" cy="12" r="3"></circle>

@@ -75,7 +75,7 @@
                             <td>
                                 {{ $kotakSaran->nomor_telepon }}
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $kotakSaran->isi }}
                             </td>
                             <td>

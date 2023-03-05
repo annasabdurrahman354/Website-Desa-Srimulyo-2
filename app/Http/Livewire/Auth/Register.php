@@ -44,6 +44,7 @@ class Register extends Component
         $this->user->password = $this->password;
         $this->user->save();
         $this->user->roles()->sync(2);
+        
         event(new Registered($this->user));
         Auth::login($this->user);
 
@@ -58,9 +59,7 @@ class Register extends Component
                 'required',
             ],
             'user.nik' => [
-                'string',
-                'min:16',
-                'max:16',
+                'digits:16',
                 'required',
                 'numeric'
             ],

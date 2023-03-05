@@ -4,6 +4,8 @@ namespace App\Http\Livewire\User\Usaha;
 
 use App\Models\KategoriUmkm;
 use App\Models\Umkm;
+use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Str;
@@ -41,11 +43,7 @@ class UserUsahaRegister extends Component
         if (Umkm::where('pemilik_id', auth()->user()->id )->exists()) {
             abort(403, 'Access denied');
         }
-        $this->umkm                   = $umkm;
-        $this->umkm->pemilik_id       = auth()->user()->id;
-        $this->umkm->is_aktif         = true;
-        $this->umkm->is_terverifikasi = false;
-        $this->umkm->waktu_keterlihatan = now();
+        $this->umkm = $umkm;
         $this->initListsForFields();
     }
 
@@ -57,7 +55,10 @@ class UserUsahaRegister extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->umkm->pemilik_id       = auth()->user()->id;
+        $this->umkm->is_aktif         = true;
+        $this->umkm->is_terverifikasi = false;
+        $this->umkm->waktu_keterlihatan = now();
         $this->umkm->save();
         $this->syncMedia();
 
@@ -95,6 +96,7 @@ class UserUsahaRegister extends Component
             ],
             'mediaCollections.umkm_carousel' => [
                 'array',
+                'required',
             ],
             'mediaCollections.umkm_carousel.*.id' => [
                 'integer',
@@ -113,15 +115,18 @@ class UserUsahaRegister extends Component
                 'required',
             ],
             'umkm.latitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-90',
+                'max:90',
+                'required',
             ],
             'umkm.longitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-180',
+                'max:180',
+                'required',
             ],
             'umkm.kategori_id' => [
-                'integer',
                 'exists:kategori_umkms,id',
                 'required',
             ],

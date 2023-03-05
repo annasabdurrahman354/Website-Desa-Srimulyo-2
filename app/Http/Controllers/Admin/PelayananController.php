@@ -43,16 +43,11 @@ class PelayananController extends Controller
         abort_if(Gate::denies('pelayanan_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $pelayanan->load('pemohon', 'jenisLayanan');
-        $pelayanan->status = "Verifikasi";
-        $pelayanan->save();
-
         return view('admin.pelayanan.show', compact('pelayanan'));
     }
 
     public function storeMedia(Request $request)
     {
-        abort_if(Gate::none(['pelayanan_create', 'pelayanan_edit']), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->has('size')) {
             $this->validate($request, [
                 'file' => 'max:' . $request->input('size') * 1024,

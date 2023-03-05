@@ -102,4 +102,25 @@ class BerkasPelayanan extends Model implements HasMedia
             $media->save();
         }
     }
+
+    protected static function booted() {
+        static::updated(function ($berkasPelayanan) {
+            $pelayanan = $berkasPelayanan->pelayanan;
+            if($pelayanan){
+                if(!$pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai() && !$pelayanan->isPelayananTerkirim()){
+                    $pelayanan->status = 'Verifikasi';
+                    $pelayanan->save();
+                }
+                elseif($pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai() && !$pelayanan->isPelayananTerkirim()){
+                    $pelayanan->status = 'Revisi';
+                    $pelayanan->save();
+                }
+                if($pelayanan->berkas_hasil->isNotEmpty() || $pelayanan->catatan_reviewer){
+                    $pelayanan->status = 'Selesai';
+                    $pelayanan->save();
+                } 
+                $pelayanan->updateLatestJenisBerkasPelayananStatusDiterima();
+            }
+        });
+    }
 }

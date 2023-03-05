@@ -81,14 +81,14 @@
             <div class="flex items-center gap-4 w-full">
                 <div class="flex-1 {{ $errors->has('umkm.latitude') ? 'invalid' : '' }}">
                     <label class="form-label" for="latitude">{{ trans('cruds.umkm.fields.latitude') }}</label>
-                    <input oninput="onHandleLatitudeInput(this)" class="form-control" type="number" step="any" name="latitude" id="latitude" wire:model="umkm.latitude">
+                    <input oninput="onHandleLatitudeInput(this)" class="form-control" min="-90" max="90" type="number" step="any" name="latitude" id="latitude" wire:model="umkm.latitude">
                     <div class="validation-message">
                         {{ $errors->first('umkm.latitude') }}
                     </div>
                 </div>
                 <div class="flex-1 {{ $errors->has('umkm.longitude') ? 'invalid' : '' }}">
                     <label class="form-label" for="longitude">{{ trans('cruds.umkm.fields.longitude') }}</label>
-                    <input oninput="onHandleLongitudeInput(this)" class="form-control" type="number" step="any" name="longitude" id="longitude" wire:model="umkm.longitude">
+                    <input oninput="onHandleLongitudeInput(this)" class="form-control" min="-180" max="180" type="number" step="any" name="longitude" id="longitude" wire:model="umkm.longitude">
                     <div class="validation-message">
                         {{ $errors->first('umkm.longitude') }}
                     </div>

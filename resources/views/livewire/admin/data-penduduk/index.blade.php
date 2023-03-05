@@ -97,7 +97,7 @@
                             <td>
                                 {{ $dataPenduduk->tahun_pembaruan }}
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $dataPenduduk->deskripsi }}
                             </td>
                             <td>

@@ -44,15 +44,18 @@ use App\Http\Livewire\Guest\Umkm\GuestPetaUmkm;
 use App\Http\Livewire\Guest\Umkm\GuestProdukIndex;
 use App\Http\Livewire\Guest\Umkm\GuestUmkmEtalasae;
 use App\Http\Livewire\Guest\Umkm\GuestUmkmIndex;
+use App\Http\Livewire\User\Home\UserHomeIndex;
 use App\Http\Livewire\User\Pelayanan\UserPelayananIndex;
 use App\Http\Livewire\User\Pelayanan\UserPelayananCreate;
 use App\Http\Livewire\User\Pelayanan\UserPelayananRevisi;
 use App\Http\Livewire\User\Pelayanan\UserPelayananShow;
+use App\Http\Livewire\User\Profile\UserProfileIndex;
 use App\Http\Livewire\User\Usaha\Produk\UserProdukCreate;
 use App\Http\Livewire\User\Usaha\Produk\UserProdukEdit;
 use App\Http\Livewire\User\Usaha\UserUsahaEdit;
 use App\Http\Livewire\User\Usaha\UserUsahaIndex;
 use App\Http\Livewire\User\Usaha\UserUsahaRegister;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +71,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     Route::resource('roles', RoleController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Users
-    Route::post('users/media', [UserController::class, 'storeMedia'])->name('users.storeMedia');
     Route::resource('users', UserController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // User Alert
@@ -111,7 +113,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     Route::resource('kategori-umkms', KategoriUmkmController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Umkm
-    Route::post('umkms/media', [UmkmController::class, 'storeMedia'])->name('umkms.storeMedia');
     Route::resource('umkms', UmkmController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Satuan Produk
@@ -121,7 +122,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     Route::resource('kategori-produks', KategoriProdukController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Produk
-    Route::post('produks/media', [ProdukController::class, 'storeMedia'])->name('produks.storeMedia');
     Route::resource('produks', ProdukController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Kotak Saran
@@ -135,13 +135,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     Route::resource('jenis-layanans', JenisLayananController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Pelayanan
-    Route::post('pelayanans/media', [PelayananController::class, 'storeMedia'])->name('pelayanans.storeMedia');
     Route::resource('pelayanans', PelayananController::class, ['except' => ['store', 'update', 'destroy']]);
-    Route::get('pelayanans/{pelayanan}/review', [PelayananController::class, 'review'])->name('pelayanans.review');
+    Route::get('pelayanans/review/{pelayanan}', [PelayananController::class, 'review'])->name('pelayanans.review');
 
 
     // Berkas Pelayanan
-    Route::post('berkas-pelayanans/media', [BerkasPelayananController::class, 'storeMedia'])->name('berkas-pelayanans.storeMedia');
     Route::resource('berkas-pelayanans', BerkasPelayananController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Kontak
@@ -150,6 +148,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
     // Dokumen Umum
     Route::post('dokumen-umums/media', [DokumenUmumController::class, 'storeMedia'])->name('dokumen-umums.storeMedia');
     Route::resource('dokumen-umums', DokumenUmumController::class, ['except' => ['store', 'update', 'destroy']]);
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+    // Umkm
+    Route::post('umkms/media', [UmkmController::class, 'storeMedia'])->name('umkms.storeMedia');
+
+    // Produk
+    Route::post('produks/media', [ProdukController::class, 'storeMedia'])->name('produks.storeMedia');
+
+    // Pelayanan
+    Route::post('pelayanans/media', [PelayananController::class, 'storeMedia'])->name('pelayanans.storeMedia');
+
+    // Berkas Pelayanan
+    Route::post('berkas-pelayanans/media', [BerkasPelayananController::class, 'storeMedia'])->name('berkas-pelayanans.storeMedia');
+
+    // User
+    Route::post('users/media', [UserController::class, 'storeMedia'])->name('users.storeMedia');
 });
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth']], function () {
@@ -180,7 +195,7 @@ Route::group(['middleware' => ['guest']], function() {
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], function () {
-    Route::get('/', [TesController::class, 'index'])->name('home');
+    Route::get('/', UserHomeIndex::class)->name('home');
     Route::get('/pelayanan', UserPelayananIndex::class)->name('pelayanan.index');
     Route::get('/pelayanan/buat', UserPelayananCreate::class)->name('pelayanan.create');
     Route::get('/pelayanan/lihat/{pelayanan}', UserPelayananShow::class)->name('pelayanan.show');
@@ -190,4 +205,25 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth']], fu
     Route::get('/usaha/edit/', UserUsahaEdit::class)->name('usaha.edit');
     Route::get('/usaha/produk/buat/', UserProdukCreate::class)->name('usaha.produk.create');
     Route::get('/usaha/produk/edit/{slug}', UserProdukEdit::class)->name('usaha.produk.edit');
+    Route::get('/profile', UserProfileIndex::class)->name('profile.index');
+});
+
+Route::group(['prefix' => 'artisan', 'as' => 'artisan.', 'middleware' => ['auth', 'isAdmin']], function () {
+    Route::get('/clear-cache', function () {
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+    
+        return "Cache cleared successfully";
+    });
+    Route::get('/storage-link', function () {
+        Artisan::call('storage:link');
+    
+        return "Storage linked successfully";
+    });
+
+    Route::get('/migrate-seed', function () {
+        Artisan::call('migrate --seed');
+    
+        return "Migration and seeding successfully ";
+    });
 });

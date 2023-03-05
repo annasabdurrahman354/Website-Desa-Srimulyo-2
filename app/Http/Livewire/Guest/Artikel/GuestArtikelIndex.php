@@ -50,14 +50,12 @@ class GuestArtikelIndex extends Component
             'order_column'    => 'id',
             'order_direction' => 'desc',
         ]);
-        $artikels = $query;
+        $artikels = $query->where('is_diterbitkan', true);
         if($this->kategoriId != ""){
-            $artikels = $artikels->where('kategori_id', $this->kategoriId)->paginate(9);
+            $artikels = $artikels->where('kategori_id', $this->kategoriId);
         }
-        else{
-            $artikels = $query->paginate(9);
-        }
-        
+        $artikels =  $artikels->paginate(9);
+
         return view('livewire.guest.artikel.index', compact('artikels', 'query'))->extends('layouts.guest');
     }
 }

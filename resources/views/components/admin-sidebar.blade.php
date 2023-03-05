@@ -4,8 +4,13 @@
             <i class="fas fa-bars"></i>
         </button>
         <a class="md:block text-left md:pb-2 text-blueGray-700 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0" href="{{ route('admin.home') }}">
-            Admin Panel
+            Admin Panelaa
         </a>
+        
+        <div class="md:hidden">
+            <livewire:admin-notification/>
+        </div>
+
         <div class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded hidden" id="example-collapse-sidebar">
             <div class="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-300">
                 <div class="flex flex-wrap">
@@ -21,6 +26,8 @@
                     </div>
                 </div>
             </div>
+
+            
 
             <form class="mt-6 mb-4 md:hidden">
                 <div class="mb-3 pt-0">

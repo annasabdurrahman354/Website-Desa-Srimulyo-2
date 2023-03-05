@@ -42,8 +42,6 @@ class ProdukController extends Controller
 
     public function storeMedia(Request $request)
     {
-        abort_if(Gate::none(['produk_create', 'produk_edit']), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->has('size')) {
             $this->validate($request, [
                 'file' => 'max:' . $request->input('size') * 1024,

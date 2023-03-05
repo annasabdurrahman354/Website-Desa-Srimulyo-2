@@ -94,6 +94,9 @@
                                             {{ trans(sprintf('cruds.%s.fields.%s', $settings4['translation_key'] ?? 'pleaseUpdateWidget', $key)) }}
                                         </th>
                                     @endforeach
+                                    <th>
+                                        
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,7 +114,11 @@
                                                     {{ data_get($entry, $key . '.' . $value) }}
                                                 @endif
                                             </td>
+                                           
                                         @endforeach
+                                        <td>
+                                            <a href="{{route('admin.pelayanans.review', ["pelayanan" => $entry['id']])}}" class="btn btn-indigo">Review</a>
+                                        </td>
                                     </tr>
                                     @empty
                                     <tr>
@@ -150,6 +157,9 @@
                                             {{ trans(sprintf('cruds.%s.fields.%s', $settings5['translation_key'] ?? 'pleaseUpdateWidget', $key)) }}
                                         </th>
                                     @endforeach
+                                    <th>
+                                        
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -157,17 +167,28 @@
                                     <tr>
                                         @foreach($settings5['fields'] as $key => $value)
                                             <td>
-                                                @if($value === '')
-                                                    {{ $entry->{$key} }}
-                                                @elseif(is_iterable($entry->{$key}))
-                                                    @foreach($entry->{$key} as $subEentry)
-                                                        <span class="label label-info">{{ $subEentry->{$value} }}</span>
+                                                @if ($key === "berkas_syarat")
+                                                    @foreach($entry->{$key} as $berkas)
+                                                        <a href="{{ $berkas['url'] }}" class="badge badge-relationship">{{ $berkas['file_name'] }}</a>
                                                     @endforeach
+                                                @elseif ($key === "pelayanan")
+                                                    <a href="{{ route('admin.pelayanans.review', ["pelayanan" => $entry['id']]) }}" class="badge badge-relationship">{{$entry[$key]['kode'] }}</a>
                                                 @else
-                                                    {{ data_get($entry, $key . '.' . $value) }}
+                                                    @if($value == '')
+                                                        {{ $entry->{$key} }}
+                                                    @elseif(is_iterable($entry->{$key}))
+                                                        @foreach($entry->{$key} as $subEentry)
+                                                            <span class="label label-info">{{ $subEentry->{$value} }}</span>
+                                                        @endforeach
+                                                    @else
+                                                        {{ data_get($entry, $key . '.' . $value) }}
+                                                    @endif
                                                 @endif
                                             </td>
                                         @endforeach
+                                        <td>
+                                            <a href="{{route('admin.berkas-pelayanans.edit',  $entry['id'])}}" class="btn btn-indigo">Review</a>
+                                        </td>
                                     </tr>
                                     @empty
                                     <tr>
@@ -213,7 +234,15 @@
                                     <tr>
                                         @foreach($settings6['fields'] as $key => $value)
                                             <td>
-                                                @if($value === '')
+                                                @if ($key === "is_terverifikasi")
+                                                    @if ($entry['is_terverifikasi'] == true)
+                                                        <span class="flex flex-nowrap items-center align-middle text-center gap-2">
+                                                        <input class="disabled:opacity-50 disabled:cursor-not-allowed" type="checkbox" disabled {{ $entry['is_terverifikasi'] ? 'checked' : '' }}> Terverifikasi
+                                                        </span>
+                                                    @else
+                                                        <a href="{{route('admin.umkms.show',  $entry['id'])}}" class="btn btn-indigo">Review</a>
+                                                    @endif
+                                                @elseif($value === '')
                                                     {{ $entry->{$key} }}
                                                 @elseif(is_iterable($entry->{$key}))
                                                     @foreach($entry->{$key} as $subEentry)

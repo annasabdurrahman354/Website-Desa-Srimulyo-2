@@ -79,7 +79,7 @@
                             <td>
                                 {{ $jenisLayanan->nama }}
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $jenisLayanan->deskripsi }}
                             </td>
                             <td>

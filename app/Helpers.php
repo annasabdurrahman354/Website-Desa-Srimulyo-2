@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\UserAlert;
 use Illuminate\Support\Str;
 
 
@@ -48,39 +49,58 @@ if(! function_exists('getMediaFilename')) {
     }
 }
 
+if(! function_exists('getNotificationJson')) {
+    function getNotificationJson($type, $model)
+    {
+        return $json = [
+            
+        ];
+    }
+}
+
 if(! function_exists('getNotificationMessage')) {
     function getNotificationMessage($type, $userTarget, $model){
         $message = "";
         $link = "";
         switch($type){
-            case 'admin_pelayanan_baru':
-                $message = "<span class=\"font-semibold text-gray-900 dark:text-white\">{{$userTarget->name}}</span> mengajukan permintaan layanan {{$model->jenisLayanan->nama}} baru dengan kode <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{{$model->kode}}</span>.";
-                $link = route('admin.pelayanans.show', $model->id);
+            case 'admin_pelayanan_baru': //
+                $message = "<span class=\"font-semibold text-gray-900 dark:text-white\">{$userTarget->name}</span> mengajukan permintaan layanan {$model->jenisLayanan->nama} baru dengan kode <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{$model->kode}</span>.";
+                $link = route('admin.pelayanans.review', ['pelayanan' => $model->id], false);
                 return array('message' => $message, 'link' => $link);
                 break;
-            case 'admin_syaratPelayanan_revisi':
-                $message = "<span class=\"font-semibold text-gray-900 dark:text-white\">{{$userTarget->name}}</span> telah merevisi berkas pelayanan {{$model->syaratLayanan->nama}} pada layanan <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{{$model->pelayanan->kode}}</span>.";
-                $link = route('admin.pelayanans.revisi', $model->pelayanan->id);
+            case 'admin_syaratPelayanan_revisi': //
+                $message = "<span class=\"font-semibold text-gray-900 dark:text-white\">{$userTarget->name}</span> telah merevisi berkas pelayanan {$model->syaratLayanan->nama} pada layanan <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{$model->pelayanan->kode}</span>.";
+                $link = route('admin.pelayanans.review', ['pelayanan' => $model->pelayanan->id], false);
                 return array('message' => $message, 'link' => $link);
                 break;
-            case 'admin_umkm_verifikasi':
-                $message = "<span class=\"font-semibold text-gray-900 dark:text-white\">{{$userTarget->name}}</span> telah mendaftarkan UMKM baru <span class=\"font-semibold text-blue-600 underline dark:text-white\">{{$model->nama_umkm}}</span> yang memerlukan verifikasi!";
-                $link = route('admin.umkms.show', $model->id);
+            case 'admin_umkm_verifikasi': //
+                $message = "<span class=\"font-semibold text-gray-900 dark:text-white\">$userTarget->name</span> telah mendaftarkan UMKM baru <span class=\"font-semibold text-blue-600 underline dark:text-white\">$model->nama_umkm</span> yang memerlukan verifikasi!";
+                $link = route('admin.umkms.show', $model->id, false);
                 return array('message' => $message, 'link' => $link);
                 break;
-            case 'user_syaratPelayanan_revisi':
-                $message = "Berkas pelayanan {{$model->syaratLayanan->nama}} pada ajuan pelayanan <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{{$model->pelayanan->kode}}</span> memerlukan revisi!";
-                // Linkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+            case 'user_syaratPelayanan_revisi': //
+                $message = "Berkas pelayanan {$model->syaratLayanan->nama} pada ajuan pelayanan <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{$model->pelayanan->kode}</span> memerlukan revisi!";
+                $link = route('user.pelayanan.show', $model->pelayanan->id, false);
                 return array('message' => $message, 'link' => $link);
                 break;
-            case 'user_pelayanan_selesai':
-                $message = "Pelayanan {{$model->jenisLayanan->nama}} Anda dengan kode <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{{$model->kode}}</span> telah selesai diproses.";
-                $link = route('user.pelayanan.show', $model->id);
+            case 'user_syaratPelayanan_diterima': //
+                $message = "Berkas pelayanan {$model->syaratLayanan->nama} pada ajuan pelayanan <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{$model->pelayanan->kode}</span> telah diterima!";
+                $link = route('user.pelayanan.show', $model->pelayanan->id, false);
                 return array('message' => $message, 'link' => $link);
                 break;
-            case 'user_umkm_verifikasi':
-                $message = "UMKM <span class=\"font-semibold text-blue-600 underline dark:text-white\">{{$model->nama_umkm}}</span> Anda telah terverifikasi.";
-                $link = route('user.usaha.index');
+            case 'user_pelayanan_selesai_offline': //
+                $message = "Pelayanan {$model->jenisLayanan->nama} Anda dengan kode <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{$model->kode}</span> telah selesai diproses. Silahkan baca instruksi di catatan untuk pengambilan.";
+                $link = route('user.pelayanan.show', $model->id, false);
+                return array('message' => $message, 'link' => $link);
+                break;
+            case 'user_pelayanan_selesai_online': //
+                $message = "Pelayanan {$model->jenisLayanan->nama} Anda dengan kode <span class=\"font-semibold text-blue-600 underline dark:text-white\">#{$model->kode}</span> telah selesai diproses. Silahkan unduh berkas yang terlampir!";
+                $link = route('user.pelayanan.show', $model->id, false);
+                return array('message' => $message, 'link' => $link);
+                break;
+            case 'user_umkm_verifikasi': //
+                $message = "UMKM <span class=\"font-semibold text-blue-600 underline dark:text-white\">{$model->nama_umkm}</span> Anda telah terverifikasi.";
+                $link = route('user.usaha.index', false);
                 return array('message' => $message, 'link' => $link);
                 break;
             default:
@@ -89,7 +109,14 @@ if(! function_exists('getNotificationMessage')) {
     }
 }
 
-
+if(! function_exists('setNotificationSeen')) {
+    function setNotificationSeen($alert)
+    {
+        $alert = UserAlert::where('id', $alert->id)->firstOrFail();
+        $alert->pivot->seen_at = now();
+        $alert->save();
+    }
+}
 
 if(! function_exists('getHargaRupiah')) {
     function getHargaRupiah($harga)

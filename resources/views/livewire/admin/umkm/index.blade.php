@@ -135,7 +135,7 @@
                                     </a>
                                 @endforeach
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $umkm->deskripsi }}
                             </td>
                             <td>

@@ -81,8 +81,8 @@ class Produk extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('umkm_carousel')
-            ->useFallbackUrl('/image/img-fallback3.svg')
-            ->useFallbackPath(public_path('/image/img-fallback3.svg'));
+            ->useFallbackUrl('/image/img-fallback-4.3.png')
+            ->useFallbackPath(public_path('/image/img-fallback-4.3.png'));
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -119,6 +119,30 @@ class Produk extends Model implements HasMedia
     {
         $hasil_rupiah = number_format($this->harga,2,',','.');
 	    return $hasil_rupiah;
+    }
+
+    public function getUrlTanyaTersediaAttribute()
+    {
+        if($this->umkm->pemilik_id || $this->umkm->nomor_telepon){
+            $telepon = substr($this->umkm->nomor_telepon ?? $this->umkm->pemilik->nomor_telepon, 1);
+            $nama = urlencode($this->nama);
+            return "https://api.whatsapp.com/send?phone=62".$telepon."&text=Halo%2C%20saya%20menemukan%20produk%20.$nama.%20di%20situs%20web%20Desa%20Srimulyo.%20Apakah%20produk%20tersebut%20sudah%20tersedia%3F";
+        }
+        else{
+            return '';
+        }
+    }
+
+    public function getUrlBeliAttribute()
+    {
+        if($this->umkm->pemilik_id || $this->umkm->nomor_telepon){
+            $telepon = substr($this->umkm->nomor_telepon ?? $this->umkm->pemilik->nomor_telepon, 1);
+            $nama = urlencode($this->nama_umkm);
+            return "https://api.whatsapp.com/send?phone=62".$telepon."&text=Halo%2C%20saya%20ingin%20membeli%20produk%20".$nama."%20milik%20UMKM%20".$this->umkm->nama_umkm."%20di%20situs%20web%20Desa%20Srimulyo.%20Apakah%20produk%20tersebut%20masih%20tersedia%3F";
+        }
+        else{
+            return '';
+        }
     }
 
     public function umkm()

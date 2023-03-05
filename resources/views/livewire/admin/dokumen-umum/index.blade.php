@@ -89,7 +89,7 @@
                             <td>
                                 {{ $dokumenUmum->tahun_terbit }}
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $dokumenUmum->deskripsi }}
                             </td>
                             <td>

@@ -52,11 +52,13 @@ class GuestProdukIndex extends Component
         ]);
         $produks = $query;
         if($this->kategoriId != ""){
-            $produks = $produks->where('kategori_id', $this->kategoriId)->paginate(9);
+            $produks = $produks->where('kategori_id', $this->kategoriId);
         }
-        else{
-            $produks = $query->paginate(9);
-        }
+        $produks = $produks->where('is_tampilkan', true)
+                            ->whereHas('umkm', function ($query) {
+                                $query->where('is_aktif', true);
+                            })->paginate(9);
+
         return view('livewire.guest.umkm.produk-index', compact('produks', 'query'))->extends('layouts.guest');
     }
 }

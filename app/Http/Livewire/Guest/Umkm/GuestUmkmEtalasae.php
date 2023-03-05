@@ -34,6 +34,7 @@ class GuestUmkmEtalasae extends Component
 
     public function mount($slug)
     {
+        $this->umkm = Umkm::where('slug', $slug)->firstOrFail();
         if(request()->kategori){
             $this->kategoriId          = request()->kategori;
             if(KategoriProduk::where('id', $this->kategoriId)->first()){
@@ -43,12 +44,17 @@ class GuestUmkmEtalasae extends Component
         if(request()->search){
             $this->search = request()->search;
         }
-        $this->umkm         = Umkm::where('slug', $slug)->firstOrFail();
         $this->kategoris    = $this->umkm->produks->pluck('kategori')->unique();
     }
 
     public function render()
     {
+        if($this->umkm->is_aktif == false) {
+            $message = "UMKM tidak diaktifkan oleh pemilik!";
+            $route = route('guest.umkm.index');
+            return view('livewire.guest.guest-error', compact('message', 'route'))->extends('layouts.guest');
+        }
+
         $query = Produk::with(['satuan', 'kategori'])->advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => 'id',
@@ -56,11 +62,10 @@ class GuestUmkmEtalasae extends Component
         ]);
         $produks = $query->where('umkm_id', $this->umkm->id);
         if($this->kategoriId != ""){
-            $produks = $produks->where('kategori_id', $this->kategoriId)->paginate(9);
+            $produks = $produks->where('kategori_id', $this->kategoriId);
         }
-        else{
-            $produks = $query->paginate(9);
-        }
+        $produks = $produks->where('is_tampilkan', true)->paginate(9);
+
         return view('livewire.guest.umkm.umkm-etalase', compact('produks', 'query'))->extends('layouts.guest');
     }
 }

@@ -8,7 +8,7 @@
                 <h1 class="w-full text-center text-xl font-bold leading-tight tracking-tight text-blue-700 md:text-2xl dark:text-white">
                   Daftarkan Akun Baru
                 </h1>
-                <form wire:submit.prevent="submit">
+                <div>
                     <div class="relative w-full mb-4">
                         <label for="user.name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Nama Anda</label>
                         <input wire:model.lazy="user.name" type="text" class="{{ !$errors->has('user.name') ? 'input-text' : 'input-text-error' }}" placeholder="Nama" required autofocus autocomplete="name"/>
@@ -39,7 +39,6 @@
                         @enderror
                     </div>
 
-
                     <div class="relative w-full mb-4">
                         <label for="user.email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Email</label>
                         <input wire:model.lazy="user.email" type="email" class="{{ !$errors->has('user.email') ? 'input-text' : 'input-text-error' }}" placeholder="nama@organisasi.com" required autocomplete="email"/>
@@ -68,37 +67,25 @@
                     <div class="relative w-full mb-4">
                         <label for="user.tempat_lahir" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Tempat Lahir</label>
                         <div class="flex items-stretch">
-                            <div>
                                 <div class="flex-1">
                                     <select id="provinsi" name="provinsi" wire:model="provinsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="" selected>Pilih provinsi</option>
                                         @foreach($semuaProvinsi as $prov)
-                                            <option value="{{ $prov->id }}">{{ $prov->name }}</option>
+                                            <option class="text-gray-700" value="{{ $prov->id }}">{{ $prov->nama }}</option>
                                         @endforeach
                                     </select>
-                                    @error('provinsi')  
-                                    <div class="text-red-500">
-                                        <small>{{ $message }}</small>
-                                    </div>
-                                    @enderror
                                 </div>
 
                                 @if ($provinsi != null)
                                     <div class="flex-1">
-                                        <select id="kota" name="kota" wire:model="kota"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <select id="kota" name="kota" wire:model="kota"  class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                             <option value="" selected>Pilih Kota/Kabupaten</option>
                                              @foreach($semuaKota as $kota)
-                                                <option value="{{ $kota->id }}">{{ $kota->name }}</option>
+                                                <option class="text-gray-700" value="{{ $kota->id }}">{{ $kota->nama }}</option>
                                             @endforeach
                                         </select>
-                                        @error('kota')
-                                        <div class="text-red-500">
-                                            <small>{{ $message }}</small>
-                                        </div>
-                                        @enderror
                                     </div>
                                 @endif
-                            </div>
                         </div>
                         @error('user.tempat_lahir')
                             <div class="text-red-500">
@@ -110,15 +97,16 @@
                     <div class="relative w-full mb-4">
                         <label for="tanggal_lahir" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Tanggal Lahir</label>
                         <x-user-date-picker class="form-control" required wire:model="user.tanggal_lahir" id="tanggal_lahir" name="tanggal_lahir"  picker="date" />
-                        <div class="text-red-500">
-                           <small> {{ $errors->first('user.tanggal_lahir') }} </small>
-                        </div>
-                        
+                        @error('user.tanggal_lahir')
+                            <div class="text-red-500">
+                                <small>{{ $message }}</small>
+                            </div>
+                        @enderror
                     </div>
 
                     <div class="relative w-full mb-4">
                         <label for="user.alamat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Alamat</label>
-                        <input wire:model.lazy="user.alamat" class="{{ !$errors->has('user.alamat') ? 'input-text' : 'input-text-error' }}" placeholder="Masukkan alamat lengkap" required/>
+                        <input wire:model.lazy="user.alamat" id="alamat" name="alamat" class="{{ !$errors->has('user.alamat') ? 'input-text' : 'input-text-error' }}" placeholder="Masukkan alamat lengkap" required/>
                         @error('user.alamat')
                             <div class="text-red-500">
                                 <small>{{ $message }}</small>
@@ -138,7 +126,7 @@
 
                     <div class="relative w-full mb-4">
                         <label for="konfirmasi_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Konfirmasi Password</label>
-                        <input wire:model.lazy="konfirmasi_password" type="confirm-password" name="konfirmasi_password" id="konfirmasi_password" placeholder="••••••••" class="{{ !$errors->has('konfirmasi_password') ? 'input-text' : 'input-text-error' }}" required>
+                        <input wire:model.lazy="konfirmasi_password" type="password" name="konfirmasi_password" id="konfirmasi_password" placeholder="••••••••" class="{{ !$errors->has('konfirmasi_password') ? 'input-text' : 'input-text-error' }}" required>
                         @error('konfirmasi_password')
                             <div class="text-red-500">
                                 <small>{{ $message }}</small>
@@ -146,14 +134,32 @@
                         @enderror
                     </div>
 
-                    <div class="flex flex-col justify-center items-center align-middle text-center space-y-2 mt-6">
-                        <button type="submit" class="button-normal w-full rounded-md mb-4">Buat Akun</button>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-300 ">
-                            Sudah pernah mendaftar? <a href="{{route('login')}}" class="font-medium text-blue-700 hover:underline dark:text-blue-500">Masuk disini</a>
-                        </p>
+                    <div>
+                        <div wire:loading.remove class="flex flex-col justify-center items-center align-middle text-center space-y-2 mt-6">
+                            <button type="button" wire:click="submit" class="button-normal w-full rounded-md mb-4">Buat Akun</button>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-300 ">
+                                Sudah pernah mendaftar? <a href="{{route('login')}}" class="font-medium text-blue-700 hover:underline dark:text-blue-500">Masuk disini</a>
+                            </p>
+                        </div>
+                        <div wire:loading>
+                            <x-loading/>
+                        </div> 
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+@push('styles')
+    <style>
+        select option {
+            font-weight: normal;
+            display: block;
+            white-space: nowrap;
+            min-height: 1.2em;
+            padding: 0px 2px 1px;
+            color: black;
+        }
+    </style>
+@endpush

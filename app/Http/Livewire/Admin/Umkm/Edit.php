@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Umkm;
 use App\Models\KategoriUmkm;
 use App\Models\Umkm;
 use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Str;
@@ -56,11 +57,22 @@ class Edit extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->sendNotification();
         $this->umkm->save();
         $this->syncMedia();
-
+        
         return redirect()->route('admin.umkms.index');
+    }
+
+    protected function sendNotification(){
+        if($this->umkm->is_terverifikasi){
+            $userAlert = new UserAlert();
+            $notification = getNotificationMessage('user_umkm_verifikasi', $this->umkm->pemilik, $this->umkm);
+            $userAlert->message = $notification['message'];
+            $userAlert->link = $notification['link'];
+            $userAlert->save();
+            $userAlert->users()->sync(User::where('id', $this->umkm->pemilik_id)->get());
+        }
     }
 
     protected function syncMedia(): void
@@ -94,6 +106,7 @@ class Edit extends Component
             ],
             'mediaCollections.umkm_carousel' => [
                 'array',
+                'required',
             ],
             'mediaCollections.umkm_carousel.*.id' => [
                 'integer',
@@ -112,12 +125,16 @@ class Edit extends Component
                 'required',
             ],
             'umkm.latitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-90',
+                'max:90',
+                'required',
             ],
             'umkm.longitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-180',
+                'max:180',
+                'required',
             ],
             'umkm.waktu_keterlihatan' => [
                 'nullable',

@@ -5,12 +5,14 @@ namespace App\Http\Livewire\Admin\Pelayanan;
 use App\Models\JenisLayanan;
 use App\Models\Pelayanan;
 use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Review extends Component
 {
     public Pelayanan $pelayanan;
+    public $berkasPelayananByType = [];
 
     public array $mediaToRemove = [];
 
@@ -43,7 +45,15 @@ class Review extends Component
 
     public function mount(Pelayanan $pelayanan)
     {
-        $this->pelayanan = $pelayanan;
+        if($pelayanan->status == "Terkirim"){
+            Pelayanan::where('id', $pelayanan->id)->update(array('status' => 'Verifikasi'));
+            $pelayanan->status = "Verifikasi";
+        }
+        if($pelayanan->isAllBerkasDiterima() && !$pelayanan->status == "Selesai"){
+            $pelayanan->status = "Verifikasi";
+        }
+        $this->pelayanan =  $pelayanan->load('pemohon', 'jenisLayanan');
+        $this->berkasPelayananByType =  $pelayanan->berkasPelayananByType();
         $this->initListsForFields();
         $this->mediaCollections = [
             'pelayanan_berkas_hasil' => $pelayanan->berkas_hasil,
@@ -58,11 +68,27 @@ class Review extends Component
     public function submit()
     {
         $this->validate();
-
+        $this->sendNotification();
         $this->pelayanan->save();
         $this->syncMedia();
 
         return redirect()->route('admin.pelayanans.index');
+    }
+
+    protected function sendNotification(){
+        if($this->pelayanan->status == "Selesai"){
+            $userAlert = new UserAlert();
+            if($this->pelayanan->jenisLayanan->pelayanan_online){
+                $notification = getNotificationMessage('user_pelayanan_selesai_online', $this->pelayanan->pemohon, $this->pelayanan);
+            }
+            else{
+                $notification = getNotificationMessage('user_pelayanan_selesai_offline', $this->pelayanan->pemohon, $this->pelayanan); 
+            }
+            $userAlert->message = $notification['message'];
+            $userAlert->link = $notification['link'];
+            $userAlert->save();
+            $userAlert->users()->sync(User::where('id', $this->pelayanan->pemohon_id)->get());
+        }
     }
 
     protected function syncMedia(): void
@@ -93,7 +119,6 @@ class Review extends Component
             'pelayanan.kode' => [
                 'string',
                 'required',
-                'unique:pelayanans,kode,' . $this->pelayanan->id,
             ],
             'pelayanan.catatan_pemohon' => [
                 'string',
@@ -101,7 +126,7 @@ class Review extends Component
             ],
             'pelayanan.catatan_reviewer' => [
                 'string',
-                'nullable',
+                'required',
             ],
             'pelayanan.status' => [
                 'required',
@@ -130,21 +155,15 @@ class Review extends Component
     {
         if ($field === 'pelayanan.status') {
             if($this->pelayanan->status == "Selesai"){
-                if(!$this->pelayanan->jenisLayanan->pelayanan_online){
-            
-                    $this->pelayanan->catatan_reviewer = "Silahkan ambil berkas di kantor desa!";
+                if($this->pelayanan->jenisLayanan->pelayanan_online){
+                    $this->pelayanan->catatan_reviewer = "Silahkan unduh berkas digital yang terlampir!";  
                 }
                 else{
-                    $this->pelayanan->catatan_reviewer = "Silahkan unduh berkas digital berikut!";
+                    $this->pelayanan->catatan_reviewer = "Silahkan ambil berkas di kantor desa!";
                 }
             } 
             else{
-                if(!$this->pelayanan->jenisLayanan->pelayanan_online){
-                    $this->pelayanan->catatan_reviewer = "";
-                }
-                else{
-                    $this->pelayanan->catatan_reviewer = "";
-                }
+                $this->pelayanan->catatan_reviewer = "";
             }
         }
     }
@@ -152,8 +171,8 @@ class Review extends Component
     protected function initListsForFields(): void
     {
         $this->listsForFields['pemohon']       = User::pluck('name', 'id')->toArray();
+        $this->listsForFields['status']        = $this->pelayanan::STATUS_SELECT_DITERIMA;
         $this->listsForFields['jenis_layanan'] = JenisLayanan::pluck('nama', 'id')->toArray();
-        $this->listsForFields['status']        = $this->pelayanan::STATUS_SELECT;
         $this->listsForFields['rating']        = $this->pelayanan::RATING_RADIO;
     }
 }

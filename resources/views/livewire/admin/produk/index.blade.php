@@ -114,7 +114,7 @@
                                     </a>
                                 @endforeach
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $produk->deskripsi }}
                             </td>
                             <td>

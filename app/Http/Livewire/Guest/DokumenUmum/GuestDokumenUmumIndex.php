@@ -47,11 +47,10 @@ class GuestDokumenUmumIndex extends Component
         ]);
         $dokumenUmums = $query;
         if($this->tahun != ""){
-            $dokumenUmums = $dokumenUmums->where('tahun_terbit', $this->tahun)->paginate(9);
+            $dokumenUmums = $dokumenUmums->where('tahun_terbit', $this->tahun);
         }
-        else{
-            $dokumenUmums = $query->paginate(9);
-        }
+        $dokumenUmums = $dokumenUmums->where('is_aktif', true)->paginate(9);
+
         return view('livewire.guest.dokumen-umum.index', compact('dokumenUmums', 'query'))->extends('layouts.guest');
     }
 }

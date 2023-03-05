@@ -87,7 +87,6 @@ class Create extends Component
             'pelayanan.kode' => [
                 'string',
                 'required',
-                'unique:pelayanans,kode',
             ],
             'pelayanan.catatan_pemohon' => [
                 'string',

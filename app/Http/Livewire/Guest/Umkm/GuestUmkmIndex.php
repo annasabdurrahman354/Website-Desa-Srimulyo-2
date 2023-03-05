@@ -52,11 +52,11 @@ class GuestUmkmIndex extends Component
         ]);
         $umkms = $query;
         if($this->kategoriId != ""){
-            $umkms = $umkms->where('kategori_id', $this->kategoriId)->paginate(9);
+            $umkms = $umkms->where('kategori_id', $this->kategoriId);
         }
-        else{
-            $umkms = $query->paginate(9);
-        }
+        
+        $umkms = $umkms->where('is_aktif', true)->paginate(9);
+
         return view('livewire.guest.umkm.umkm-index', compact('umkms', 'query'))->extends('layouts.guest');
     }
 }

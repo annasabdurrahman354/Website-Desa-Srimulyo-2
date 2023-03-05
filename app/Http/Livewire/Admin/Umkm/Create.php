@@ -91,6 +91,7 @@ class Create extends Component
             ],
             'mediaCollections.umkm_carousel' => [
                 'array',
+                'required',
             ],
             'mediaCollections.umkm_carousel.*.id' => [
                 'integer',
@@ -109,12 +110,16 @@ class Create extends Component
                 'required',
             ],
             'umkm.latitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-90',
+                'max:90',
+                'required',
             ],
             'umkm.longitude' => [
-                'string',
-                'nullable',
+                'numeric',
+                'min:-180',
+                'max:180',
+                'required',
             ],
             'umkm.waktu_keterlihatan' => [
                 'nullable',

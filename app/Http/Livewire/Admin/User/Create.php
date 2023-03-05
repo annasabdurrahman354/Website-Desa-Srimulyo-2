@@ -91,10 +91,9 @@ class Create extends Component
                 'required',
             ],
             'user.nik' => [
-                'string',
-                'min:16',
-                'max:16',
+                'digits:16',
                 'required',
+                'numeric'
             ],
             'user.nomor_telepon' => [
                 'string',

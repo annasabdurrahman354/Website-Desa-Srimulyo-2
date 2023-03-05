@@ -55724,9 +55724,6 @@ window.openDropdown = function openDropdown(event, dropdownID) {
   });
   document.getElementById(dropdownID).classList.toggle("hidden");
   document.getElementById(dropdownID).classList.toggle("block");
-  if (dropdownID == 'nav-notification-dropdown') {
-    fetch('/admin/user-alerts/seen');
-  }
 };
 })();
 

@@ -123,6 +123,9 @@ class KategoriTableSeeder extends Seeder
             [
                 'satuan'           => 'lusin',
             ],
+            [
+                'satuan'           => 'box',
+            ],
         ];
 
         KategoriArtikel::insert($kategoriArtikels);

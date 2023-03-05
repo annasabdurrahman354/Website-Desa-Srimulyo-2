@@ -78,8 +78,8 @@ class Artikel extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('artikel_gambar')
-            ->useFallbackUrl('/image/img-fallback2.svg')
-            ->useFallbackPath(public_path('/image/img-fallback2.svg'));
+            ->useFallbackUrl('/image/img-fallback-3.2.png')
+            ->useFallbackPath(public_path('/image/img-fallback-3.2.png'));
     }
 
     public function registerMediaConversions(Media $media = null): void

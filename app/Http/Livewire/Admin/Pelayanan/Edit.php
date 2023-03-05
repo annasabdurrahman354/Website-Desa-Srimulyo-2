@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Pelayanan;
 use App\Models\JenisLayanan;
 use App\Models\Pelayanan;
 use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -90,7 +91,6 @@ class Edit extends Component
             'pelayanan.kode' => [
                 'string',
                 'required',
-                'unique:pelayanans,kode,' . $this->pelayanan->id,
             ],
             'pelayanan.catatan_pemohon' => [
                 'string',

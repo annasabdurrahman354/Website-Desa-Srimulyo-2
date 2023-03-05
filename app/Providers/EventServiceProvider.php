@@ -33,9 +33,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        UmkmModel::observe(UmkmObserver::class);
-        PelayananModel::observe(PelayananObserver::class);
-        BerkasPelayananModel::observe(BerkasPelayananObserver::class);
-        KotakSaranModel::observe(KotakSaranObserver::class);
+        //UmkmModel::observe(UmkmObserver::class);
+        //PelayananModel::observe(PelayananObserver::class);
+        //BerkasPelayananModel::observe(BerkasPelayananObserver::class);
+        //KotakSaranModel::observe(KotakSaranObserver::class);
     }
 }

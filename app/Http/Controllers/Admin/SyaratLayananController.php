@@ -40,8 +40,6 @@ class SyaratLayananController extends Controller
 
     public function storeMedia(Request $request)
     {
-        abort_if(Gate::none(['syarat_layanan_create', 'syarat_layanan_edit']), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         if ($request->has('size')) {
             $this->validate($request, [
                 'file' => 'max:' . $request->input('size') * 1024,

@@ -112,7 +112,7 @@ class HomeController
             'fields'                => [
                 'id'              => '',
                 'pemohon'         => 'name',
-                'jenis_layanan'   => 'nama',
+                'jenisLayanan'   => 'nama',
                 'kode'            => '',
                 'created_at'      => '',
                 'status'          => '',
@@ -147,7 +147,7 @@ class HomeController
             'fields'                => [
                 'id'               => '',
                 'pelayanan'        => 'kode',
-                'syarat_layanan'   => 'nama',
+                'syaratLayanan'   => 'nama',
                 'teks_syarat'      => '',
                 'berkas_syarat'    => '',
                 'status'           => '',

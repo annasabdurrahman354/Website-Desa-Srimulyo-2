@@ -38,6 +38,11 @@ class Pelayanan extends Model implements HasMedia
         'Dibatalkan'    => 'Dibatalkan',
     ];
 
+    public const STATUS_SELECT_DITERIMA = [
+        'Verifikasi' => 'Verifikasi',
+        'Selesai'    => 'Selesai',
+    ];
+
     public $table = 'pelayanans';
 
     public static $search = [
@@ -133,21 +138,6 @@ class Pelayanan extends Model implements HasMedia
     public function getRatingLabelAttribute($value)
     {
         return static::RATING_RADIO[$this->rating] ?? null;
-    }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
-    }
-
-    public function getDeletedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
     }
 
     protected function serializeDate(DateTimeInterface $date)
@@ -251,11 +241,13 @@ class Pelayanan extends Model implements HasMedia
         $result = [];
         foreach ($grouped as $type => $berkasOfType) {
             $sorted = $berkasOfType->sortByDesc('created_at');
+            $status = $sorted->first()->status;
             $perlu_revisi = $sorted->first()->status === 'Revisi' ? true : false;
             $result[] = [
                 'jenis' => $type,
                 'nama' => SyaratLayanan::where('id', $type)->first()->nama,
                 'jenis_berkas' => SyaratLayanan::where('id', $type)->first()->jenis_berkas_label,
+                'status' =>  $status,
                 'perlu_revisi' => $perlu_revisi,
                 'berkas' => $sorted->values()->all()
             ];
@@ -290,23 +282,5 @@ class Pelayanan extends Model implements HasMedia
             $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
-    }
-
-    protected static function booted() {
-        static::retrieved(function ($pelayanan) {
-            if(!$pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai() && !$pelayanan->isPelayananTerkirim()){
-                $pelayanan->status = 'Verifikasi';
-                $pelayanan->save();
-            }
-            elseif($pelayanan->isBerkasRevisi() && !$pelayanan->isPelayananSelesai() && !$pelayanan->isPelayananTerkirim()){
-                $pelayanan->status = 'Revisi';
-                $pelayanan->save();
-            }
-            if($pelayanan->berkas_hasil->isNotEmpty() || $pelayanan->catatan_reviewer){
-                $pelayanan->status = 'Selesai';
-                $pelayanan->save();
-            } 
-            $pelayanan->updateLatestJenisBerkasPelayananStatusDiterima();      
-        });
     }
 }

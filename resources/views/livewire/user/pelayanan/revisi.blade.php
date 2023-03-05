@@ -46,7 +46,7 @@
         <div class="form-group">
             @if ($syaratLayanan->deskripsi != "")
                 <div class="form-group">
-                    <div class="border-2 border-gray-300 border-dashed w-full h-fit p-2 rounded-md">
+                    <div class="border-2 border-gray-300 border-dashed w-full h-fit p-2 rounded-md mb-2">
                         <p>
                             {{$syaratLayanan->deskripsi}}
                         </p>

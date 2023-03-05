@@ -108,8 +108,8 @@ class Umkm extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('umkm_carousel')
-            ->useFallbackUrl('/image/img-fallback1.svg')
-            ->useFallbackPath(public_path('/image/img-fallback1.svg'));
+            ->useFallbackUrl('/image/img-fallback-2.1.png')
+            ->useFallbackPath(public_path('/image/img-fallback-2.1.png'));
     }
 
     public function registerMediaConversions(Media $media = null): void
@@ -243,5 +243,16 @@ class Umkm extends Model implements HasMedia
             $media->file_name = getMediaFilename($this, $media);
             $media->save();
         }
+    }
+
+    protected static function booted() {
+        static::created(function ($umkm) {
+            $userAlert = new UserAlert;
+            $notification =  getNotificationMessage('admin_umkm_verifikasi', auth()->user(), $umkm);
+            $userAlert->message = $notification['message'];
+            $userAlert->link = $notification['link'];
+            $userAlert->save();
+            $userAlert->users()->sync(User::admins()->get());
+        });
     }
 }

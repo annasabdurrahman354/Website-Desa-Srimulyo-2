@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Admin\BerkasPelayanan;
 use App\Models\BerkasPelayanan;
 use App\Models\Pelayanan;
 use App\Models\SyaratLayanan;
+use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -59,11 +61,30 @@ class Edit extends Component
             ]);
         }
         $this->validate();
-
+        $this->sendNotification();
         $this->berkasPelayanan->save();
         $this->syncMedia();
 
         return redirect()->route('admin.berkas-pelayanans.index');
+    }
+
+    protected function sendNotification(){
+        if($this->berkasPelayanan->status == "Revisi"){
+            $userAlert = new UserAlert();
+            $notification = getNotificationMessage('user_syaratPelayanan_revisi', $this->berkasPelayanan->pelayanan->pemohon, $this->berkasPelayanan);
+            $userAlert->message = $notification['message'];
+            $userAlert->link = $notification['link'];
+            $userAlert->save();
+            $userAlert->users()->sync(User::where('id', $this->berkasPelayanan->pelayanan->pemohon_id)->get());
+        }
+        elseif($this->berkasPelayanan->status == "Diterima"){
+            $userAlert = new UserAlert();
+            $notification = getNotificationMessage('user_syaratPelayanan_diterima', $this->berkasPelayanan->pelayanan->pemohon, $this->berkasPelayanan);
+            $userAlert->message = $notification['message'];
+            $userAlert->link = $notification['link'];
+            $userAlert->save();
+            $userAlert->users()->sync(User::where('id', $this->berkasPelayanan->pelayanan->pemohon_id)->get());
+        }
     }
 
     protected function syncMedia(): void

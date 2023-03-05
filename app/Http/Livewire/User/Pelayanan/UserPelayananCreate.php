@@ -6,6 +6,8 @@ use App\Models\BerkasPelayanan;
 use App\Models\JenisLayanan;
 use App\Models\Pelayanan;
 use App\Models\SyaratLayanan;
+use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -52,8 +54,6 @@ class UserPelayananCreate extends Component
         $this->pelayanan->jenis_layanan_id = $this->jenis;
         $this->pelayanan->pemohon_id = auth()->user()->id;
         $this->pelayanan->status = "Terkirim";
-        
-       
 
         $rules = [];
         foreach ($this->syarats as $index => $syarat){
@@ -63,7 +63,7 @@ class UserPelayananCreate extends Component
             } 
             elseif ($syarat['jenis_berkas'] === 'Dokumen') 
             {
-                $rules['inputs.'.$index] = 'file|required|mimetypes:application/msword,application/pdf,application/vnd.ms-excel';
+                $rules['inputs.'.$index] = 'file|required|mimes:doc,docx,xls,xlsx,ppt,pptx,pdf,jpeg,jpg,png';
             } 
             elseif ($syarat['jenis_berkas'] === 'Teks') 
             {
@@ -73,6 +73,7 @@ class UserPelayananCreate extends Component
 
         $this->validate(array_merge($this->r, $rules));
         $this->pelayanan->save();
+
         foreach ($this->syarats as $index => $syarat){
             $berkas_pelayanan = new BerkasPelayanan();
             $berkas_pelayanan->pelayanan_id = $this->pelayanan->id;
@@ -91,6 +92,7 @@ class UserPelayananCreate extends Component
             } 
             $berkas_pelayanan->save();
         }
+        $this->sendNotification();
         return redirect()->route('user.pelayanan.index');
     }
 
@@ -113,4 +115,13 @@ class UserPelayananCreate extends Component
             array_push($this->inputs, "");
         }
     }
+
+    public function sendNotification() {
+        $userAlert = new UserAlert();
+        $userAlert->message = getNotificationMessage('admin_pelayanan_baru', auth()->user(),  $this->pelayanan)['message'];
+        $userAlert->link = getNotificationMessage('admin_pelayanan_baru', auth()->user(),  $this->pelayanan)['link'];
+        $userAlert->save();
+        $userAlert->users()->sync(User::admins()->get());
+    }
+    
 }

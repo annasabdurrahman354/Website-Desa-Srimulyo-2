@@ -58,12 +58,6 @@ class SyaratLayanan extends Model implements HasMedia
         'deleted_at',
     ];
 
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('syarat_layanan_berkas_formulir')
-            ->singleFile();
-    }
-
     public function getJenisBerkasLabelAttribute($value)
     {
         return static::JENIS_BERKAS_SELECT[$this->jenis_berkas] ?? null;

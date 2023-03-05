@@ -5,6 +5,8 @@ namespace App\Http\Livewire\User\Pelayanan;
 use App\Models\BerkasPelayanan;
 use App\Models\Pelayanan;
 use App\Models\SyaratLayanan;
+use App\Models\User;
+use App\Models\UserAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
@@ -57,13 +59,14 @@ class UserPelayananRevisi extends Component
             $rules['input'] = 'string|required';
         }
         
-        $this->validateOnly($this->input,$rules);
+        $this->validateOnly($this->input, $rules);
 
         $berkas_pelayanan = new BerkasPelayanan();
         $berkas_pelayanan->pelayanan_id = $this->pelayanan->id;
         $berkas_pelayanan->syarat_layanan_id = $this->syaratLayanan->id;
         $berkas_pelayanan->status = "Verifikasi";
         $berkas_pelayanan->save();
+        
         if ($this->syaratLayanan->jenis_berkas == 'Teks') 
         {
             $berkas_pelayanan->teks_syarat = $this->input;
@@ -73,7 +76,8 @@ class UserPelayananRevisi extends Component
             $berkas_pelayanan->addMedia($this->input->getRealPath())
                             ->usingFileName($file_name)
                             ->toMediaCollection("berkas_pelayanan_berkas_syarat");
-        } 
+        }
+        $this->sendNotification($berkas_pelayanan);
         $berkas_pelayanan->save();
         
         return redirect()->route('user.pelayanan.index');
@@ -82,5 +86,13 @@ class UserPelayananRevisi extends Component
     public function render()
     {
         return view('livewire.user.pelayanan.revisi')->extends('layouts.user');
+    }
+
+    public function sendNotification($model){
+        $userAlert = new UserAlert();
+        $userAlert->message = getNotificationMessage('admin_syaratPelayanan_revisi', auth()->user(), $model)['message'];
+        $userAlert->link = getNotificationMessage('admin_syaratPelayanan_revisi', auth()->user(), $model)['link'];
+        $userAlert->save();
+        $userAlert->users()->sync(User::admins()->get());
     }
 }

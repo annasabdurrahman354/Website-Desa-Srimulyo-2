@@ -69,6 +69,7 @@ module.exports = {
         '860-px': '860px'
       },
       maxWidth: {
+        '40': '10rem',
         '100-px': '100px',
         '120-px': '120px',
         '150-px': '150px',
@@ -79,6 +80,7 @@ module.exports = {
       },
       minWidth: {
         '140-px': '140px',
+        '40': '10rem',
         '48': '12rem'
       },
       backgroundSize: {

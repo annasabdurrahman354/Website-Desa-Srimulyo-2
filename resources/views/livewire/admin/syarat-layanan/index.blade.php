@@ -78,7 +78,7 @@
                             <td>
                                 {{ $syaratLayanan->jenis_berkas_label }}
                             </td>
-                            <td>
+                            <td class="line-clamp-6">
                                 {{ $syaratLayanan->deskripsi }}
                             </td>
                             <td>

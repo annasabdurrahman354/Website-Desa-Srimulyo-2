@@ -2,15 +2,26 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\UserAlert;
 use Livewire\Component;
 
 class UserNotification extends Component
 {
-    public $notifikasis = [];
-
+    public $alerts = [];
+    
     public function mount()
     {
-        $this->notifikasis   = auth()->user()->alerts()->latest()->take(10)->get();
+        $this->alerts = auth()->user()->alerts()->latest()->take(5)->get();
+    }
+
+    public function setSeen($alert){
+        redirect($alert['link']);
+        auth()->user()->alerts()
+            ->newPivotStatement()
+            ->where('user_id', auth()->id())
+            ->where('user_alert_id', $alert['id'])
+            ->whereNull('seen_at')
+            ->update(['seen_at' => now()]);
     }
 
     public function render()
