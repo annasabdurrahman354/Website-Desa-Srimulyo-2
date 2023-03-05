@@ -166,7 +166,6 @@
 		}).addTo( map );
 
 		var markersLayer = new L.LayerGroup();	//layer contain searched elements
-
 		map.addLayer(markersLayer);
 
 		var controlSearch = new L.Control.Search({
@@ -178,13 +177,27 @@
 		});
 
 		map.addControl( controlSearch );
-
 		
 		map.invalidateSize();
 
 		function modalToggle(){
 			modal.toggle();
 		}
+
+		var url = "{{asset('file/border-srimulyo.json')}}";
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				var geojsonLayer = L.geoJSON(data);
+
+				geojsonLayer.addTo(map);
+				geojsonLayer.eachLayer(function(layer) {
+					layer.setStyle({color: '#3388ff', weight: 2});
+					layer.bindPopup("<b>Desa Srimulyo</b>");
+				});
+
+				map.fitBounds(geojsonLayer.getBounds());
+			});
     </script>
 
 	<script>

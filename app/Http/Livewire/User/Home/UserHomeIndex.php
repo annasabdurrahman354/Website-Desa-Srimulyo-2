@@ -21,7 +21,7 @@ class UserHomeIndex extends Component
 
     public function render()
     {
-        $alerts = auth()->user()->alerts()->latest()->paginate(3);
+        $alerts = auth()->user()->alerts()->latest()->paginate(5);
         return view('livewire.user.home.index',  compact('alerts'))->extends('layouts.user');
     }
 

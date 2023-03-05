@@ -169,13 +169,13 @@
       <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
          <ul class="flex flex-wrap text-lg item font-semibold text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
             <li class="mr-2">
-                  <button id="about-tab" data-tabs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true" class="inline-block p-4 text-blue-600 rounded-tl-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-blue-500">About</button>
+                  <button id="about-tab" data-tabs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true" class="inline-block p-4 text-blue-600 rounded-tl-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-blue-500">Tentang</button>
             </li>
             <li class="mr-2">
-                  <button id="services-tab" data-tabs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Services</button>
+                  <button id="services-tab" data-tabs-target="#services" type="button" role="tab" aria-controls="services" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Layanan Digital</button>
             </li>
             <li class="mr-2">
-                  <button id="statistics-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">Facts</button>
+                  <button id="statistics-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300">FAQ</button>
             </li>
          </ul>
          <div id="defaultTabContent">
@@ -188,7 +188,7 @@
                   </a>
             </div>
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="services" role="tabpanel" aria-labelledby="services-tab">
-                  <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">We invest in the world’s potential</h2>
+                  <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Kami siap melayani Anda</h2>
                   <!-- List -->
                   <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
                      @forelse ($layanans as $layanan)
@@ -214,20 +214,116 @@
                   </ul>
             </div>
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics" role="tabpanel" aria-labelledby="statistics-tab">
-                  <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
-                     <div class="flex flex-col">
-                        <dt class="mb-2 text-3xl font-extrabold">73M+</dt>
-                        <dd class="font-light text-gray-500 dark:text-gray-400">Developers</dd>
+                     <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
+                        <h6 id="accordion-flush-heading-1">
+                           <button type="button" class="flex items-center justify-between w-full py-2 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
+                           <span>Bagaimana cara membuat akun?</span>
+                           <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                           </button>
+                        </h6>
+                        <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
+                           <div class="py-5 font-light border-b border-gray-200 dark:border-gray-700">
+                              <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                                 <li>
+                                    Buka situs web Desa Srimulyo.
+                                 </li>
+                                 <li>
+                                    Klik tombol "Masuk" pada pojok kanan atas.
+                                 </li>
+                                 <li>
+                                    Klik pada tulisan "Daftar".
+                                 </li>
+                                 <li>
+                                    Isi form dengan data yang valid.
+                                 </li>
+                                 <li>
+                                    Klik tombol "Buat Akun".
+                                 </li>
+                                 <li>
+                                    Akun Anda sudah terdaftar. Sekarang Anda bisa mengajukan permohonan layanan atau pendaftaran UMKM.
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        <h6 id="accordion-flush-heading-2">
+                           <button type="button" class="flex items-center justify-between w-full py-2 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-2" aria-expanded="false" aria-controls="accordion-flush-body-2">
+                           <span>Bagaimana cara membuat permohonan pelayanan digital?</span>
+                           <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                           </button>
+                        </h6>
+                        <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
+                           <div class="py-5 font-light border-b border-gray-200 dark:border-gray-700">
+                              <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                                 <li>
+                                    Masuk ke Akun Anda.
+                                 </li>
+                                 <li>
+                                    Lalu buka dashboard User.
+                                 </li>
+                                 <li>
+                                    Masuk ke menu "Pelayanan".
+                                 </li>
+                                 <li>
+                                    Klik tombol "+ Permohonan".
+                                 </li>
+                                 <li>
+                                    Pilih pelayanan yang dikehendaki dan isi catatan jika diperlukan.
+                                 </li>
+                                 <li>
+                                    Isi form berkas syarat sesuai petunjuk.
+                                 </li>
+                                 <li>
+                                    Klik "Ajukan".
+                                 </li>
+                                 <li>
+                                    Permohonan Anda sudah terkirim. Selanjutnya akan diverifikasi oleh petugas.
+                                 </li>
+                                 <li>
+                                    Pantau ajuan permohonan pelayanan Anda melalui notifikasi atau menu pelayanan.
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        <h6 id="accordion-flush-heading-3">
+                           <button type="button" class="flex items-center justify-between w-full py-2 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-3" aria-expanded="false" aria-controls="accordion-flush-body-3">
+                           <span>Bagaimana cara mendaftarkan UMKM di peta digital?</span>
+                           <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                           </button>
+                        </h6>
+                        <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
+                           <div class="py-5 font-light border-b border-gray-200 dark:border-gray-700">
+                              <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                                 <li>
+                                    Masuk ke Akun Anda.
+                                 </li>
+                                 <li>
+                                    Lalu buka dashboard User.
+                                 </li>
+                                 <li>
+                                    Masuk ke menu "Usaha".
+                                 </li>
+                                 <li>
+                                    Klik tombol "+ Daftarkan UMKM".
+                                 </li>
+                                 <li>
+                                    Isi formulir dengan data yang valid.
+                                 </li>
+                                 <li>
+                                    Cari lokasi UMKM Anda dipeta.
+                                 </li>
+                                 <li>
+                                    Klik "Daftarkan".
+                                 </li>
+                                 <li>
+                                    Pendaftaran UMKM Anda sudah terkirim. Selanjutnya akan diverifikasi oleh petugas.
+                                 </li>
+                                 <li>
+                                    Jika telah terverifikasi, barulah Anda bisa mendaftarkan produk.
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
                      </div>
-                     <div class="flex flex-col">
-                        <dt class="mb-2 text-3xl font-extrabold">100M+</dt>
-                        <dd class="font-light text-gray-500 dark:text-gray-400">Public repositories</dd>
-                     </div>
-                     <div class="flex flex-col">
-                        <dt class="mb-2 text-3xl font-extrabold">1000s</dt>
-                        <dd class="font-light text-gray-500 dark:text-gray-400">Open source projects</dd>
-                     </div>
-                  </dl>
             </div>
          </div>
       </div>

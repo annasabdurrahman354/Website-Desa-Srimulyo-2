@@ -6,15 +6,15 @@
             <div class="card-header-container">
                 <h6 class="card-title">
                     Review
-                    {{ trans('cruds.pelayanan.title_singular') }}:
-                    {{ $pelayanan->jenisLayanan->nama }} oleh
-                    {{ $pelayanan->pemohon->name }}
+                    {{ trans('cruds.berkasPelayanan.title_singular') }}:
+                    {{ $berkasPelayanan->syaratLayanan->nama }} Pelayanan oleh
+                    {{ $berkasPelayanan->pelayanan->pemohon->name }}
                 </h6>
             </div>
         </div>
 
         <div class="card-body">
-            @livewire('admin.pelayanan.review', [$pelayanan])
+            @livewire('admin.berkas-pelayanan.review', [$berkasPelayanan])
         </div>
     </div>
 </div>

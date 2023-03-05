@@ -148,7 +148,7 @@
             var sheet_data = XLSX.utils.sheet_to_json(work_book.Sheets[sheet_name[0]], {header:1});
             if(sheet_data.length > 0)
             {
-                  var table_output = '<table class="table table-striped table-bordered w-full overflow-x-scroll border rounded-lg">';
+                  var table_output = '<div class="overflow-x-scroll"> <table class="table table-striped  table-bordered w-full border rounded-lg">';
                   for(var row = 0; row < sheet_data.length; row++)
                   {
                      table_output += '<tr>';
@@ -176,7 +176,7 @@
                      }
                      table_output += '</tr>';
                   }
-                  table_output += '</table>';
+                  table_output += '</table> </div>';
                   document.getElementById('excel_data').innerHTML = table_output;
             }
          };

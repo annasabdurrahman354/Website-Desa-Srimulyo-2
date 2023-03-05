@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Kontak;
 use App\Models\UserAlert;
 use Illuminate\Support\Str;
 
@@ -123,5 +124,12 @@ if(! function_exists('getHargaRupiah')) {
     {
         $hasil_rupiah = number_format($harga,2,',','.');
         return $hasil_rupiah;
+    }
+}
+
+if(! function_exists('getKontak')) {
+    function getKontak($id)
+    {
+        return Kontak::findOrFail($id);
     }
 }

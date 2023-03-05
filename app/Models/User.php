@@ -99,6 +99,10 @@ class User extends Authenticatable implements HasLocalePreference, HasMedia
         'locale',
     ];
 
+    public function findForPassport($identifier) {
+        return $this->where('email', $identifier)->orWhere('nik', $identifier)->orWhere('nomor_telepon', $identifier)->first();
+    }
+
     public function getIsAdminAttribute()
     {
         return $this->roles()->where('title', 'Admin')->exists();

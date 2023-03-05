@@ -229,11 +229,11 @@
 			})
 			.addTo(map);
 
-		function onLocationFound(e) {
+		   function onLocationFound(e) {
             var radius = e.accuracy;
 
-			L.marker(e.latlng).addTo(map)
-				.bindPopup("Kemungkinan Anda berada " + radius + " meter dari titik ini!").openPopup();
+            L.marker(e.latlng).addTo(map)
+               .bindPopup("Kemungkinan Anda berada " + radius + " meter dari titik ini!").openPopup();
          }
 
          map.on('locationfound', onLocationFound);

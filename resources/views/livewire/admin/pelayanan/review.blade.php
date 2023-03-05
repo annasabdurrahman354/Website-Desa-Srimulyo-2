@@ -46,7 +46,7 @@
         <div class="form-group">
             <div :key="jenis_{{ $index }}">
                 <div >
-                    <div class="flex items-center justify-between w-full p-2 font-medium text-left border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white" >
+                    <div class="md:flex md:flex-nowrap space-y-2 md:space-y-0 items-center justify-between w-full p-2 font-medium text-left border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white" >
                         <span class="flex items-center">                
                             <svg class="w-5 h-5 mr-2 shrink-0"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M14 3v4a1 1 0 0 0 1 1h4" />  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />  <line x1="9" y1="7" x2="10" y2="7" />  <line x1="9" y1="13" x2="15" y2="13" />  <line x1="13" y1="17" x2="15" y2="17" /></svg>
                             {{ $jenis['nama'] }}
@@ -58,7 +58,7 @@
                             @endif
                         </span>
                         @if ($jenis['status'] == 'Verifikasi')
-                        <a href="{{ route('admin.berkas-pelayanans.edit', ['berkas_pelayanan' => $jenis['berkas'][0]['id']]) }}" class="btn btn-primary">Verifikasi</a>
+                        <a href="{{ route('admin.berkas-pelayanans.review', ['berkasPelayanan' => $jenis['berkas'][0]['id']]) }}" class="btn btn-primary">Verifikasi</a>
                         @endif
                     </div>
                 </div>

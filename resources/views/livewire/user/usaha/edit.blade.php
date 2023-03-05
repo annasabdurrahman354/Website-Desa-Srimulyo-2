@@ -186,11 +186,22 @@
             @this.set('umkm.longitude', e.latlng.lng.toString());
 
             L.marker(e.latlng).addTo(markerGroup)
-                .bindPopup("Anda berada di sini!").openPopup();
+                .bindPopup("Lokasi UMKM yang Anda pilih disini!").openPopup();
             map.panTo(L.latLng(e.latlng.lat, e.latlng.lng));
         }
 
         map.on('click', onMapClick);
+
+        var url = "{{asset('file/border-srimulyo.json')}}";
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				var geojsonLayer = L.geoJSON(data);
+
+				geojsonLayer.addTo(map);
+			
+				map.fitBounds(geojsonLayer.getBounds());
+			});
 
         function onLocationFound(e) {
             markerGroup.clearLayers();

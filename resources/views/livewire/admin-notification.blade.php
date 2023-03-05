@@ -1,8 +1,8 @@
 <div>
   <ul class="items-center md:flex flex-wrap list-none">
       <li class="inline-block relative">
-          <a class="text-white block py-1 px-3 cursor-pointer" onclick="openDropdown(event,'{{ $this->id }}')">
-              <i class="fas fa-bell"></i>
+          <a class="text-white block py-1 px-3 cursor-pointer bg-gray-100 md:bg-transparent hover:bg-gray-200 md:hover:bg-transparent rounded-full" onclick="openDropdown(event,'{{ $this->id }}')">
+              <i class="fas fa-bell text-green-300 md:text-white"></i>
               @if($new_alert_count = auth()->user()->alerts()->wherePivot('seen_at', null)->count())
                   <span class="absolute -top-1 text-xs font-semibold inline-flex rounded-full h-5 min-w-5 text-white bg-indigo-600 leading-5 justify-center">
                       <span class="px-1">{{ $new_alert_count }}</span>

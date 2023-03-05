@@ -21,7 +21,7 @@
 
                     <div class="relative w-full mb-4">
                         <label for="user.nik" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Nomor Induk Kependudukan</label>
-                        <input wire:model.lazy="user.nik" type="text" class="{{ !$errors->has('user.nik') ? 'input-text' : 'input-text-error' }}" placeholder="Nomor Induk Kependudukan" required/>
+                        <input wire:model.lazy="user.nik" type="text" class="{{ !$errors->has('user.nik') ? 'input-text' : 'input-text-error' }}" placeholder="16 digit Nomor Induk Kependudukan" required/>
                         @error('user.nik')
                             <div class="text-red-500">
                                 <small>{{ $message }}</small>
@@ -31,7 +31,7 @@
 
                     <div class="relative w-full mb-4">
                         <label for="user.nomor_telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white required">Nomor Telepon</label>
-                        <input wire:model.lazy="user.nomor_telepon" type="text" class="{{ !$errors->has('user.nomor_telepon') ? 'input-text' : 'input-text-error' }}" placeholder="Nomor Telepon" required/>
+                        <input wire:model.lazy="user.nomor_telepon" type="text" class="{{ !$errors->has('user.nomor_telepon') ? 'input-text' : 'input-text-error' }}" placeholder="08xxxxxxxxxxxx" required/>
                         @error('user.nomor_telepon')
                             <div class="text-red-500">
                                 <small>{{ $message }}</small>

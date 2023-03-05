@@ -27,7 +27,6 @@ use App\Http\Controllers\Admin\UmkmController;
 use App\Http\Controllers\Admin\UserAlertController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\UserProfileController;
-use App\Http\Controllers\Guest\TesController;
 
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Guest\Artikel\GuestArtikelIndex;
@@ -141,6 +140,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'i
 
     // Berkas Pelayanan
     Route::resource('berkas-pelayanans', BerkasPelayananController::class, ['except' => ['store', 'update', 'destroy']]);
+    Route::get('berkas-pelayanans/review/{berkasPelayanan}', [BerkasPelayananController::class, 'review'])->name('berkas-pelayanans.review');
 
     // Kontak
     Route::resource('kontaks', KontakController::class, ['except' => ['store', 'update', 'destroy']]);

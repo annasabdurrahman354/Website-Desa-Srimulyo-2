@@ -119,13 +119,18 @@
                             </td>
                             <td>
                                 <div class="flex justify-end">
+                                    @can('pelayanan_edit')
+                                        <a class="btn btn-sm btn-success mr-2" href="{{ route('admin.berkas-pelayanans.review', ['berkasPelayanan' => $berkasPelayanan]) }}">
+                                            Review
+                                        </a>
+                                    @endcan
                                     @can('berkas_pelayanan_show')
                                         <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.berkas-pelayanans.show', $berkasPelayanan) }}">
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
                                     @can('berkas_pelayanan_edit')
-                                        <a class="btn btn-sm btn-success mr-2" href="{{ route('admin.berkas-pelayanans.edit', $berkasPelayanan) }}">
+                                        <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.berkas-pelayanans.edit', $berkasPelayanan) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan

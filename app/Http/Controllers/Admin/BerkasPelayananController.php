@@ -40,6 +40,13 @@ class BerkasPelayananController extends Controller
         return view('admin.berkas-pelayanan.show', compact('berkasPelayanan'));
     }
 
+    public function review(BerkasPelayanan $berkasPelayanan)
+    {
+        abort_if(Gate::denies('pelayanan_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.berkas-pelayanan.review', compact('berkasPelayanan'));
+    }
+
     public function storeMedia(Request $request)
     {
         if ($request->has('size')) {
