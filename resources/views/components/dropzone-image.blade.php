@@ -31,7 +31,7 @@
             editor.style.right = 0;
             editor.style.top = 0;
             editor.style.bottom = 0;
-            editor.style.zIndex = 9999;
+            editor.style.zIndex = 99999;
             editor.style.backgroundColor = '#000';
             document.body.appendChild(editor);
             // Create confirm button at the top left of the viewport
@@ -39,22 +39,38 @@
             buttonConfirm.style.position = 'absolute';
             buttonConfirm.style.left = '10px';
             buttonConfirm.style.top = '10px';
-            buttonConfirm.style.zIndex = 9999;
+            buttonConfirm.style.zIndex = 999999;
             buttonConfirm.textContent = 'Confirm';
-            editor.appendChild(buttonConfirm);
-            buttonConfirm.addEventListener('click', function() {
-                // Get the canvas with image data from Cropper.js
-                var canvas = cropper.getCroppedCanvas({
-                    minWidth: 128,
-                    minHeight: 128,
-                    maxWidth: 4096,
-                    maxHeight: 4096,
-                    fillColor: '#fff',
-                    imageSmoothingEnabled: true,
-                    imageSmoothingQuality: 'high',
+            
+            var image = new Image();
+            // Read the file content as a data URL and assign it to the Image object
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                image.src = event.target.result;
+                editor.appendChild(image);
+                // Create Cropper.js
+                var cropper = new Cropper(image, {
+                    aspectRatio: {{$attributes['ratio'] ?? null}}
                 });
-                // Turn the canvas into a Blob (file object without a name)
-                canvas.toBlob(function(blob) {
+
+                editor.appendChild(buttonConfirm);
+                buttonConfirm.addEventListener('click', function() {
+                    // Get the canvas with image data from Cropper.js
+                    var canvas = cropper.getCroppedCanvas({
+                        minWidth: 128,
+                        minHeight: 128,
+                        maxWidth: 4096,
+                        maxHeight: 4096,
+                        fillColor: '#fff',
+                        imageSmoothingEnabled: true,
+                        imageSmoothingQuality: 'high',
+                    });
+                    var dataUrl = canvas.toDataURL(file.type);
+                    var blob = dataURLtoBlob(dataUrl);
+                    // Turn the canvas into a Blob (file object without a name)
+                    var dataUrl = canvas.toDataURL(file.type);
+                    // Convert the data URL to a Blob
+                    var blob = dataURLtoBlob(dataUrl);
                     // Create a new Dropzone file thumbnail
                     myDropZone.createThumbnail(
                         blob,
@@ -63,25 +79,16 @@
                         myDropZone.options.thumbnailMethod,
                         false,
                         function(dataURL) {
-
                             // Update the Dropzone file thumbnail
                             myDropZone.emit('thumbnail', file, dataURL);
                             // Return the file to Dropzone
                             done(blob);
                         });
+                    // Remove the editor from the view
+                    document.body.removeChild(editor);
                 });
-                // Remove the editor from the view
-                document.body.removeChild(editor);
-            });
-            // Create an image node for Cropper.js
-            var image = new Image();
-            image.src = URL.createObjectURL(file);
-            editor.appendChild(image);
-
-            // Create Cropper.js
-            var cropper = new Cropper(image, {
-                aspectRatio: {{$attributes['ratio'] ?? null}}
-            });
+            };
+            reader.readAsDataURL(file);
         },
         success: function(file, response) {
             @this.addMedia(response.media)
@@ -135,6 +142,17 @@
             let message = $.type(response) === 'string' ? response : response.errors.file
             return _.map(file.previewElement.querySelectorAll('[data-dz-errormessage]'), r => r.textContent = message)
         }
+    }
+    function dataURLtoBlob(dataURL) {
+        var parts = dataURL.split(';base64,');
+        var contentType = parts[0].split(':')[1];
+        var raw = window.atob(parts[1]);
+        var rawLength = raw.length;
+        var uInt8Array = new Uint8Array(rawLength);
+        for (var i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        return new Blob([uInt8Array], {type: contentType});
     }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.6/cropper.js"></script>
